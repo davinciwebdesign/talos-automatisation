@@ -217,6 +217,47 @@ const schema = [
     padding-block: clamp(3.5rem, 2.5rem + 6vw, 7rem);
     background: var(--bg);
     text-align: center;
+    overflow: hidden;
+  }
+  .hero::before,
+  .hero::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(70px);
+    opacity: 0.5;
+  }
+  /* blob 1 — top-left, brand blue */
+  .hero::before {
+    width: 32rem;
+    height: 32rem;
+    top: -8rem;
+    left: -6rem;
+    background: rgb(29 138 255 / 0.45);
+  }
+  /* blob 2 — right, lighter accent */
+  .hero::after {
+    width: 26rem;
+    height: 26rem;
+    top: 2rem;
+    right: -5rem;
+    background: rgb(78 163 255 / 0.35);
+  }
+  :root[data-theme='dark'] .hero::before { background: rgb(29 138 255 / 0.5); opacity: 0.45; }
+  :root[data-theme='dark'] .hero::after { background: rgb(120 180 255 / 0.4); opacity: 0.4; }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero::before { animation: hero-blob-a 13s ease-in-out infinite alternate; }
+    .hero::after { animation: hero-blob-b 16s ease-in-out infinite alternate; }
+  }
+  @keyframes hero-blob-a {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(3rem, 2rem) scale(1.12); }
+  }
+  @keyframes hero-blob-b {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(-2.5rem, 2.5rem) scale(0.9); }
   }
   .hero-grid {
     display: grid;
