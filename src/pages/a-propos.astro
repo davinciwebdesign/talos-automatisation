@@ -14,8 +14,8 @@ const breadcrumbs = [
 
 const values = [
   { icon: 'target', title: 'Le résultat avant la technique', text: "La technologie n'est qu'un moyen. Ce qui compte, c'est le temps que vous récupérez et les erreurs que vous évitez." },
-  { icon: 'shield', title: 'Honnêteté radicale', text: "Pas de promesse irréaliste, pas de chiffre inventé. Si une automatisation n'a pas de sens pour vous, je vous le dis." },
-  { icon: 'refresh', title: 'Des solutions qui durent', text: "Je conçois des dispositifs simples et robustes, pensés pour évoluer avec votre activité — pas pour devenir obsolètes dans six mois." },
+  { icon: 'shield', title: 'Honnêteté radicale', text: "Pas de promesse irréaliste, pas de chiffre inventé. Si une automatisation n'a pas de sens pour vous, on vous le dit." },
+  { icon: 'refresh', title: 'Des solutions qui durent', text: "On conçoit des dispositifs simples et robustes, pensés pour évoluer avec votre activité — pas pour devenir obsolètes dans six mois." },
 ];
 
 const beliefs = [
@@ -42,46 +42,46 @@ const beliefs = [
   <Section eyebrow="La mission" eyebrowIcon="sparkles" title="Rendre du temps aux entreprises">
     <div class="about-intro">
       <p class="lead measure">
-        J'ai créé {site.name} avec une conviction simple : trop d'entreprises
+        On a créé {site.name} avec une conviction simple : trop d'entreprises
         passent leurs journées sur des tâches répétitives — ressaisir des
         données, trier des e-mails, relancer, copier-coller d'un outil à
         l'autre. Autant d'heures qui ne servent ni vos clients, ni votre
         croissance.
       </p>
       <p class="measure">
-        Mon métier, c'est d'identifier ces tâches et de les confier à des
+        Notre métier, c'est d'identifier ces tâches et de les confier à des
         systèmes d'automatisation taillés pour <em>votre</em> fonctionnement.
-        Pas de solution standardisée vendue à tout le monde : j'observe votre
-        réalité, je conçois sur mesure, et je reste à vos côtés pour ajuster
+        Pas de solution standardisée vendue à tout le monde : on observe votre
+        réalité, on conçoit sur mesure, et on reste à vos côtés pour ajuster
         dans le temps.
       </p>
     </div>
   </Section>
 
   <!-- CONVICTIONS -->
-  <Section tone="muted" eyebrow="Mes convictions" eyebrowIcon="quote" title="Ce en quoi je crois">
+  <Section tone="muted" eyebrow="Nos convictions" eyebrowIcon="quote" title="Ce en quoi on croit">
     <ul class="beliefs">
       {beliefs.map((b) => <li class="surface"><Icon name="checkCircle" size={22} /> {b}</li>)}
     </ul>
   </Section>
 
   <!-- VALEURS -->
-  <Section eyebrow="Mes valeurs" eyebrowIcon="target" title="Comment je travaille">
+  <Section eyebrow="Nos valeurs" eyebrowIcon="target" title="Comment on travaille">
     <div class="val-grid">
       {values.map((v) => <Card icon={v.icon} title={v.title} text={v.text} />)}
     </div>
   </Section>
 
   <!-- INTERLOCUTEUR -->
-  <Section tone="dark" eyebrow="Qui suis-je" eyebrowIcon="users" title="Bilel Salhi, fondateur">
+  <Section tone="dark" eyebrow="Qui sommes-nous" eyebrowIcon="users" title="Bilel Salhi, fondateur">
     <div class="founder">
       <p class="lead measure founder-lead">
-        Je conçois et déploie moi-même chaque automatisation. Cela veut dire un
+        On conçoit et déploie nous-mêmes chaque automatisation. Cela veut dire un
         interlocuteur unique, qui connaît votre dossier de bout en bout, et une
         responsabilité claire sur les résultats.
       </p>
       <ul class="founder-points">
-        <li><Icon name="check" size={20} /> Basé en {site.area}, j'accompagne les entreprises à distance comme sur site.</li>
+        <li><Icon name="check" size={20} /> Basés en {site.area}, on accompagne les entreprises à distance comme sur site.</li>
         <li><Icon name="check" size={20} /> Un seul interlocuteur, de l'audit à l'optimisation continue.</li>
         <li><Icon name="check" size={20} /> Des dispositifs supervisés, fiables et conformes au RGPD.</li>
       </ul>

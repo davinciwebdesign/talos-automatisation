@@ -54,14 +54,14 @@ export const services: Service[] = [
     },
     intro: {
       title: "Ce qu'est l'audit complet",
-      body: "J'analyse l'ensemble de vos processus et flux de travail, j'identifie les opérations chronophages et sources d'erreurs, puis je dresse une cartographie des opportunités d'automatisation. Chaque opportunité est priorisée selon son impact (temps gagné, coûts évités, risque réduit) et sa facilité de mise en œuvre.",
+      body: "On analyse l'ensemble de vos processus et flux de travail, on identifie les opérations chronophages et sources d'erreurs, puis on dresse une cartographie des opportunités d'automatisation. Chaque opportunité est priorisée selon son impact (temps gagné, coûts évités, risque réduit) et sa facilité de mise en œuvre.",
     },
     features: [
       { title: 'Analyse des processus', benefit: 'Vous voyez enfin, noir sur blanc, où part le temps de vos équipes.' },
       { title: "Cartographie des opportunités", benefit: "Une vue d'ensemble claire de tout ce qui peut être automatisé, sans jargon." },
       { title: 'Priorisation par impact', benefit: "Vous savez exactement par quoi commencer pour un retour rapide." },
       { title: "Estimation des gains", benefit: 'Des ordres de grandeur de temps et de coûts économisés pour décider sereinement.' },
-      { title: "Feuille de route", benefit: 'Un plan d’action séquencé que vous gardez, que vous travailliez avec moi ou non.' },
+      { title: "Feuille de route", benefit: 'Un plan d’action séquencé que vous gardez, que vous travailliez avec nous ou non.' },
     ],
     benefits: [
       'Une vision claire de votre potentiel d’automatisation',
@@ -87,20 +87,20 @@ export const services: Service[] = [
   {
     slug: 'automatisation-sur-mesure',
     navLabel: 'Automatisation sur mesure',
-    megaDesc: "Vous avez déjà identifié une tâche à simplifier ? Je conçois la solution dédiée.",
+    megaDesc: "Vous avez déjà identifié une tâche à simplifier ? On conçoit la solution dédiée.",
     icon: 'puzzle',
     eyebrow: 'Demande précise',
     title: 'Automatisation sur mesure',
     heroTitle: 'Vous avez identifié une tâche à automatiser ? Construisons la solution dédiée',
     heroSubtitle:
-      "Pas de logiciel standardisé à adopter. Je conçois une automatisation taillée pour votre besoin précis, qui s'intègre à vos outils et à vos habitudes — robuste, simple et durable.",
+      "Pas de logiciel standardisé à adopter. On conçoit une automatisation taillée pour votre besoin précis, qui s'intègre à vos outils et à vos habitudes — robuste, simple et durable.",
     problem: {
       title: 'Une tâche répétitive vous coûte chaque semaine',
       body: "Re-saisir des données d'un outil à l'autre, trier des e-mails, relancer des clients, préparer les mêmes documents… Ces opérations semblent anodines, mais elles grignotent vos journées et ouvrent la porte aux erreurs.",
     },
     intro: {
       title: "Une solution conçue autour de votre besoin",
-      body: "Je pars toujours du besoin concret. J'écoute, j'analyse le déroulé exact de la tâche, puis je conçois un scénario d'automatisation qui s'intègre à vos outils existants. Vous validez, je mets en place et je teste en conditions réelles avant de livrer.",
+      body: "On part toujours du besoin concret. On écoute, on analyse le déroulé exact de la tâche, puis on conçoit un scénario d'automatisation qui s'intègre à vos outils existants. Vous validez, on met en place et on teste en conditions réelles avant de livrer.",
     },
     features: [
       { title: 'Gestion automatique des e-mails', benefit: 'Vos équipes ne traitent plus que les messages qui comptent vraiment.' },
@@ -116,9 +116,9 @@ export const services: Service[] = [
       'Un dispositif simple et durable, pas une usine à gaz',
     ],
     faqs: [
-      { q: 'Faut-il changer nos outils actuels ?', a: "Le plus souvent non. L'objectif est justement de m'intégrer à vos outils et habitudes existants plutôt que de tout remplacer." },
+      { q: 'Faut-il changer nos outils actuels ?', a: "Le plus souvent non. L'objectif est justement de nous intégrer à vos outils et habitudes existants plutôt que de tout remplacer." },
       { q: 'Combien de temps pour mettre en place une automatisation ?', a: "Cela dépend de la complexité. Une automatisation ciblée peut être opérationnelle rapidement ; nous définissons ensemble un calendrier réaliste dès le départ." },
-      { q: "Que se passe-t-il si mon besoin évolue ?", a: "Les solutions sont pensées pour durer et évoluer. J'assure l'ajustement et l'optimisation dans le temps." },
+      { q: "Que se passe-t-il si mon besoin évolue ?", a: "Les solutions sont pensées pour durer et évoluer. On assure l'ajustement et l'optimisation dans le temps." },
       { q: 'Et si l’automatisation tombe en panne ?', a: "Les dispositifs sont conçus pour être robustes et supervisés. Des garde-fous et des alertes sont prévus pour détecter tout problème rapidement." },
     ],
     metaDescription:
@@ -140,7 +140,7 @@ export const services: Service[] = [
     },
     intro: {
       title: "Ce qu'est l'automatisation prédictive",
-      body: "À partir de vos données existantes, je conçois des systèmes qui détectent des tendances et déclenchent des actions au bon moment. L'objectif reste pragmatique : des prédictions utiles qui débouchent sur une action concrète, pas des modèles abstraits.",
+      body: "À partir de vos données existantes, on conçoit des systèmes qui détectent des tendances et déclenchent des actions au bon moment. L'objectif reste pragmatique : des prédictions utiles qui débouchent sur une action concrète, pas des modèles abstraits.",
     },
     features: [
       { title: 'Anticipation de la demande', benefit: 'Vous préparez vos ressources avant le pic, pas pendant.' },
@@ -172,14 +172,14 @@ export const services: Service[] = [
     title: 'Intégration robot IA',
     heroTitle: 'Intégrez des agents IA dans vos flux — disponibles, réguliers, supervisés',
     heroSubtitle:
-      "Tri et réponse aux e-mails, traitement de documents, assistants internes, agents autonomes : j'intègre des assistants IA directement dans vos outils existants, avec les garde-fous nécessaires.",
+      "Tri et réponse aux e-mails, traitement de documents, assistants internes, agents autonomes : on intègre des assistants IA directement dans vos outils existants, avec les garde-fous nécessaires.",
     problem: {
       title: 'Les tâches de traitement saturent vos équipes',
       body: "Lire et trier des messages, extraire des informations de documents, répondre aux mêmes questions internes : ces tâches sont sans fin et mobilisent un temps précieux qui pourrait aller ailleurs.",
     },
     intro: {
       title: "Ce qu'est l'intégration de robots IA",
-      body: "J'intègre des agents et assistants IA dans vos flux de travail : ils lisent, classent, rédigent des réponses adaptées, traitent des documents ou répondent aux questions internes. Ils s'intègrent à vos outils existants et fonctionnent sous supervision, avec des règles claires.",
+      body: "On intègre des agents et assistants IA dans vos flux de travail : ils lisent, classent, rédigent des réponses adaptées, traitent des documents ou répondent aux questions internes. Ils s'intègrent à vos outils existants et fonctionnent sous supervision, avec des règles claires.",
     },
     features: [
       { title: 'Tri et réponse aux e-mails', benefit: 'Les messages sont classés par nature et priorité, et les réponses courantes sont préparées.' },

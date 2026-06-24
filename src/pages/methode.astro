@@ -13,10 +13,10 @@ const breadcrumbs = [
 ];
 
 const steps = [
-  { title: '1. Écoute & analyse du besoin', body: "Tout commence par votre réalité. J'écoute votre fonctionnement, j'observe le déroulé exact de vos tâches et j'identifie où le temps se perd. Pas de solution toute faite : on part du concret.", outcome: 'une compréhension précise de votre besoin et une vision claire des opportunités.' },
-  { title: "2. Conception du scénario d'automatisation", body: "Je conçois une automatisation qui s'intègre à vos outils et à vos habitudes existants. L'objectif : un dispositif robuste, simple et durable, pas une usine à gaz que personne n'utilise.", outcome: 'un scénario validé ensemble avant toute mise en œuvre.' },
-  { title: '3. Mise en place & tests en conditions réelles', body: "Je déploie l'automatisation et la teste en conditions réelles, avec vos données et vos cas concrets, pour garantir sa fiabilité avant la bascule complète.", outcome: 'un dispositif opérationnel, testé et fiable.' },
-  { title: '4. Ajustement & optimisation continue', body: "Une automatisation vit avec votre entreprise. J'ajuste et j'optimise le dispositif dans le temps, au fil de vos retours et de l'évolution de vos besoins.", outcome: 'des gains qui durent et qui progressent.' },
+  { title: '1. Écoute & analyse du besoin', body: "Tout commence par votre réalité. On écoute votre fonctionnement, on observe le déroulé exact de vos tâches et on identifie où le temps se perd. Pas de solution toute faite : on part du concret.", outcome: 'une compréhension précise de votre besoin et une vision claire des opportunités.' },
+  { title: "2. Conception du scénario d'automatisation", body: "On conçoit une automatisation qui s'intègre à vos outils et à vos habitudes existants. L'objectif : un dispositif robuste, simple et durable, pas une usine à gaz que personne n'utilise.", outcome: 'un scénario validé ensemble avant toute mise en œuvre.' },
+  { title: '3. Mise en place & tests en conditions réelles', body: "On déploie l'automatisation et on la teste en conditions réelles, avec vos données et vos cas concrets, pour garantir sa fiabilité avant la bascule complète.", outcome: 'un dispositif opérationnel, testé et fiable.' },
+  { title: '4. Ajustement & optimisation continue', body: "Une automatisation vit avec votre entreprise. On ajuste et on optimise le dispositif dans le temps, au fil de vos retours et de l'évolution de vos besoins.", outcome: 'des gains qui durent et qui progressent.' },
 ];
 
 const principles = [
@@ -27,7 +27,7 @@ const principles = [
 ---
 
 <Layout
-  title="Ma méthode"
+  title="Notre méthode"
   description="Écoute & analyse, conception, mise en place & tests, optimisation continue : une démarche claire en 4 étapes pour automatiser vos processus, en s'appuyant sur l'automatisation et l'IA."
   breadcrumbs={breadcrumbs}
 >
@@ -39,11 +39,11 @@ const principles = [
     secondary={{ label: 'Réserver un audit', href: '/audit-gratuit/' }}
   />
 
-  <Section eyebrow="Les 4 étapes" eyebrowIcon="layers" title="Comment je travaille avec vous">
+  <Section eyebrow="Les 4 étapes" eyebrowIcon="layers" title="Comment on travaille avec vous">
     <Steps steps={steps} />
   </Section>
 
-  <Section tone="muted" eyebrow="Mes principes" eyebrowIcon="target" title="Robuste, simple, durable" lead="Trois exigences qui guident chaque solution que je conçois.">
+  <Section tone="muted" eyebrow="Nos principes" eyebrowIcon="target" title="Robuste, simple, durable" lead="Trois exigences qui guident chaque solution qu'on conçoit.">
     <div class="princ-grid">
       {principles.map((p) => <Card icon={p.icon} title={p.title} text={p.text} />)}
     </div>
@@ -51,7 +51,7 @@ const principles = [
 
   <Section tone="dark" eyebrow="Les technologies" eyebrowIcon="sparkles" title="L'automatisation et l'IA au service de vos résultats">
     <p class="lead measure tech-lead">
-      Je m'appuie sur les technologies d'automatisation et d'intelligence
+      On s'appuie sur les technologies d'automatisation et d'intelligence
       artificielle les plus avancées pour créer des systèmes intelligents,
       autonomes et adaptables. La technologie reste un moyen : l'objectif est
       toujours un gain concret pour votre entreprise.

@@ -12,23 +12,23 @@ const breadcrumbs = [
 ];
 
 const steps = [
-  { icon: 'chat', title: 'On échange 30 minutes', text: "Vous me décrivez votre quotidien et les tâches qui vous pèsent. J'écoute, je questionne, je comprends votre fonctionnement réel." },
-  { icon: 'search', title: "J'analyse vos opportunités", text: "J'identifie les tâches automatisables à plus fort impact et j'estime le temps que vous pourriez récupérer." },
-  { icon: 'file', title: 'Vous repartez avec un plan', text: "Une feuille de route claire et chiffrée — que vous décidiez de travailler avec moi ou non. Sans engagement." },
+  { icon: 'chat', title: 'On échange 30 minutes', text: "Vous nous décrivez votre quotidien et les tâches qui vous pèsent. On écoute, on questionne, on comprend votre fonctionnement réel." },
+  { icon: 'search', title: "On analyse vos opportunités", text: "On identifie les tâches automatisables à plus fort impact et on estime le temps que vous pourriez récupérer." },
+  { icon: 'file', title: 'Vous repartez avec un plan', text: "Une feuille de route claire et chiffrée — que vous décidiez de travailler avec nous ou non. Sans engagement." },
 ];
 
 const expect = [
   'Un diagnostic des tâches répétitives qui vous coûtent le plus de temps.',
   'Une estimation concrète du temps récupérable chaque semaine.',
   'Des pistes d\'automatisation priorisées par impact et par effort.',
-  'Des réponses honnêtes : si l\'automatisation n\'a pas de sens, je vous le dis.',
+  'Des réponses honnêtes : si l\'automatisation n\'a pas de sens, on vous le dit.',
 ];
 
 const auditFaqs = [
   { q: "L'audit est-il vraiment gratuit ?", a: "Oui, totalement. C'est un premier échange de 30 minutes, sans engagement et sans facture cachée. L'objectif est que vous repartiez avec de la valeur, que l'on travaille ensemble ensuite ou non." },
-  { q: 'Combien de temps cela prend-il ?', a: "L'échange initial dure environ 30 minutes. Je reviens ensuite vers vous sous 24 h ouvrées avec une première lecture de vos opportunités." },
+  { q: 'Combien de temps cela prend-il ?', a: "L'échange initial dure environ 30 minutes. On revient ensuite vers vous sous 24 h ouvrées avec une première lecture de vos opportunités." },
   { q: 'Dois-je préparer quelque chose ?', a: "Non. Venez simplement avec une idée des tâches qui vous prennent du temps. Si vous avez des exemples concrets (un type d'e-mail, un document récurrent), c'est un plus, mais ce n'est pas obligatoire." },
-  { q: 'Et si je ne suis pas sûr que mon besoin soit automatisable ?', a: "C'est précisément le rôle de l'audit. Vous n'avez pas à savoir ce qui est faisable : décrivez le problème, je m'occupe d'évaluer ce qui peut être automatisé." },
+  { q: 'Et si je ne suis pas sûr que mon besoin soit automatisable ?', a: "C'est précisément le rôle de l'audit. Vous n'avez pas à savoir ce qui est faisable : décrivez le problème, on s'occupe d'évaluer ce qui peut être automatisé." },
 ];
 ---
 
@@ -43,8 +43,8 @@ const auditFaqs = [
         <p class="eyebrow"><Icon name="calendar" size={16} /> Audit gratuit</p>
         <h1 class="h1">Voyez exactement où votre entreprise perd du temps</h1>
         <p class="lead measure">
-          En 30 minutes, j'identifie les tâches répétitives que vous pourriez
-          automatiser et j'estime le temps que vous pourriez récupérer chaque
+          En 30 minutes, on identifie les tâches répétitives que vous pourriez
+          automatiser et on estime le temps que vous pourriez récupérer chaque
           semaine. Vous repartez avec un plan clair — {primaryCta.note.toLowerCase()}.
         </p>
         <ul class="audit-expect">
@@ -54,7 +54,7 @@ const auditFaqs = [
 
       <div class="audit-form-card surface" id="formulaire">
         <h2 class="audit-form-title">Demandez votre audit</h2>
-        <p class="audit-form-sub">Remplissez ce formulaire, je reviens vers vous sous 24 h ouvrées.</p>
+        <p class="audit-form-sub">Remplissez ce formulaire, on revient vers vous sous 24 h ouvrées.</p>
         <ContactForm variant="audit" formName="audit" />
       </div>
     </div>
