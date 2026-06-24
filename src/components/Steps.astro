@@ -43,6 +43,15 @@ const { steps } = Astro.props;
     gap: 1.25rem;
     padding: 1.5rem;
     align-items: flex-start;
+    transition:
+      transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.28s ease,
+      border-color 0.28s ease;
+  }
+  .step:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-accent-700);
   }
   .step-num {
     font-size: 1.5rem;
@@ -51,6 +60,13 @@ const { steps } = Astro.props;
     color: var(--color-accent-700);
     flex: none;
     width: 2.5rem;
+    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: left center;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .step:hover .step-num {
+      transform: scale(1.18);
+    }
   }
   :root[data-theme='dark'] .step-num {
     color: var(--color-accent-400);

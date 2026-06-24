@@ -240,6 +240,7 @@ const menuLabels = { services: 'Services', sectors: 'Secteurs' };
     align-items: center;
   }
   .nav-link {
+    position: relative;
     display: inline-flex;
     align-items: center;
     padding: 0.35rem 0.7rem;
@@ -249,13 +250,40 @@ const menuLabels = { services: 'Services', sectors: 'Secteurs' };
     letter-spacing: 0.01em;
     color: var(--text-muted);
     text-decoration: none;
-    transition: color 0.15s ease;
+    transition: color 0.18s ease, background 0.18s ease;
+  }
+  /* Animated underline that grows from the centre on hover */
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0.7rem;
+    right: 0.7rem;
+    bottom: 0.12rem;
+    height: 1.5px;
+    background: currentColor;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .nav-link:hover {
     color: var(--text);
+    background: color-mix(in srgb, var(--text) 5%, transparent);
+  }
+  .nav-link:hover::after {
+    transform: scaleX(1);
   }
   .nav-link.is-active {
     color: var(--text);
+  }
+  .nav-link.is-active::after {
+    transform: scaleX(1);
+    background: var(--color-brand-600);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-link::after {
+      transition: none;
+    }
   }
 
   .mega-toggle {
@@ -270,9 +298,17 @@ const menuLabels = { services: 'Services', sectors: 'Secteurs' };
     color: var(--text-subtle);
     cursor: pointer;
     border-radius: var(--radius-sm);
+    transition: color 0.18s ease, background 0.18s ease;
+  }
+  .mega-toggle:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 8%, transparent);
   }
   .mega-toggle svg {
-    transition: transform 0.2s ease;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-item.has-mega:hover .mega-toggle svg {
+    transform: translateY(1px);
   }
   .has-mega[data-open='true'] .mega-toggle svg {
     transform: rotate(180deg);
@@ -352,10 +388,11 @@ const menuLabels = { services: 'Services', sectors: 'Secteurs' };
     border-radius: var(--radius-md);
     text-decoration: none;
     color: var(--text);
-    transition: background 0.15s ease;
+    transition: background 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .mega-card:hover {
     background: var(--bg-muted);
+    transform: translateY(-2px);
   }
   .mega-card-icon {
     flex: none;
@@ -366,6 +403,36 @@ const menuLabels = { services: 'Services', sectors: 'Secteurs' };
     border-radius: var(--radius-md);
     background: var(--color-brand-50);
     color: var(--color-brand-700);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.2s ease, color 0.2s ease;
+  }
+  .mega-card:hover .mega-card-icon {
+    transform: scale(1.08) rotate(-4deg);
+    background: var(--color-brand-100);
+  }
+  .mega-card-title {
+    transition: color 0.18s ease;
+  }
+  .mega-card:hover .mega-card-title {
+    color: var(--color-brand-700);
+  }
+  :root[data-theme='dark'] .mega-card:hover .mega-card-icon {
+    background: rgb(255 255 255 / 0.14);
+  }
+  :root[data-theme='dark'] .mega-card:hover .mega-card-title {
+    color: var(--text);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mega-card,
+    .mega-card-icon {
+      transition: background 0.2s ease;
+    }
+    .mega-card:hover {
+      transform: none;
+    }
+    .mega-card:hover .mega-card-icon {
+      transform: none;
+    }
   }
   :root[data-theme='dark'] .mega-card-icon {
     background: rgb(255 255 255 / 0.08);
@@ -398,6 +465,12 @@ const menuLabels = { services: 'Services', sectors: 'Secteurs' };
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+  }
+  .mega-foot .link svg {
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .mega-foot .link:hover svg {
+    transform: translateX(3px);
   }
   .mega-cta {
     min-height: 42px;
@@ -491,6 +564,11 @@ const menuLabels = { services: 'Services', sectors: 'Secteurs' };
     font-weight: 600;
     color: var(--heading);
     text-decoration: none;
+    transition: color 0.18s ease, transform 0.18s ease;
+  }
+  .mobile-link:hover {
+    color: var(--link);
+    transform: translateX(4px);
   }
   .mobile-acc-toggle {
     display: inline-flex;
@@ -520,9 +598,14 @@ const menuLabels = { services: 'Services', sectors: 'Secteurs' };
     font-size: 1.025rem;
     color: var(--text-muted);
     text-decoration: none;
+    transition: color 0.18s ease, padding-left 0.18s ease;
   }
   .mobile-sublink:hover {
     color: var(--text);
+    padding-left: 1.35rem;
+  }
+  .mobile-acc-toggle svg {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .mobile-cta {
     margin-top: 0.5rem;

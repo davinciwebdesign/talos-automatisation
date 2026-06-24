@@ -9,6 +9,7 @@ const SITE = 'https://talos-automatisation.fr';
 // https://astro.build/config
 export default defineConfig({
   site: SITE,
+  server: { port: Number(process.env.PORT) || 4321 },
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

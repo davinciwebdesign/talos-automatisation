@@ -30,8 +30,8 @@ const gid = 'tg-' + Math.random().toString(36).slice(2, 8);
         <stop offset="1" stop-color="#0a2a66"></stop>
       </linearGradient>
     </defs>
-    <circle cx="50" cy="53" r="36" stroke={`url(#${gid})`} stroke-width="9"></circle>
-    <circle cx="77" cy="26" r="13" fill={`url(#${gid})`}></circle>
+    <circle class="logo-ring" cx="50" cy="53" r="36" stroke={`url(#${gid})`} stroke-width="9"></circle>
+    <circle class="logo-dot" cx="77" cy="26" r="13" fill={`url(#${gid})`}></circle>
   </svg>
   {variant === 'full' && <span class="logo-word">talos</span>}
 </span>
@@ -54,5 +54,53 @@ const gid = 'tg-' + Math.random().toString(36).slice(2, 8);
     font-size: 1.5rem;
     letter-spacing: -0.02em;
     color: currentColor;
+    transition: letter-spacing 0.3s ease;
+  }
+
+  /* hover animation */
+  .logo-mark {
+    transition: transform 0.3s ease;
+  }
+  .logo-ring {
+    transform-origin: 50% 53%;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .logo-dot {
+    transform-origin: 77px 26px;
+    transition: transform 0.4s ease;
+  }
+
+  .logo:hover .logo-mark {
+    transform: scale(1.08);
+  }
+  .logo:hover .logo-ring {
+    transform: rotate(180deg);
+  }
+  .logo:hover .logo-dot {
+    animation: logo-dot-pulse 0.6s ease;
+  }
+  .logo:hover .logo-word {
+    letter-spacing: 0.04em;
+  }
+
+  @keyframes logo-dot-pulse {
+    0% { transform: scale(1); }
+    45% { transform: scale(1.35); }
+    100% { transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-mark,
+    .logo-ring,
+    .logo-dot,
+    .logo-word {
+      transition: none;
+    }
+    .logo:hover .logo-mark,
+    .logo:hover .logo-ring,
+    .logo:hover .logo-dot {
+      transform: none;
+      animation: none;
+    }
   }
 </style>

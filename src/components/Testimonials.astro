@@ -93,6 +93,34 @@ const { items = placeholders, columns = 3 } = Astro.props;
     gap: 0.85rem;
     padding: 1.5rem;
     position: relative;
+    transition:
+      transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.28s ease,
+      border-color 0.28s ease;
+  }
+  .tcard:not(.is-placeholder):hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-brand-300);
+  }
+  .tcard :global(.tquote) {
+    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .tavatar {
+    transition:
+      transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+      background-color 0.28s ease,
+      color 0.28s ease;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .tcard:hover :global(.tquote) {
+      transform: scale(1.15) rotate(-6deg);
+    }
+    .tcard:hover .tavatar {
+      transform: scale(1.08);
+      background: var(--color-brand-50);
+      color: var(--color-brand-700);
+    }
   }
   .is-placeholder {
     border-style: dashed;

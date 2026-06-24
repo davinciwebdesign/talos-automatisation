@@ -146,6 +146,11 @@ const company = [
     display: inline-block;
     text-decoration: none;
     border-radius: var(--radius-md);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+  }
+  .footer-logo:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
   }
   .footer-tagline {
     margin: 1rem 0;
@@ -171,6 +176,10 @@ const company = [
   .footer-nap svg {
     color: var(--color-brand-600);
     flex: none;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .footer-nap li:hover svg {
+    transform: scale(1.15);
   }
   .footer-placeholder {
     color: var(--text-subtle);
@@ -193,15 +202,25 @@ const company = [
     gap: 0.6rem;
   }
   .footer-link {
+    position: relative;
     color: var(--text-muted);
     text-decoration: none;
     font-size: 0.95rem;
     border-radius: 3px;
+    background-image: linear-gradient(var(--link), var(--link));
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: color 0.2s ease, background-size 0.28s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .footer-link:hover {
     color: var(--link);
-    text-decoration: underline;
-    text-underline-offset: 2px;
+    background-size: 100% 1.5px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .footer-link {
+      transition: color 0.2s ease;
+    }
   }
   .footer-link-cta {
     color: var(--link);
@@ -237,12 +256,22 @@ const company = [
     text-decoration: none;
     font-size: 0.875rem;
     font-weight: 600;
+    transition: color 0.2s ease;
   }
   .footer-top:hover {
     color: var(--link);
   }
   .footer-top :global(.rot-up) {
     transform: rotate(-90deg);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .footer-top:hover :global(.rot-up) {
+    transform: rotate(-90deg) translateX(3px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .footer-top :global(.rot-up) {
+      transition: none;
+    }
   }
 
   @media (max-width: 880px) {
