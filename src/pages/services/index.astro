@@ -1,0 +1,68 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Section from '../../components/Section.astro';
+import Card from '../../components/Card.astro';
+import Testimonials from '../../components/Testimonials.astro';
+import CtaSection from '../../components/CtaSection.astro';
+import Icon from '../../components/Icon.astro';
+import { services } from '../../data/services';
+
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Services' },
+];
+---
+
+<Layout
+  title="Services d'automatisation"
+  description="Audit complet, automatisation sur mesure, automatisation prédictive et intégration de robots IA. Découvrez l'offre talos pour automatiser vos processus."
+  breadcrumbs={breadcrumbs}
+>
+  <Section
+    eyebrow="Services"
+    eyebrowIcon="layers"
+    title="Des solutions d'automatisation pensées pour vos résultats"
+    lead="Que vous ayez une tâche précise à automatiser ou que vous cherchiez une vue d'ensemble, voici comment je peux vous aider. Chaque prestation part de votre besoin réel."
+  >
+    <div class="svc-grid bento">
+      {
+        services.map((s) => (
+          <Card
+            icon={s.icon}
+            title={s.title}
+            text={s.megaDesc}
+            href={`/services/${s.slug}/`}
+            linkLabel="Découvrir"
+          />
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section tone="muted" eyebrow="Confiance" eyebrowIcon="quote" title="Des résultats concrets, bientôt les vôtres" lead="Témoignages à publier une fois vos premiers retours recueillis.">
+    <Testimonials columns={3} />
+  </Section>
+
+  <CtaSection track="services-final" />
+</Layout>
+
+<style>
+  /* Bento: large feature tile + supporting tiles + wide footer tile */
+  .svc-grid.bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 1.25rem;
+  }
+  .svc-grid.bento > :global(:nth-child(1)) { grid-column: span 2; grid-row: span 2; }
+  .svc-grid.bento > :global(:nth-child(2)) { grid-column: span 1; }
+  .svc-grid.bento > :global(:nth-child(3)) { grid-column: span 1; }
+  .svc-grid.bento > :global(:nth-child(4)) { grid-column: span 3; }
+  @media (max-width: 860px) {
+    .svc-grid.bento { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
+    .svc-grid.bento > :global(*) { grid-column: auto !important; grid-row: auto !important; }
+  }
+  @media (max-width: 600px) {
+    .svc-grid.bento { grid-template-columns: 1fr; }
+  }
+</style>

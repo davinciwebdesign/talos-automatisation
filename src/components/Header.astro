@@ -1,0 +1,678 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { primaryNav, servicesMenu, sectorsMenu } from '../config/nav';
+import { primaryCta } from '../config/site';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+const menus = { services: servicesMenu, sectors: sectorsMenu };
+const menuLabels = { services: 'Services', sectors: 'Secteurs' };
+---
+
+<header class="site-header" id="site-header" data-track-section="header">
+  <a class="skip-link" href="#main">Aller au contenu principal</a>
+  <div class="container-page header-inner">
+    <a class="header-logo" href="/" aria-label="talos automatisation — accueil">
+      <Logo />
+    </a>
+
+    <!-- Primary navigation (desktop) -->
+    <nav class="primary-nav" aria-label="Navigation principale">
+      <ul class="nav-list">
+        {
+          primaryNav.map((item) =>
+            'menu' in item && item.menu ? (
+              <li class="nav-item has-mega" data-mega={item.menu}>
+                <a
+                  href={item.href}
+                  class:list={['nav-link', { 'is-active': isActive(item.href) }]}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+                <button
+                  type="button"
+                  class="mega-toggle"
+                  aria-expanded="false"
+                  aria-controls={`mega-${item.menu}`}
+                  aria-label={`Ouvrir le menu ${item.label}`}
+                >
+                  <Icon name="chevronDown" size={18} />
+                </button>
+                <div class="mega-panel" id={`mega-${item.menu}`} hidden>
+                  <div class="mega-grid">
+                    {menus[item.menu].map((link) => (
+                      <a class="mega-card" href={link.href}>
+                        <span class="mega-card-icon">
+                          <Icon name={link.icon ?? 'sparkles'} size={22} />
+                        </span>
+                        <span class="mega-card-text">
+                          <span class="mega-card-title">{link.label}</span>
+                          <span class="mega-card-desc">{link.desc}</span>
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                  <div class="mega-foot">
+                    <a class="link" href={item.href}>
+                      Voir tous les {menuLabels[item.menu].toLowerCase()}
+                      <Icon name="arrowRight" size={16} />
+                    </a>
+                    <a class="btn btn-primary mega-cta" href={primaryCta.href} data-track-cta="mega">
+                      {primaryCta.label}
+                    </a>
+                  </div>
+                </div>
+              </li>
+            ) : (
+              <li class="nav-item">
+                <a
+                  href={item.href}
+                  class:list={['nav-link', { 'is-active': isActive(item.href) }]}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            )
+          )
+        }
+      </ul>
+    </nav>
+
+    <!-- Utility zone (right) -->
+    <div class="header-utility">
+      <button
+        type="button"
+        class="icon-btn theme-toggle"
+        id="theme-toggle"
+        aria-label="Activer le thème sombre"
+        aria-pressed="false"
+      >
+        <Icon name="sun" size={20} class="icon-sun" />
+        <Icon name="moon" size={20} class="icon-moon" />
+      </button>
+      <a class="btn btn-primary header-cta" href={primaryCta.href} data-track-cta="header">
+        {primaryCta.label}
+      </a>
+      <button
+        type="button"
+        class="icon-btn menu-toggle"
+        id="menu-toggle"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <Icon name="menu" size={24} class="icon-open" />
+        <Icon name="close" size={24} class="icon-close" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile navigation overlay -->
+  <div class="mobile-nav" id="mobile-nav" hidden>
+    <nav class="container-page" aria-label="Navigation mobile">
+      <ul class="mobile-list">
+        {
+          primaryNav.map((item) =>
+            'menu' in item && item.menu ? (
+              <li class="mobile-item">
+                <div class="mobile-row">
+                  <a href={item.href} class="mobile-link">
+                    {item.label}
+                  </a>
+                  <button
+                    type="button"
+                    class="mobile-acc-toggle"
+                    aria-expanded="false"
+                    aria-controls={`m-acc-${item.menu}`}
+                    aria-label={`Dérouler ${item.label}`}
+                  >
+                    <Icon name="chevronDown" size={20} />
+                  </button>
+                </div>
+                <ul class="mobile-sub" id={`m-acc-${item.menu}`} hidden>
+                  {menus[item.menu].map((link) => (
+                    <li>
+                      <a class="mobile-sublink" href={link.href}>
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <li class="mobile-item">
+                <a href={item.href} class="mobile-link">
+                  {item.label}
+                </a>
+              </li>
+            )
+          )
+        }
+      </ul>
+      <a class="btn btn-primary btn-block btn-lg mobile-cta" href={primaryCta.href} data-track-cta="mobile">
+        {primaryCta.label}
+      </a>
+      <p class="cta-note mobile-note">
+        <Icon name="check" size={16} /> {primaryCta.note}
+      </p>
+    </nav>
+  </div>
+</header>
+
+<!-- Apple-style scrim: blurs the page below the bar when a mega-menu is open.
+     Sibling of <header> so the header (z100) stays sharp above it (z90). -->
+<div class="nav-scrim" aria-hidden="true"></div>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: color-mix(in srgb, var(--bg-elevated) 70%, transparent);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid color-mix(in srgb, var(--surface-border) 60%, transparent);
+  }
+
+  /* Page scrim — fades + frosts everything below the header bar */
+  .nav-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 90; /* under header (100), over page content */
+    background: color-mix(in srgb, var(--bg) 35%, transparent);
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    pointer-events: none;
+  }
+  .site-header[data-mega-open='true'] ~ .nav-scrim {
+    opacity: 1;
+    visibility: visible;
+  }
+  .header-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 3.25rem;
+    transition: min-height 0.2s ease;
+  }
+  /* Shrink on scroll without CLS (only min-height of inner bar changes) */
+  .site-header[data-scrolled='true'] .header-inner {
+    min-height: 2.75rem;
+  }
+  .header-logo {
+    flex: none;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+  }
+  .header-logo :global(.logo-mark) {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+  .header-logo :global(.logo-word) {
+    font-size: 1.2rem;
+  }
+
+  /* Apple: nav links centered in the bar, independent of side widths */
+  .primary-nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-md);
+    font-weight: 400;
+    font-size: 0.8125rem;
+    letter-spacing: 0.01em;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .nav-link:hover {
+    color: var(--text);
+  }
+  .nav-link.is-active {
+    color: var(--text);
+  }
+
+  .mega-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-left: -0.35rem;
+    border: none;
+    background: none;
+    color: var(--text-subtle);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+  }
+  .mega-toggle svg {
+    transition: transform 0.2s ease;
+  }
+  .has-mega[data-open='true'] .mega-toggle svg {
+    transform: rotate(180deg);
+  }
+
+  .mega-panel {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    width: min(680px, 86vw);
+    padding: 1rem;
+    background: color-mix(in srgb, var(--bg-elevated) 80%, transparent);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border: 1px solid color-mix(in srgb, var(--surface-border) 70%, transparent);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+  }
+  .has-mega[data-mega='sectors'] .mega-panel {
+    width: min(760px, 90vw);
+  }
+  .mega-panel[hidden] {
+    display: none;
+  }
+  .mega-panel {
+    transform-origin: top center;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .has-mega[data-open='true'] .mega-panel {
+      animation: mega-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes mega-in {
+      from {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.96);
+        filter: blur(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+    /* Stagger the cards inside for a polished reveal */
+    .has-mega[data-open='true'] .mega-card {
+      animation: mega-card-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .has-mega[data-open='true'] .mega-card:nth-child(1) { animation-delay: 0.04s; }
+    .has-mega[data-open='true'] .mega-card:nth-child(2) { animation-delay: 0.08s; }
+    .has-mega[data-open='true'] .mega-card:nth-child(3) { animation-delay: 0.12s; }
+    .has-mega[data-open='true'] .mega-card:nth-child(4) { animation-delay: 0.16s; }
+    .has-mega[data-open='true'] .mega-card:nth-child(5) { animation-delay: 0.2s; }
+    .has-mega[data-open='true'] .mega-card:nth-child(6) { animation-delay: 0.24s; }
+    @keyframes mega-card-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+  .mega-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+  }
+  .has-mega[data-mega='sectors'] .mega-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .mega-card {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.7rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.15s ease;
+  }
+  .mega-card:hover {
+    background: var(--bg-muted);
+  }
+  .mega-card-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-md);
+    background: var(--color-brand-50);
+    color: var(--color-brand-700);
+  }
+  :root[data-theme='dark'] .mega-card-icon {
+    background: rgb(255 255 255 / 0.08);
+    color: var(--color-neutral-200);
+  }
+  .mega-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .mega-card-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .mega-card-desc {
+    font-size: 0.825rem;
+    color: var(--text-subtle);
+    line-height: 1.35;
+  }
+  .mega-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--surface-border);
+  }
+  .mega-foot .link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .mega-cta {
+    min-height: 42px;
+    font-size: 0.925rem;
+    padding: 0.55rem 1rem;
+  }
+
+  .header-utility {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    background: none;
+    border-radius: 999px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  .icon-btn:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 8%, transparent);
+  }
+  .header-cta {
+    min-height: 36px;
+    padding: 0.4rem 0.95rem;
+    font-size: 0.8125rem;
+  }
+  .theme-toggle .icon-moon {
+    display: none;
+  }
+  :root[data-theme='dark'] .theme-toggle .icon-sun {
+    display: none;
+  }
+  :root[data-theme='dark'] .theme-toggle .icon-moon {
+    display: block;
+  }
+  .menu-toggle {
+    display: none;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .menu-toggle .icon-close {
+    display: none;
+  }
+  .site-header[data-mobile-open='true'] .menu-toggle .icon-open {
+    display: none;
+  }
+  .site-header[data-mobile-open='true'] .menu-toggle .icon-close {
+    display: block;
+  }
+
+  /* Mobile overlay */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    inset: var(--header-h, 4.5rem) 0 0 0;
+    background: var(--bg);
+    overflow-y: auto;
+    padding-block: 1.5rem 3rem;
+    z-index: 99;
+  }
+  .mobile-nav[hidden] {
+    display: none;
+  }
+  .mobile-list {
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+  }
+  .mobile-item {
+    border-bottom: 1px solid var(--surface-border);
+  }
+  .mobile-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .mobile-link {
+    display: block;
+    flex: 1;
+    padding: 1.1rem 0.25rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--heading);
+    text-decoration: none;
+  }
+  .mobile-acc-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .mobile-acc-toggle[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+  .mobile-sub {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0.75rem;
+  }
+  .mobile-sub[hidden] {
+    display: none;
+  }
+  .mobile-sublink {
+    display: block;
+    padding: 0.65rem 0.25rem 0.65rem 1rem;
+    font-size: 1.025rem;
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .mobile-sublink:hover {
+    color: var(--text);
+  }
+  .mobile-cta {
+    margin-top: 0.5rem;
+  }
+  .mobile-note {
+    justify-content: center;
+    margin-top: 0.85rem;
+    text-align: center;
+  }
+
+  /* Responsive switch */
+  @media (max-width: 980px) {
+    .primary-nav {
+      display: none;
+    }
+    .header-cta {
+      display: none;
+    }
+    .menu-toggle {
+      display: inline-flex;
+    }
+  }
+  @media (min-width: 981px) {
+    .mobile-nav {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  // ---- Theme toggle (persisted) ----
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('theme-toggle');
+  function syncThemeBtn() {
+    const dark = root.getAttribute('data-theme') === 'dark';
+    themeBtn?.setAttribute('aria-pressed', String(dark));
+    themeBtn?.setAttribute(
+      'aria-label',
+      dark ? 'Activer le thème clair' : 'Activer le thème sombre'
+    );
+  }
+  syncThemeBtn();
+  themeBtn?.addEventListener('click', () => {
+    const dark = root.getAttribute('data-theme') === 'dark';
+    const next = dark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try {
+      localStorage.setItem('theme', next);
+    } catch {}
+    syncThemeBtn();
+  });
+
+  // ---- Sticky shrink on scroll (no layout shift) ----
+  const header = document.getElementById('site-header');
+  const onScroll = () => {
+    header?.setAttribute('data-scrolled', String(window.scrollY > 8));
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // ---- Desktop mega-menus (hover with delay + click + keyboard) ----
+  const HOVER_DELAY = 380; // 300–500ms to avoid flicker
+  const megas = Array.from(document.querySelectorAll<HTMLElement>('.has-mega'));
+  let openTimer: number | undefined;
+  let closeTimer: number | undefined;
+
+  function syncScrim() {
+    const anyOpen = megas.some((m) => m.dataset.open === 'true');
+    header?.setAttribute('data-mega-open', String(anyOpen));
+  }
+  function openMega(li: HTMLElement) {
+    megas.forEach((m) => m !== li && closeMega(m));
+    li.dataset.open = 'true';
+    const toggle = li.querySelector('.mega-toggle');
+    const panel = li.querySelector<HTMLElement>('.mega-panel');
+    toggle?.setAttribute('aria-expanded', 'true');
+    if (panel) panel.hidden = false;
+    syncScrim();
+  }
+  function closeMega(li: HTMLElement) {
+    li.dataset.open = 'false';
+    const toggle = li.querySelector('.mega-toggle');
+    const panel = li.querySelector<HTMLElement>('.mega-panel');
+    toggle?.setAttribute('aria-expanded', 'false');
+    if (panel) panel.hidden = true;
+    syncScrim();
+  }
+
+  megas.forEach((li) => {
+    const toggle = li.querySelector<HTMLButtonElement>('.mega-toggle');
+    li.addEventListener('mouseenter', () => {
+      window.clearTimeout(closeTimer);
+      openTimer = window.setTimeout(() => openMega(li), HOVER_DELAY);
+    });
+    li.addEventListener('mouseleave', () => {
+      window.clearTimeout(openTimer);
+      closeTimer = window.setTimeout(() => closeMega(li), 160);
+    });
+    toggle?.addEventListener('click', () => {
+      li.dataset.open === 'true' ? closeMega(li) : openMega(li);
+    });
+    li.addEventListener('focusout', (e) => {
+      if (!li.contains(e.relatedTarget as Node)) closeMega(li);
+    });
+    li.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        closeMega(li);
+        toggle?.focus();
+      }
+    });
+  });
+  document.addEventListener('click', (e) => {
+    megas.forEach((li) => {
+      if (!li.contains(e.target as Node)) closeMega(li);
+    });
+  });
+
+  // ---- Mobile nav ----
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  function setMobile(open: boolean) {
+    header?.setAttribute('data-mobile-open', String(open));
+    menuToggle?.setAttribute('aria-expanded', String(open));
+    menuToggle?.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    if (mobileNav) mobileNav.hidden = !open;
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (header) {
+      const h = header.querySelector<HTMLElement>('.header-inner');
+      mobileNav?.style.setProperty('--header-h', (h?.offsetHeight ?? 72) + 'px');
+    }
+  }
+  menuToggle?.addEventListener('click', () => {
+    setMobile(menuToggle.getAttribute('aria-expanded') !== 'true');
+  });
+  document.querySelectorAll<HTMLButtonElement>('.mobile-acc-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      const sub = document.getElementById(btn.getAttribute('aria-controls')!);
+      if (sub) sub.hidden = open;
+    });
+  });
+  // Close mobile on resize to desktop / Escape
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && header?.getAttribute('data-mobile-open') === 'true') {
+      setMobile(false);
+      menuToggle?.focus();
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 980) setMobile(false);
+  });
+</script>

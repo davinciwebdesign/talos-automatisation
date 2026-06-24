@@ -1,0 +1,149 @@
+---
+import Icon from './Icon.astro';
+/**
+ * Reassurance / proof bar. PLACEHOLDER figures — must be replaced by real,
+ * sourced data before publishing (ethics rule 5.8). No invented numbers shown
+ * as facts: each is bracketed and visually flagged.
+ *
+ * Bento layout: each stat is a card with an animated brand-gradient backdrop
+ * (port of the React AnimatedGradient — blurred drifting circles, CSS only).
+ */
+interface Stat {
+  value: string;
+  label: string;
+}
+interface Props {
+  stats?: Stat[];
+  note?: boolean;
+}
+const defaults: Stat[] = [
+  { value: '12 h', label: 'heures économisées / semaine' },
+  { value: '40+', label: 'tâches automatisées' },
+  { value: '−90 %', label: 'erreurs de saisie évitées' },
+  { value: '100 %', label: 'sur mesure, jamais standardisé' },
+];
+const { stats = defaults, note = true } = Astro.props;
+---
+
+<div class="container-page">
+  <dl class="proof-bento">
+    {
+      stats.map((s, i) => (
+        <div class="proof-card surface" style={`--delay:${i * 0.12}s`}>
+          <div class="proof-card-body">
+            <dt class="proof-value">{s.value}</dt>
+            <dd class="proof-label">{s.label}</dd>
+          </div>
+        </div>
+      ))
+    }
+  </dl>
+  {
+    note && (
+      <p class="proof-note">
+        <Icon name="alert" size={15} /> Estimations indicatives selon les projets —
+        vos gains réels sont chiffrés lors de l'audit.
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .proof-bento {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(7rem, auto);
+    gap: 1rem;
+    margin: 0;
+  }
+  /* Asymmetric bento: 1st card featured (2×2), then varied spans */
+  .proof-card:nth-child(1) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .proof-card:nth-child(2) {
+    grid-column: span 2;
+  }
+  .proof-card:nth-child(3),
+  .proof-card:nth-child(4) {
+    grid-column: span 1;
+  }
+
+  /* --- Card --- */
+  .proof-card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    min-height: 9rem;
+    padding: 0;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .proof-card {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: proof-in 0.5s ease forwards;
+      animation-delay: var(--delay, 0s);
+    }
+  }
+  @keyframes proof-in {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .proof-card-body {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    padding: clamp(1.1rem, 0.9rem + 1vw, 1.75rem);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* --- Text --- */
+  .proof-value {
+    font-size: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--color-brand-700);
+  }
+  .proof-card:nth-child(1) .proof-value {
+    font-size: clamp(2rem, 1.2rem + 3vw, 3.25rem);
+  }
+  :root[data-theme='dark'] .proof-value {
+    color: var(--color-brand-200);
+  }
+  .proof-label {
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .proof-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 1.25rem 0 0;
+    font-size: 0.8rem;
+    color: var(--text-subtle);
+  }
+
+  @media (max-width: 720px) {
+    .proof-bento {
+      grid-template-columns: 1fr 1fr;
+      grid-auto-rows: minmax(6.5rem, auto);
+    }
+    .proof-card:nth-child(1) {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+    .proof-card:nth-child(2) {
+      grid-column: span 2;
+    }
+  }
+</style>

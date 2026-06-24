@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../config/site';
+
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'CGV' },
+];
+const PH = '[À REMPLACER PAR DONNÉE RÉELLE]';
+const updated = '24 juin 2026';
+---
+
+<Layout
+  title="Conditions générales de vente"
+  description="Conditions générales de vente des prestations d'automatisation proposées par talos automatisation : objet, devis, prix, exécution, responsabilité."
+  breadcrumbs={breadcrumbs}
+  noindex
+>
+  <PageHero
+    eyebrow="Conditions"
+    eyebrowIcon="file"
+    title="Conditions générales de vente"
+    subtitle={`Dernière mise à jour : ${updated}.`}
+    showCta={false}
+  />
+
+  <div class="section">
+    <div class="container-page">
+      <div class="legal prose-content measure">
+        <p class="legal-flag">
+          ⚠️ Modèle de base à faire valider par un professionnel du droit et à
+          compléter (champs <strong>{PH}</strong>) avant la mise en ligne. Ce
+          texte ne constitue pas un conseil juridique.
+        </p>
+
+        <h2>1. Objet</h2>
+        <p>
+          Les présentes conditions générales de vente (CGV) encadrent les
+          prestations de conseil, de conception et de mise en œuvre
+          d'automatisations proposées par {site.name} ({site.founder}) à ses
+          clients professionnels.
+        </p>
+
+        <h2>2. Devis et commande</h2>
+        <p>
+          Chaque prestation fait l'objet d'un devis détaillé, gratuit et sans
+          engagement. La commande est ferme à compter de l'acceptation écrite du
+          devis par le client. Toute modification du périmètre fait l'objet d'un
+          avenant.
+        </p>
+
+        <h2>3. Prix et modalités de paiement</h2>
+        <p>
+          Les prix sont indiqués en euros, {PH} (HT / TTC selon le statut). Les
+          modalités et échéances de paiement sont précisées sur le devis. En cas
+          de retard de paiement, des pénalités au taux légal en vigueur peuvent
+          s'appliquer, ainsi que l'indemnité forfaitaire de recouvrement prévue
+          par la loi.
+        </p>
+
+        <h2>4. Exécution de la prestation</h2>
+        <p>
+          {site.name} s'engage à exécuter la prestation avec diligence et selon
+          les règles de l'art. Le client s'engage à fournir, en temps utile, les
+          accès, informations et éléments nécessaires à la bonne réalisation de
+          la prestation. Les délais sont donnés à titre indicatif et peuvent
+          dépendre de la collaboration du client.
+        </p>
+
+        <h2>5. Obligations du client</h2>
+        <p>
+          Le client garantit disposer des droits nécessaires sur les données,
+          outils et accès qu'il transmet, et s'engage à un usage conforme des
+          dispositifs livrés.
+        </p>
+
+        <h2>6. Propriété et confidentialité</h2>
+        <p>
+          Chaque partie s'engage à préserver la confidentialité des informations
+          échangées. Les conditions de propriété des livrables sont précisées au
+          devis. {site.name} respecte la confidentialité des données auxquelles
+          il accède dans le cadre de la mission.
+        </p>
+
+        <h2>7. Responsabilité</h2>
+        <p>
+          La responsabilité de {site.name} est limitée aux dommages directs et
+          prouvés, et ne saurait excéder le montant de la prestation concernée.
+          {site.name} ne peut être tenu responsable des dysfonctionnements
+          imputables aux outils tiers du client ou à une utilisation non conforme.
+        </p>
+
+        <h2>8. Rétractation</h2>
+        <p>
+          Les prestations s'adressant à des professionnels dans le cadre de leur
+          activité, le droit de rétractation prévu pour les consommateurs ne
+          s'applique pas, sauf disposition contraire au devis.
+        </p>
+
+        <h2>9. Droit applicable et litiges</h2>
+        <p>
+          Les présentes CGV sont régies par le droit français. En cas de litige,
+          les parties s'efforcent de trouver une solution amiable avant toute
+          action judiciaire. À défaut, compétence est attribuée aux tribunaux
+          français compétents.
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .legal h2 { margin: 2rem 0 0.6rem; font-size: 1.3rem; }
+  .legal h2:first-of-type { margin-top: 0; }
+  .legal p, .legal li { line-height: 1.65; }
+  .legal ul { padding-left: 1.25rem; }
+  .legal li { margin: 0.3rem 0; }
+  .legal-flag {
+    padding: 1rem 1.25rem; margin-bottom: 2rem;
+    background: var(--color-warning-50);
+    border: 1px solid color-mix(in srgb, var(--color-warning-500) 40%, transparent);
+    border-radius: var(--radius-md); font-size: 0.95rem;
+  }
+  :root[data-theme='dark'] .legal-flag { background: rgb(217 119 6 / 0.14); }
+</style>

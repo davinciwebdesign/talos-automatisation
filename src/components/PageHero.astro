@@ -1,0 +1,81 @@
+---
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { primaryCta } from '../config/site';
+interface Props {
+  eyebrow?: string;
+  eyebrowIcon?: string;
+  title: string;
+  subtitle?: string;
+  showCta?: boolean;
+  secondary?: { label: string; href: string };
+  track?: string;
+}
+const {
+  eyebrow,
+  eyebrowIcon,
+  title,
+  subtitle,
+  showCta = true,
+  secondary,
+  track = 'page-hero',
+} = Astro.props;
+---
+
+<section class="page-hero">
+  <div class="container-page">
+    {eyebrow && <p class="eyebrow hero-eyebrow">{eyebrowIcon && <Icon name={eyebrowIcon} size={16} />}{eyebrow}</p>}
+    <h1 class="h1 hero-title">{title}</h1>
+    {subtitle && <p class="lead hero-sub measure">{subtitle}</p>}
+    {
+      showCta && (
+        <div class="hero-actions">
+          <Button href={primaryCta.href} size="lg" track={track}>
+            {primaryCta.label}
+          </Button>
+          {secondary && (
+            <Button href={secondary.href} variant="secondary" size="lg">
+              {secondary.label}
+            </Button>
+          )}
+          <p class="cta-note hero-note">
+            <Icon name="check" size={16} /> {primaryCta.note}
+          </p>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    padding-block: clamp(3rem, 2rem + 5vw, 5.5rem);
+    background: var(--bg-muted);
+    border-bottom: 1px solid var(--surface-border);
+  }
+  .hero-eyebrow {
+    margin: 0 0 1.25rem;
+  }
+  .hero-title {
+    margin: 0;
+    max-width: 20ch;
+  }
+  .hero-sub {
+    margin: 1.6rem 0 0;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.15rem;
+    margin-top: 2.25rem;
+  }
+  .hero-note {
+    flex-basis: 100%;
+  }
+  @media (min-width: 560px) {
+    .hero-note {
+      flex-basis: auto;
+    }
+  }
+</style>

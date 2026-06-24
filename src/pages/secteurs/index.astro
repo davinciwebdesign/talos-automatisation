@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Section from '../../components/Section.astro';
+import Card from '../../components/Card.astro';
+import CtaSection from '../../components/CtaSection.astro';
+import { sectors } from '../../data/sectors';
+
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Secteurs' },
+];
+---
+
+<Layout
+  title="Secteurs d'activité"
+  description="Bureaux d'études, avocats, BTP, notaires, e-commerce, immobilier, professionnels de santé : des automatisations adaptées aux réalités de votre métier."
+  breadcrumbs={breadcrumbs}
+>
+  <Section
+    eyebrow="Secteurs"
+    eyebrowIcon="users"
+    title="Quel que soit votre métier, l'automatisation s'adapte"
+    lead="Chaque secteur a ses tâches répétitives propres. Voici des automatisations pensées pour les réalités de votre activité."
+  >
+    <div class="sec-grid">
+      {
+        sectors.map((s) => (
+          <Card
+            icon={s.icon}
+            title={s.navLabel}
+            text={s.megaDesc}
+            href={`/secteurs/${s.slug}/`}
+            linkLabel="Voir les automatisations"
+          />
+        ))
+      }
+    </div>
+  </Section>
+
+  <CtaSection track="sectors-final" />
+</Layout>
+
+<style>
+  .sec-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  @media (max-width: 880px) { .sec-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 580px) { .sec-grid { grid-template-columns: 1fr; } }
+</style>

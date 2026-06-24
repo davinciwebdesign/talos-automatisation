@@ -1,0 +1,180 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Icon from '../../components/Icon.astro';
+import CtaSection from '../../components/CtaSection.astro';
+import { cases } from '../../data/cases';
+
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Cas client' },
+];
+
+const sectorOptions = [...new Set(cases.map((c) => c.sectorLabel))].sort();
+const typeOptions = [...new Set(cases.map((c) => c.type))].sort();
+---
+
+<Layout
+  title="Cas client"
+  description="Des exemples concrets d'automatisations par secteur et par type de tâche. Chaque cas suit la même trame : situation, déclencheur, frein, solution, résultats."
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="Cas client"
+    eyebrowIcon="file"
+    title="Des résultats concrets, secteur par secteur"
+    subtitle="Filtrez par métier ou par type de tâche. Chaque fiche suit la même trame : situation, déclencheur, frein, solution et résultats mesurés."
+    secondary={{ label: 'Réserver un audit', href: '/audit-gratuit/' }}
+  />
+
+  <div class="container-page">
+    <p class="ethics-note">
+      <Icon name="shield" size={20} /> Transparence : ces fiches sont des
+      gabarits. Aucun chiffre ni témoignage n'est inventé. Elles seront
+      remplacées par de vrais cas, attribués et validés par le client, avant
+      publication.
+    </p>
+  </div>
+
+  <Section eyebrow="Parcourir" eyebrowIcon="search" title="Trouvez un cas proche du vôtre">
+    <div class="filters" role="group" aria-label="Filtrer les cas client">
+      <div class="filter-group">
+        <label class="filter-label" for="filter-sector">Secteur</label>
+        <select id="filter-sector" class="filter-select" data-filter="sector">
+          <option value="">Tous les secteurs</option>
+          {sectorOptions.map((s) => <option value={s}>{s}</option>)}
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" for="filter-type">Type de tâche</label>
+        <select id="filter-type" class="filter-select" data-filter="type">
+          <option value="">Tous les types</option>
+          {typeOptions.map((t) => <option value={t}>{t}</option>)}
+        </select>
+      </div>
+    </div>
+
+    <p class="results-count" aria-live="polite" data-results-count>
+      {cases.length} cas affichés
+    </p>
+
+    <div class="case-grid" data-case-grid>
+      {
+        cases.map((c) => (
+          <article class="case-card surface" data-sector={c.sectorLabel} data-type={c.type}>
+            {c.placeholder && <span class="ph-badge">Gabarit à remplacer</span>}
+            <span class="case-tag"><Icon name="layers" size={14} /> {c.sectorLabel}</span>
+            <h2 class="case-card-title">{c.title}</h2>
+            <p class="case-card-summary">{c.summary}</p>
+            <dl class="case-kpis">
+              {c.kpis.map((k) => (
+                <div>
+                  <dt>{k.value}</dt>
+                  <dd>{k.label}</dd>
+                </div>
+              ))}
+            </dl>
+            <a class="link case-card-link" href={`/cas-client/${c.slug}/`}>
+              Lire le cas <Icon name="arrowRight" size={16} />
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="no-results" data-no-results hidden>
+      Aucun cas ne correspond à ces filtres. <button type="button" class="link" data-reset-filters>Réinitialiser</button>
+    </p>
+  </Section>
+
+  <CtaSection track="cases-final" />
+</Layout>
+
+<style>
+  .ethics-note {
+    display: flex; align-items: flex-start; gap: 0.6rem;
+    margin: 2rem 0 0; padding: 1rem 1.25rem;
+    background: var(--color-info-50);
+    border: 1px solid color-mix(in srgb, var(--color-info-500) 35%, transparent);
+    border-radius: var(--radius-md);
+    color: var(--text); font-size: 0.95rem; line-height: 1.55; max-width: 70ch;
+  }
+  .ethics-note svg { color: var(--color-info-700); flex: none; margin-top: 0.1rem; }
+  :root[data-theme='dark'] .ethics-note { background: rgb(37 99 235 / 0.12); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+  .filter-group { display: flex; flex-direction: column; gap: 0.4rem; min-width: 14rem; }
+  .filter-label { font-weight: 600; font-size: 0.9rem; }
+  .filter-select {
+    min-height: 48px; padding: 0.5rem 0.85rem;
+    border: 1px solid var(--border); border-radius: var(--radius-md);
+    background: var(--bg); color: var(--text); font: inherit;
+  }
+  .filter-select:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+
+  .results-count { margin: 1.5rem 0 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+
+  .case-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 1rem;
+  }
+  .case-card { position: relative; display: flex; flex-direction: column; padding: 1.5rem; }
+  .ph-badge {
+    position: absolute; top: 0.85rem; right: 0.85rem;
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--color-warning-700); background: var(--color-warning-50);
+    padding: 0.2rem 0.5rem; border-radius: 999px;
+  }
+  :root[data-theme='dark'] .ph-badge { background: rgb(217 119 6 / 0.18); color: #fcd34d; }
+  .case-tag {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.8rem; font-weight: 600; color: var(--color-brand-700);
+    margin-bottom: 0.6rem;
+  }
+  :root[data-theme='dark'] .case-tag { color: var(--color-brand-300); }
+  .case-tag svg { flex: none; }
+  .case-card-title { margin: 0 0 0.5rem; font-size: 1.15rem; line-height: 1.3; }
+  .case-card-summary { margin: 0 0 1rem; color: var(--text-muted); line-height: 1.5; font-size: 0.95rem; }
+  .case-kpis {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;
+    margin: 0 0 1.25rem; padding: 0.85rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .case-kpis div { text-align: center; }
+  .case-kpis dt { font-weight: 800; font-size: 0.95rem; color: var(--heading); }
+  .case-kpis dd { margin: 0.15rem 0 0; font-size: 0.72rem; color: var(--text-muted); line-height: 1.3; }
+  .case-card-link { margin-top: auto; display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 600; }
+
+  .no-results { margin-top: 1.5rem; color: var(--text-muted); }
+
+  @media (max-width: 880px) { .case-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 580px) { .case-grid { grid-template-columns: 1fr; } .filter-group { min-width: 0; flex: 1; } }
+</style>
+
+<script>
+  const grid = document.querySelector('[data-case-grid]');
+  if (grid) {
+    const cards = Array.from(grid.querySelectorAll('.case-card')) as HTMLElement[];
+    const selects = Array.from(document.querySelectorAll('[data-filter]')) as HTMLSelectElement[];
+    const countEl = document.querySelector('[data-results-count]');
+    const noResults = document.querySelector('[data-no-results]');
+
+    function apply() {
+      const sector = (document.querySelector('[data-filter="sector"]') as HTMLSelectElement)?.value || '';
+      const type = (document.querySelector('[data-filter="type"]') as HTMLSelectElement)?.value || '';
+      let visible = 0;
+      cards.forEach((card) => {
+        const ok = (!sector || card.dataset.sector === sector) && (!type || card.dataset.type === type);
+        card.hidden = !ok;
+        if (ok) visible++;
+      });
+      if (countEl) countEl.textContent = `${visible} cas affiché${visible > 1 ? 's' : ''}`;
+      if (noResults) (noResults as HTMLElement).hidden = visible !== 0;
+    }
+
+    selects.forEach((s) => s.addEventListener('change', apply));
+    document.querySelector('[data-reset-filters]')?.addEventListener('click', () => {
+      selects.forEach((s) => (s.value = ''));
+      apply();
+    });
+  }
+</script>

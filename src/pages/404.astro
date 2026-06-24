@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+
+const links = [
+  { href: '/services/', label: 'Nos services', icon: 'layers' },
+  { href: '/secteurs/', label: 'Secteurs', icon: 'users' },
+  { href: '/methode/', label: 'La méthode', icon: 'cog' },
+  { href: '/contact/', label: 'Contact', icon: 'mail' },
+];
+---
+
+<Layout
+  title="Page introuvable"
+  description="Cette page n'existe pas ou a été déplacée."
+  noindex
+>
+  <section class="nf">
+    <div class="container-page nf-inner">
+      <p class="nf-code">404</p>
+      <h1 class="h1 nf-title">Cette page a disparu</h1>
+      <p class="lead measure nf-text">
+        Le lien est peut-être erroné ou la page a été déplacée. Pas d'inquiétude,
+        on vous remet sur la bonne voie.
+      </p>
+      <div class="nf-actions">
+        <Button href="/" size="lg" track="404-home">Retour à l'accueil</Button>
+        <Button href="/audit-gratuit/" variant="secondary" size="lg">Réserver un audit</Button>
+      </div>
+      <nav class="nf-links" aria-label="Pages utiles">
+        {
+          links.map((l) => (
+            <a class="nf-link surface" href={l.href}>
+              <Icon name={l.icon} size={20} /> {l.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .nf { padding-block: clamp(3rem, 2rem + 5vw, 6rem); text-align: center; }
+  .nf-code {
+    font-size: clamp(4rem, 2rem + 10vw, 8rem); font-weight: 900; line-height: 1; margin: 0;
+    background: var(--gradient-brand); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .nf-title { margin: 0.5rem auto 0; }
+  .nf-text { margin: 1rem auto 0; }
+  .nf-actions { display: flex; flex-wrap: wrap; gap: 0.85rem; justify-content: center; margin-top: 2rem; }
+  .nf-links {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem;
+    margin: 3rem auto 0; max-width: 44rem;
+  }
+  .nf-link {
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.9rem 1rem; font-weight: 600; text-decoration: none; color: var(--text);
+    transition: transform 150ms ease, border-color 150ms ease;
+  }
+  .nf-link:hover { transform: translateY(-2px); border-color: var(--color-brand-400); }
+  .nf-link svg { color: var(--color-brand-600); flex: none; }
+  :root[data-theme='dark'] .nf-link svg { color: var(--color-brand-300); }
+  @media (max-width: 640px) { .nf-links { grid-template-columns: 1fr 1fr; } }
+</style>

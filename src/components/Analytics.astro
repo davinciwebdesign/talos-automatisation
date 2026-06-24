@@ -1,0 +1,85 @@
+---
+/**
+ * Privacy-respecting analytics layer.
+ * - Pushes named events to window.dataLayer (ready to wire to Plausible / GA4 /
+ *   Matomo). No third-party script is loaded by default → zero impact on INP.
+ * - Events fire only after positive consent (RGPD). Before consent, events are
+ *   buffered locally and flushed on accept; on refuse they are dropped.
+ * - Auto-binds: [data-track-cta] clicks, [data-track-form] submissions.
+ * A/B note: CTA labels / headings are isolated in data files and components so
+ * variants can be swapped and measured. Decide by test (95% significance,
+ * 80% power, >= 1 business cycle) — never by opinion.
+ */
+---
+
+<script is:inline>
+  (function () {
+    var CONSENT_KEY = 'talos-consent';
+    window.dataLayer = window.dataLayer || [];
+    var buffer = [];
+
+    function consent() {
+      try {
+        return localStorage.getItem(CONSENT_KEY) === 'accept';
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function send(evt) {
+      window.dataLayer.push(evt);
+      // Wire your provider here, e.g.:
+      // if (window.plausible) window.plausible(evt.event, { props: evt });
+      if (window.location.hostname === 'localhost') {
+        // dev visibility only
+        console.debug('[analytics]', evt.event, evt);
+      }
+    }
+
+    window.talos = {
+      track: function (event, props) {
+        var evt = Object.assign(
+          { event: event, ts: Date.now(), path: location.pathname },
+          props || {}
+        );
+        if (consent()) send(evt);
+        else buffer.push(evt);
+      },
+    };
+
+    // Flush buffered events once consent is granted
+    window.addEventListener('talos:consent', function (e) {
+      if (e.detail === 'accept') {
+        buffer.splice(0).forEach(send);
+      } else {
+        buffer.length = 0;
+      }
+    });
+
+    // Auto-bind CTA clicks
+    document.addEventListener('click', function (e) {
+      var el = e.target.closest('[data-track-cta]');
+      if (el) {
+        window.talos.track('cta_click', {
+          location: el.getAttribute('data-track-cta'),
+          label: (el.textContent || '').trim().slice(0, 60),
+          href: el.getAttribute('href'),
+        });
+      }
+    });
+
+    // Auto-bind form submissions
+    document.addEventListener(
+      'submit',
+      function (e) {
+        var form = e.target.closest('[data-track-form]');
+        if (form) {
+          window.talos.track('form_submit', {
+            form: form.getAttribute('data-track-form'),
+          });
+        }
+      },
+      true
+    );
+  })();
+</script>

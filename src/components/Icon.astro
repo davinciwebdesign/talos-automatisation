@@ -1,0 +1,97 @@
+---
+/**
+ * Inline SVG icon set (stroke = currentColor). Decorative by default
+ * (aria-hidden). Pass `title` to make it an accessible image.
+ */
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+  title?: string;
+}
+const { name, size = 24, class: cls = '', title } = Astro.props;
+
+// 24x24 viewBox, stroke-based paths (outline style).
+const paths: Record<string, string> = {
+  radar:
+    '<path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 12 19 5"/><path d="M12 12a4 4 0 1 0 4 4"/>',
+  puzzle:
+    '<path d="M10 4a2 2 0 1 1 4 0c0 .5-.2 1 0 1h3a1 1 0 0 1 1 1v3c0 .2.5 0 1 0a2 2 0 1 1 0 4c-.5 0-1-.2-1 0v3a1 1 0 0 1-1 1h-3c-.2 0 0 .5 0 1a2 2 0 1 1-4 0c0-.5.2-1 0-1H6a1 1 0 0 1-1-1v-3c0-.2-.5 0-1 0a2 2 0 1 1 0-4c.5 0 1 .2 1 0V6a1 1 0 0 1 1-1h3c.2 0 0-.5 0-1Z"/>',
+  trending:
+    '<path d="M3 17 9 11l4 4 8-8"/><path d="M16 7h5v5"/>',
+  bot: '<rect x="4" y="8" width="16" height="11" rx="2"/><path d="M12 8V4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M2 13h2M20 13h2"/>',
+  ruler:
+    '<path d="M3 15 15 3l6 6L9 21Z"/><path d="M8 8l2 2M11 5l2 2M5 11l2 2"/>',
+  scale:
+    '<path d="M12 3v18M7 21h10M12 5l7 2-7 2-7-2 7-2Z"/><path d="M5 7 2 13a3 3 0 0 0 6 0L5 7ZM19 7l-3 6a3 3 0 0 0 6 0l-3-6Z"/>',
+  hardhat:
+    '<path d="M3 16a9 9 0 0 1 18 0"/><path d="M2 18h20"/><path d="M10 6a2 2 0 0 1 4 0v4M8 9v2M16 9v2"/>',
+  stamp:
+    '<path d="M8 3h8v4a4 4 0 0 1-8 0V3Z"/><path d="M12 11v3"/><path d="M5 21h14v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2Z"/>',
+  cart:
+    '<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.4 12a1 1 0 0 0 1 .8h8.7a1 1 0 0 0 1-.8L21 7H6"/>',
+  home:
+    '<path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>',
+  stethoscope:
+    '<path d="M5 3v5a4 4 0 0 0 8 0V3"/><path d="M5 3H3M13 3h-2M9 12v3a5 5 0 0 0 10 0v-2"/><circle cx="19" cy="11" r="2"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  arrowRight: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  check: '<path d="m5 12 5 5L20 7"/>',
+  checkCircle: '<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  shield:
+    '<path d="M12 3 5 6v5c0 5 3 7 7 10 4-3 7-5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/>',
+  calendar:
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/>',
+  refresh:
+    '<path d="M3 12a9 9 0 0 1 15-6.7L21 7"/><path d="M21 4v3h-3"/><path d="M21 12a9 9 0 0 1-15 6.7L3 17"/><path d="M3 20v-3h3"/>',
+  file: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+  bell: '<path d="M18 9a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10.5 21a2 2 0 0 0 3 0"/>',
+  layers:
+    '<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5M3 18l9 5 9-5" opacity=".55"/>',
+  sparkles:
+    '<path d="M12 3l1.8 4.7L18 9l-4.2 1.3L12 15l-1.8-4.7L6 9l4.2-1.3L12 3Z"/><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8L19 14Z"/>',
+  zap: '<path d="M13 3 4 14h7l-1 7 9-11h-7l1-7Z"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  quote:
+    '<path d="M7 7h4v6a4 4 0 0 1-4 4M13 7h4v6a4 4 0 0 1-4 4"/>',
+  mapPin:
+    '<path d="M12 21s7-5.5 7-11a7 7 0 0 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/>',
+  phone:
+    '<path d="M5 4h4l1.5 5-2 1.5a12 12 0 0 0 5 5l1.5-2 5 1.5v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  close: '<path d="M6 6l12 12M18 6 6 18"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/>',
+  moon: '<path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10Z"/>',
+  chevronDown: '<path d="m6 9 6 6 6-6"/>',
+  alert:
+    '<path d="M12 4 2 20h20L12 4Z"/><path d="M12 10v4M12 17h.01"/>',
+  users:
+    '<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 6a3 3 0 0 1 0 6M21 20a6 6 0 0 0-4-5.6"/>',
+  target:
+    '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+  cog: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+  chat:
+    '<path d="M4 5h16v11H9l-5 4V5Z"/><path d="M8 10h8M8 13h5"/>',
+  euro:
+    '<path d="M16 6a6 6 0 1 0 0 12M4 10h8M4 14h8"/>',
+};
+
+const p = paths[name] ?? '';
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={cls}
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+  aria-label={title}
+  set:html={p}
+></svg>

@@ -1,0 +1,197 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Icon from '../../components/Icon.astro';
+import Faq from '../../components/Faq.astro';
+import ProofBar from '../../components/ProofBar.astro';
+import Testimonials from '../../components/Testimonials.astro';
+import CtaSection from '../../components/CtaSection.astro';
+import { sectors } from '../../data/sectors';
+import { faqSchema } from '../../utils/schema';
+
+export function getStaticPaths() {
+  return sectors.map((s) => ({ params: { slug: s.slug }, props: { sector: s } }));
+}
+
+const { sector } = Astro.props;
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Secteurs', href: '/secteurs/' },
+  { label: sector.navLabel },
+];
+const schema = [faqSchema(sector.faqs)];
+---
+
+<Layout
+  title={sector.heroTitle}
+  description={sector.metaDescription}
+  breadcrumbs={breadcrumbs}
+  schema={schema}
+>
+  <PageHero
+    eyebrow={`Secteur · ${sector.navLabel}`}
+    eyebrowIcon={sector.icon}
+    title={sector.heroTitle}
+    subtitle={sector.heroSubtitle}
+    secondary={{ label: 'Voir la méthode', href: '/methode/' }}
+    track={`sector-${sector.slug}-hero`}
+  />
+
+  {
+    sector.note && (
+      <div class="container-page">
+        <p class="sector-note">
+          <Icon name="shield" size={20} /> {sector.note}
+        </p>
+      </div>
+    )
+  }
+
+  <!-- DOULEURS -->
+  <Section eyebrow="Vos points de friction" eyebrowIcon="alert" title="Les tâches qui vous coûtent du temps">
+    <ul class="pains">
+      {sector.pains.map((p) => <li class="surface"><Icon name="clock" size={20} /> {p}</li>)}
+    </ul>
+  </Section>
+
+  <!-- AUTOMATISATIONS (FAB) -->
+  <Section
+    tone="muted"
+    eyebrow="Ce que l'on automatise"
+    eyebrowIcon="layers"
+    title={`Des automatisations pensées pour votre métier`}
+    lead="Chaque automatisation est reliée à un bénéfice concret pour votre quotidien."
+  >
+    <div class="auto-grid">
+      {
+        sector.automations.map((a) => (
+          <div class="auto surface">
+            <span class="auto-icon"><Icon name="check" size={20} /></span>
+            <div>
+              <h3 class="auto-title">{a.title}</h3>
+              <p class="auto-benefit">{a.benefit}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- BÉNÉFICES CHIFFRÉS (placeholder) -->
+  <Section eyebrow="L'impact" eyebrowIcon="trending" title="Des bénéfices mesurables" lead="Vos gains réels seront chiffrés lors de l'audit. Les valeurs ci-dessous sont des repères à remplacer.">
+    <ProofBar
+      stats={[
+        { value: '[À REMPLACER]', label: 'heures économisées / semaine' },
+        { value: '[À REMPLACER]', label: 'délai de traitement réduit' },
+        { value: '[À REMPLACER]', label: 'erreurs en moins' },
+      ]}
+    />
+    <ul class="ben-list">
+      {sector.benefits.map((b) => <li><Icon name="checkCircle" size={22} /> {b}</li>)}
+    </ul>
+  </Section>
+
+  <!-- CAS / ILLUSTRATION (placeholder) -->
+  <Section tone="muted" eyebrow="Exemple" eyebrowIcon="file" title="Un cas concret dans votre secteur">
+    <div class="case-ph surface">
+      <span class="ph-badge">À remplacer par un cas client réel</span>
+      <p class="case-ph-text">
+        [À REMPLACER PAR DONNÉE RÉELLE — décrivez ici un cas concret du secteur
+        {' '}{sector.navLabel.toLowerCase()} : contexte, tâche automatisée, résultat
+        chiffré obtenu. N'inventez aucun chiffre.]
+      </p>
+      <a class="link" href="/cas-client/">Voir tous les cas client <Icon name="arrowRight" size={16} /></a>
+    </div>
+  </Section>
+
+  <!-- PREUVE -->
+  <Section eyebrow="Confiance" eyebrowIcon="quote" title="Bientôt, leurs résultats ici">
+    <Testimonials columns={3} />
+  </Section>
+
+  <!-- FAQ OBJECTIONS -->
+  <Section tone="muted" eyebrow="Vos questions" eyebrowIcon="chat" title="Les questions que vous vous posez">
+    <Faq items={sector.faqs} idPrefix={`sec-${sector.slug}-faq`} />
+  </Section>
+
+  <CtaSection
+    title={`Voyez où votre ${sector.navLabel.toLowerCase()} perd du temps`}
+    track={`sector-${sector.slug}-final`}
+  />
+</Layout>
+
+<style>
+  .sector-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 2rem 0 0;
+    padding: 1rem 1.25rem;
+    background: var(--color-info-50);
+    border: 1px solid color-mix(in srgb, var(--color-info-500) 35%, transparent);
+    border-radius: var(--radius-md);
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    max-width: 70ch;
+  }
+  .sector-note svg { color: var(--color-info-700); flex: none; margin-top: 0.1rem; }
+  :root[data-theme='dark'] .sector-note {
+    background: rgb(37 99 235 / 0.12);
+  }
+
+  .pains {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .pains li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+  }
+  .pains svg { color: var(--color-accent-700); flex: none; }
+  :root[data-theme='dark'] .pains svg { color: var(--color-accent-400); }
+
+  .auto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .auto { display: flex; gap: 0.85rem; padding: 1.25rem; align-items: flex-start; }
+  .auto-icon {
+    display: grid; place-items: center; width: 2.25rem; height: 2.25rem;
+    border-radius: 999px; background: var(--color-success-50); color: var(--color-success-700); flex: none;
+  }
+  :root[data-theme='dark'] .auto-icon { background: rgb(22 163 74 / 0.16); color: #4ade80; }
+  .auto-title { margin: 0 0 0.25rem; font-size: 1.05rem; }
+  .auto-benefit { margin: 0; color: var(--text-muted); line-height: 1.5; }
+
+  .ben-list {
+    list-style: none; margin: 2rem 0 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem 1.5rem;
+  }
+  .ben-list li { display: flex; align-items: flex-start; gap: 0.6rem; font-weight: 600; }
+  .ben-list svg { color: var(--color-brand-600); flex: none; }
+
+  .case-ph {
+    position: relative;
+    padding: 2rem;
+    border-style: dashed;
+    max-width: 60rem;
+  }
+  .ph-badge {
+    position: absolute; top: 0.85rem; right: 0.85rem;
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--color-warning-700); background: var(--color-warning-50);
+    padding: 0.2rem 0.5rem; border-radius: 999px;
+  }
+  :root[data-theme='dark'] .ph-badge { background: rgb(217 119 6 / 0.18); color: #fcd34d; }
+  .case-ph-text { margin: 0 0 1rem; color: var(--text-muted); font-style: italic; max-width: 66ch; }
+
+  @media (max-width: 720px) {
+    .pains, .auto-grid, .ben-list { grid-template-columns: 1fr; }
+  }
+</style>

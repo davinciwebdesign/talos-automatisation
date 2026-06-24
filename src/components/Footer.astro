@@ -1,0 +1,264 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { servicesMenu, sectorsMenu } from '../config/nav';
+import { site, primaryCta } from '../config/site';
+
+const year = new Date().getFullYear();
+const legal = [
+  { label: 'Mentions légales', href: '/mentions-legales/' },
+  { label: 'Politique de confidentialité', href: '/confidentialite/' },
+  { label: 'Conditions générales', href: '/cgv/' },
+];
+const company = [
+  { label: 'Méthode', href: '/methode/' },
+  { label: 'Cas client', href: '/cas-client/' },
+  { label: 'À propos', href: '/a-propos/' },
+  { label: 'FAQ', href: '/faq/' },
+  { label: 'Contact', href: '/contact/' },
+];
+---
+
+<footer class="site-footer" data-track-section="footer">
+  <!-- Conversion: second-chance CTA for engaged scrollers -->
+  <div class="container-page footer-cta surface">
+    <div class="footer-cta-text">
+      <p class="h3">Prêt à voir où vous perdez du temps&nbsp;?</p>
+      <p class="footer-cta-sub">Réservez un audit gratuit. {primaryCta.note}.</p>
+    </div>
+    <a class="btn btn-primary btn-lg" href={primaryCta.href} data-track-cta="footer">
+      {primaryCta.label}
+    </a>
+  </div>
+
+  <div class="container-page footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo" aria-label="talos automatisation — accueil">
+        <Logo />
+      </a>
+      <p class="footer-tagline measure-narrow">
+        Des systèmes d'automatisation sur mesure pour gagner du temps, réduire
+        les erreurs et économiser de l'argent.
+      </p>
+      <ul class="footer-nap">
+        <li>
+          <Icon name="mapPin" size={18} /> <span>{site.area}</span>
+        </li>
+        <li>
+          <Icon name="mail" size={18} />
+          {
+            site.email ? (
+              <a class="footer-link" href={`mailto:${site.email}`}>{site.email}</a>
+            ) : (
+              <span class="footer-placeholder">Email — [À REMPLACER]</span>
+            )
+          }
+        </li>
+        <li>
+          <Icon name="phone" size={18} />
+          {
+            site.phone ? (
+              <a class="footer-link" href={`tel:${site.phone.replace(/\s/g, '')}`}>
+                {site.phone}
+              </a>
+            ) : (
+              <span class="footer-placeholder">Téléphone — [À REMPLACER]</span>
+            )
+          }
+        </li>
+      </ul>
+    </div>
+
+    <nav class="footer-col" aria-label="Services">
+      <h2 class="footer-heading">Services</h2>
+      <ul>
+        {servicesMenu.map((l) => (
+          <li><a class="footer-link" href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Secteurs">
+      <h2 class="footer-heading">Secteurs</h2>
+      <ul>
+        {sectorsMenu.map((l) => (
+          <li><a class="footer-link" href={l.href}>Automatisation {l.label.toLowerCase()}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Entreprise">
+      <h2 class="footer-heading">Entreprise</h2>
+      <ul>
+        {company.map((l) => (
+          <li><a class="footer-link" href={l.href}>{l.label}</a></li>
+        ))}
+        <li>
+          <a class="footer-link footer-link-cta" href={primaryCta.href}>
+            {primaryCta.label}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container-page footer-bottom">
+    <ul class="footer-legal">
+      {legal.map((l) => (
+        <li><a class="footer-link" href={l.href}>{l.label}</a></li>
+      ))}
+    </ul>
+    <p class="footer-copy">© {year} {site.name}. Tous droits réservés.</p>
+    <a class="footer-top" href="#site-header">
+      Haut de page <Icon name="arrowRight" size={16} class="rot-up" />
+    </a>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 4rem;
+    padding-block: 3rem 1.5rem;
+    background: var(--bg-muted);
+    border-top: 1px solid var(--surface-border);
+  }
+  .footer-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+    margin-bottom: 3rem;
+    background: var(--bg-elevated);
+  }
+  .footer-cta-sub {
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 2.5rem 1.5rem;
+    padding-bottom: 2.5rem;
+  }
+  .footer-logo {
+    display: inline-block;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+  }
+  .footer-tagline {
+    margin: 1rem 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .footer-nap {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .footer-nap li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  .footer-nap svg {
+    color: var(--color-brand-600);
+    flex: none;
+  }
+  .footer-placeholder {
+    color: var(--text-subtle);
+    font-style: italic;
+  }
+  .footer-heading {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+    margin: 0 0 1rem;
+  }
+  .footer-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .footer-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-radius: 3px;
+  }
+  .footer-link:hover {
+    color: var(--link);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .footer-link-cta {
+    color: var(--link);
+    font-weight: 700;
+  }
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--surface-border);
+  }
+  .footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .footer-copy {
+    color: var(--text-subtle);
+    font-size: 0.875rem;
+    margin: 0;
+    margin-inline: auto 0;
+  }
+  .footer-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .footer-top:hover {
+    color: var(--link);
+  }
+  .footer-top :global(.rot-up) {
+    transform: rotate(-90deg);
+  }
+
+  @media (max-width: 880px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 560px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+    .footer-copy {
+      margin-inline: 0;
+    }
+  }
+</style>

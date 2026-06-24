@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import Card from '../components/Card.astro';
+import Icon from '../components/Icon.astro';
+import CtaSection from '../components/CtaSection.astro';
+import { site } from '../config/site';
+
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'À propos' },
+];
+
+const values = [
+  { icon: 'target', title: 'Le résultat avant la technique', text: "La technologie n'est qu'un moyen. Ce qui compte, c'est le temps que vous récupérez et les erreurs que vous évitez." },
+  { icon: 'shield', title: 'Honnêteté radicale', text: "Pas de promesse irréaliste, pas de chiffre inventé. Si une automatisation n'a pas de sens pour vous, je vous le dis." },
+  { icon: 'refresh', title: 'Des solutions qui durent', text: "Je conçois des dispositifs simples et robustes, pensés pour évoluer avec votre activité — pas pour devenir obsolètes dans six mois." },
+];
+
+const beliefs = [
+  "Aucune entreprise ne devrait perdre des heures sur des tâches qu'une machine fait mieux.",
+  "L'automatisation ne remplace pas les gens : elle les libère du travail répétitif pour qu'ils se concentrent sur l'essentiel.",
+  "Une bonne automatisation est invisible : elle s'intègre à vos habitudes au lieu d'en imposer de nouvelles.",
+];
+---
+
+<Layout
+  title="À propos"
+  description="talos automatisation, c'est Bilel Salhi : un interlocuteur unique qui conçoit des automatisations sur mesure pour les entreprises en France. Découvrez l'approche et les valeurs."
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="À propos"
+    eyebrowIcon="users"
+    title="Un interlocuteur unique, des automatisations sur mesure"
+    subtitle={`${site.name} est porté par ${site.founder}. Pas d'agence ni de couches d'intermédiaires : vous parlez directement à la personne qui conçoit et déploie votre automatisation.`}
+    secondary={{ label: 'Voir la méthode', href: '/methode/' }}
+  />
+
+  <!-- HISTOIRE / MISSION -->
+  <Section eyebrow="La mission" eyebrowIcon="sparkles" title="Rendre du temps aux entreprises">
+    <div class="about-intro">
+      <p class="lead measure">
+        J'ai créé {site.name} avec une conviction simple : trop d'entreprises
+        passent leurs journées sur des tâches répétitives — ressaisir des
+        données, trier des e-mails, relancer, copier-coller d'un outil à
+        l'autre. Autant d'heures qui ne servent ni vos clients, ni votre
+        croissance.
+      </p>
+      <p class="measure">
+        Mon métier, c'est d'identifier ces tâches et de les confier à des
+        systèmes d'automatisation taillés pour <em>votre</em> fonctionnement.
+        Pas de solution standardisée vendue à tout le monde : j'observe votre
+        réalité, je conçois sur mesure, et je reste à vos côtés pour ajuster
+        dans le temps.
+      </p>
+    </div>
+  </Section>
+
+  <!-- CONVICTIONS -->
+  <Section tone="muted" eyebrow="Mes convictions" eyebrowIcon="quote" title="Ce en quoi je crois">
+    <ul class="beliefs">
+      {beliefs.map((b) => <li class="surface"><Icon name="checkCircle" size={22} /> {b}</li>)}
+    </ul>
+  </Section>
+
+  <!-- VALEURS -->
+  <Section eyebrow="Mes valeurs" eyebrowIcon="target" title="Comment je travaille">
+    <div class="val-grid">
+      {values.map((v) => <Card icon={v.icon} title={v.title} text={v.text} />)}
+    </div>
+  </Section>
+
+  <!-- INTERLOCUTEUR -->
+  <Section tone="dark" eyebrow="Qui suis-je" eyebrowIcon="users" title="Bilel Salhi, fondateur">
+    <div class="founder">
+      <p class="lead measure founder-lead">
+        Je conçois et déploie moi-même chaque automatisation. Cela veut dire un
+        interlocuteur unique, qui connaît votre dossier de bout en bout, et une
+        responsabilité claire sur les résultats.
+      </p>
+      <ul class="founder-points">
+        <li><Icon name="check" size={20} /> Basé en {site.area}, j'accompagne les entreprises à distance comme sur site.</li>
+        <li><Icon name="check" size={20} /> Un seul interlocuteur, de l'audit à l'optimisation continue.</li>
+        <li><Icon name="check" size={20} /> Des dispositifs supervisés, fiables et conformes au RGPD.</li>
+      </ul>
+    </div>
+  </Section>
+
+  <CtaSection
+    title="Discutons de ce que l'automatisation peut faire pour vous"
+    track="about-final"
+  />
+</Layout>
+
+<style>
+  .about-intro p + p { margin-top: 1.1rem; }
+  .beliefs {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: 1rem;
+  }
+  .beliefs li {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    padding: 1.25rem 1.5rem; font-weight: 600; line-height: 1.5; font-size: 1.05rem;
+    max-width: 72ch;
+  }
+  .beliefs svg { color: var(--color-brand-600); flex: none; margin-top: 0.1rem; }
+  :root[data-theme='dark'] .beliefs svg { color: var(--color-brand-300); }
+
+  .val-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+  .founder-lead { color: var(--contrast-muted); }
+  .founder-points {
+    list-style: none; margin: 1.75rem 0 0; padding: 0;
+    display: grid; gap: 0.85rem; max-width: 52rem;
+  }
+  .founder-points li { display: flex; align-items: flex-start; gap: 0.6rem; color: var(--contrast-text); font-weight: 600; }
+  .founder-points svg { color: var(--contrast-eyebrow); flex: none; margin-top: 0.1rem; }
+
+  @media (max-width: 760px) { .val-grid { grid-template-columns: 1fr; } }
+</style>

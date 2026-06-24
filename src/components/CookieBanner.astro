@@ -1,0 +1,115 @@
+---
+import Icon from './Icon.astro';
+---
+
+<div
+  class="cookie-banner"
+  id="cookie-banner"
+  role="dialog"
+  aria-label="Préférences de confidentialité"
+  aria-describedby="cookie-desc"
+  hidden
+>
+  <div class="container-page cookie-inner">
+    <div class="cookie-text">
+      <p class="cookie-title">
+        <Icon name="shield" size={20} /> Votre vie privée
+      </p>
+      <p id="cookie-desc" class="cookie-desc measure">
+        Nous utilisons uniquement des mesures d'audience respectueuses de votre
+        vie privée pour améliorer le site. Aucun cookie non essentiel n'est
+        déposé sans votre accord. Vous pouvez accepter ou refuser librement.
+        <a class="link" href="/confidentialite/">En savoir plus</a>.
+      </p>
+    </div>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-secondary" data-consent="refuse">
+        Refuser
+      </button>
+      <button type="button" class="btn btn-primary" data-consent="accept">
+        Accepter
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 150;
+    background: var(--bg-elevated);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+  }
+  .cookie-banner[hidden] {
+    display: none;
+  }
+  .cookie-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    padding-block: 1.1rem;
+  }
+  .cookie-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+    color: var(--heading);
+  }
+  .cookie-title svg {
+    color: var(--color-brand-600);
+  }
+  .cookie-desc {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.925rem;
+  }
+  .cookie-actions {
+    display: flex;
+    gap: 0.6rem;
+    flex: none;
+  }
+  @media (max-width: 560px) {
+    .cookie-actions {
+      width: 100%;
+    }
+    .cookie-actions .btn {
+      flex: 1;
+    }
+  }
+</style>
+
+<script>
+  const KEY = 'talos-consent';
+  const banner = document.getElementById('cookie-banner');
+  function decided() {
+    try {
+      return localStorage.getItem(KEY);
+    } catch {
+      return 'refuse';
+    }
+  }
+  if (!decided() && banner) banner.hidden = false;
+
+  function set(value: 'accept' | 'refuse') {
+    try {
+      localStorage.setItem(KEY, value);
+    } catch {}
+    if (banner) banner.hidden = true;
+    // Notify analytics layer of the consent decision
+    window.dispatchEvent(new CustomEvent('talos:consent', { detail: value }));
+  }
+  document.querySelectorAll<HTMLButtonElement>('[data-consent]').forEach((btn) => {
+    btn.addEventListener('click', () =>
+      set(btn.dataset.consent === 'accept' ? 'accept' : 'refuse')
+    );
+  });
+</script>

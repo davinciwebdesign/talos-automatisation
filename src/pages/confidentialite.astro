@@ -1,0 +1,136 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../config/site';
+
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Confidentialité' },
+];
+const PH = '[À REMPLACER PAR DONNÉE RÉELLE]';
+const updated = '24 juin 2026';
+---
+
+<Layout
+  title="Politique de confidentialité"
+  description="Comment talos automatisation collecte, utilise et protège vos données personnelles, conformément au RGPD. Vos droits et nos engagements."
+  breadcrumbs={breadcrumbs}
+  noindex
+>
+  <PageHero
+    eyebrow="Vos données"
+    eyebrowIcon="shield"
+    title="Politique de confidentialité"
+    subtitle={`Dernière mise à jour : ${updated}.`}
+    showCta={false}
+  />
+
+  <div class="section">
+    <div class="container-page">
+      <div class="legal prose-content measure">
+        <p class="legal-flag">
+          ⚠️ Modèle à compléter : adaptez ce texte à vos traitements réels et
+          renseignez les champs <strong>{PH}</strong> avant la mise en ligne.
+          Ce texte ne constitue pas un conseil juridique.
+        </p>
+
+        <h2>1. Responsable du traitement</h2>
+        <p>
+          Le responsable du traitement des données est {site.founder}, pour
+          {site.name}. Pour toute question relative à vos données :
+          {site.email ?? PH}.
+        </p>
+
+        <h2>2. Données collectées</h2>
+        <p>Nous collectons uniquement les données que vous nous transmettez via nos formulaires :</p>
+        <ul>
+          <li>Nom complet ;</li>
+          <li>Adresse email professionnelle ;</li>
+          <li>Nom de l'entreprise ;</li>
+          <li>Numéro de téléphone (facultatif) ;</li>
+          <li>Le contenu de votre message ou de votre demande.</li>
+        </ul>
+        <p>
+          Des données techniques anonymisées peuvent être mesurées à des fins
+          statistiques, uniquement avec votre consentement (voir section
+          Cookies).
+        </p>
+
+        <h2>3. Finalités</h2>
+        <p>Vos données sont utilisées exclusivement pour :</p>
+        <ul>
+          <li>répondre à vos demandes de contact et d'audit ;</li>
+          <li>vous recontacter dans le cadre d'un projet d'automatisation ;</li>
+          <li>améliorer le site, de façon anonymisée et avec votre accord.</li>
+        </ul>
+        <p>Vos données ne sont jamais vendues ni cédées à des tiers à des fins commerciales.</p>
+
+        <h2>4. Base légale</h2>
+        <p>
+          Le traitement repose sur votre consentement (formulaires) et sur
+          l'intérêt légitime à répondre à vos sollicitations.
+        </p>
+
+        <h2>5. Durée de conservation</h2>
+        <p>
+          Vos données sont conservées le temps nécessaire au traitement de votre
+          demande, puis pour une durée maximale de {PH} (ex. 3 ans à compter du
+          dernier contact), avant suppression ou anonymisation.
+        </p>
+
+        <h2>6. Destinataires & sous-traitants</h2>
+        <p>
+          Vos données peuvent être traitées par les prestataires techniques
+          nécessaires au fonctionnement du site et à la communication (hébergeur,
+          service d'envoi de formulaire) : {PH}. Ces prestataires sont tenus à
+          des obligations de confidentialité et de conformité RGPD.
+        </p>
+
+        <h2>7. Vos droits</h2>
+        <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+        <ul>
+          <li>droit d'accès à vos données ;</li>
+          <li>droit de rectification ;</li>
+          <li>droit à l'effacement ;</li>
+          <li>droit à la limitation et à l'opposition au traitement ;</li>
+          <li>droit à la portabilité de vos données.</li>
+        </ul>
+        <p>
+          Pour exercer ces droits, écrivez à {site.email ?? PH}. Vous pouvez
+          également introduire une réclamation auprès de la CNIL
+          (<a class="link" href="https://www.cnil.fr" rel="noopener noreferrer" target="_blank">www.cnil.fr</a>).
+        </p>
+
+        <h2>8. Cookies</h2>
+        <p>
+          Par défaut, aucun cookie non essentiel n'est déposé. Les éventuelles
+          mesures d'audience ne sont activées qu'après votre consentement
+          explicite via le bandeau prévu à cet effet. Vous pouvez modifier votre
+          choix à tout moment.
+        </p>
+
+        <h2>9. Sécurité</h2>
+        <p>
+          Nous mettons en œuvre des mesures techniques et organisationnelles
+          appropriées pour protéger vos données contre tout accès non autorisé,
+          perte ou altération.
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .legal h2 { margin: 2rem 0 0.6rem; font-size: 1.3rem; }
+  .legal h2:first-of-type { margin-top: 0; }
+  .legal p, .legal li { line-height: 1.65; }
+  .legal ul { padding-left: 1.25rem; }
+  .legal li { margin: 0.3rem 0; }
+  .legal-flag {
+    padding: 1rem 1.25rem; margin-bottom: 2rem;
+    background: var(--color-warning-50);
+    border: 1px solid color-mix(in srgb, var(--color-warning-500) 40%, transparent);
+    border-radius: var(--radius-md); font-size: 0.95rem;
+  }
+  :root[data-theme='dark'] .legal-flag { background: rgb(217 119 6 / 0.14); }
+</style>

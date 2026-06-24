@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import Steps from '../components/Steps.astro';
+import Card from '../components/Card.astro';
+import Icon from '../components/Icon.astro';
+import CtaSection from '../components/CtaSection.astro';
+
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Méthode' },
+];
+
+const steps = [
+  { title: '1. Écoute & analyse du besoin', body: "Tout commence par votre réalité. J'écoute votre fonctionnement, j'observe le déroulé exact de vos tâches et j'identifie où le temps se perd. Pas de solution toute faite : on part du concret.", outcome: 'une compréhension précise de votre besoin et une vision claire des opportunités.' },
+  { title: "2. Conception du scénario d'automatisation", body: "Je conçois une automatisation qui s'intègre à vos outils et à vos habitudes existants. L'objectif : un dispositif robuste, simple et durable, pas une usine à gaz que personne n'utilise.", outcome: 'un scénario validé ensemble avant toute mise en œuvre.' },
+  { title: '3. Mise en place & tests en conditions réelles', body: "Je déploie l'automatisation et la teste en conditions réelles, avec vos données et vos cas concrets, pour garantir sa fiabilité avant la bascule complète.", outcome: 'un dispositif opérationnel, testé et fiable.' },
+  { title: '4. Ajustement & optimisation continue', body: "Une automatisation vit avec votre entreprise. J'ajuste et j'optimise le dispositif dans le temps, au fil de vos retours et de l'évolution de vos besoins.", outcome: 'des gains qui durent et qui progressent.' },
+];
+
+const principles = [
+  { icon: 'shield', title: 'Robuste', text: 'Des dispositifs fiables, supervisés, avec des garde-fous et des alertes en cas de problème.' },
+  { icon: 'target', title: 'Simple', text: 'Une automatisation qui s\'intègre à vos habitudes, sans complexité inutile ni outil de plus à apprendre.' },
+  { icon: 'refresh', title: 'Durable', text: 'Des solutions pensées pour évoluer avec votre activité, pas pour devenir obsolètes dans six mois.' },
+];
+---
+
+<Layout
+  title="Ma méthode"
+  description="Écoute & analyse, conception, mise en place & tests, optimisation continue : une démarche claire en 4 étapes pour automatiser vos processus, en s'appuyant sur l'automatisation et l'IA."
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="La méthode"
+    eyebrowIcon="cog"
+    title="Une démarche rigoureuse, du premier échange à l'optimisation continue"
+    subtitle="Pas d'improvisation : une méthode claire en 4 étapes, pour des automatisations qui tiennent dans le temps et produisent des résultats mesurables."
+    secondary={{ label: 'Réserver un audit', href: '/audit-gratuit/' }}
+  />
+
+  <Section eyebrow="Les 4 étapes" eyebrowIcon="layers" title="Comment je travaille avec vous">
+    <Steps steps={steps} />
+  </Section>
+
+  <Section tone="muted" eyebrow="Mes principes" eyebrowIcon="target" title="Robuste, simple, durable" lead="Trois exigences qui guident chaque solution que je conçois.">
+    <div class="princ-grid">
+      {principles.map((p) => <Card icon={p.icon} title={p.title} text={p.text} />)}
+    </div>
+  </Section>
+
+  <Section tone="dark" eyebrow="Les technologies" eyebrowIcon="sparkles" title="L'automatisation et l'IA au service de vos résultats">
+    <p class="lead measure tech-lead">
+      Je m'appuie sur les technologies d'automatisation et d'intelligence
+      artificielle les plus avancées pour créer des systèmes intelligents,
+      autonomes et adaptables. La technologie reste un moyen : l'objectif est
+      toujours un gain concret pour votre entreprise.
+    </p>
+    <ul class="tech-list">
+      <li><Icon name="zap" size={20} /> Automatisation des flux de travail et transferts de données</li>
+      <li><Icon name="bot" size={20} /> Agents et assistants IA intégrés à vos outils</li>
+      <li><Icon name="trending" size={20} /> Analyse de données et anticipation</li>
+      <li><Icon name="shield" size={20} /> Supervision, fiabilité et conformité RGPD</li>
+    </ul>
+  </Section>
+
+  <CtaSection track="methode-final" />
+</Layout>
+
+<style>
+  .princ-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .tech-lead { color: var(--contrast-muted); }
+  .tech-list {
+    list-style: none; margin: 2rem 0 0; padding: 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    max-width: 50rem;
+  }
+  .tech-list li { display: flex; align-items: center; gap: 0.6rem; color: var(--contrast-text); font-weight: 600; }
+  .tech-list svg { color: var(--contrast-eyebrow); flex: none; }
+  @media (max-width: 760px) { .princ-grid, .tech-list { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,58 @@
+---
+/**
+ * talos automatisation logo, recreated as inline SVG for crispness + perf.
+ * - mark: gradient ring + dot (matches brand gradient pink→purple)
+ * - wordmark "talos" uses currentColor (adapts to light/dark surfaces)
+ * Unique gradient id per instance to avoid duplicate IDs on a page.
+ */
+interface Props {
+  variant?: 'full' | 'mark';
+  class?: string;
+  /** wordmark color: inherits currentColor unless overridden by parent */
+}
+const { variant = 'full', class: cls = '' } = Astro.props;
+const gid = 'tg-' + Math.random().toString(36).slice(2, 8);
+---
+
+<span class={`logo ${cls}`} data-variant={variant}>
+  <svg
+    class="logo-mark"
+    width="40"
+    height="40"
+    viewBox="0 0 100 100"
+    fill="none"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <defs>
+      <linearGradient id={gid} x1="12" y1="14" x2="86" y2="88" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#4cb8ff"></stop>
+        <stop offset="1" stop-color="#0a2a66"></stop>
+      </linearGradient>
+    </defs>
+    <circle cx="50" cy="53" r="36" stroke={`url(#${gid})`} stroke-width="9"></circle>
+    <circle cx="77" cy="26" r="13" fill={`url(#${gid})`}></circle>
+  </svg>
+  {variant === 'full' && <span class="logo-word">talos</span>}
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    line-height: 1;
+    color: var(--heading);
+  }
+  .logo-mark {
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  .logo-word {
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    color: currentColor;
+  }
+</style>

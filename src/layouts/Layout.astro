@@ -1,0 +1,147 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import Analytics from '../components/Analytics.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { site } from '../config/site';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+  schema?: Record<string, unknown>[];
+  breadcrumbs?: Crumb[];
+}
+const {
+  title,
+  description,
+  image,
+  noindex = false,
+  schema = [],
+  breadcrumbs,
+} = Astro.props;
+
+// Site-wide Organization schema, merged with any page schema.
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  url: site.url,
+  founder: { '@type': 'Person', name: site.founder },
+  areaServed: site.area,
+  description: site.description,
+  ...(site.email ? { email: site.email } : {}),
+  ...(site.phone ? { telephone: site.phone } : {}),
+};
+
+const breadcrumbSchema = breadcrumbs
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs.map((c, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: c.label,
+        ...(c.href ? { item: new URL(c.href, site.url).href } : {}),
+      })),
+    }
+  : null;
+
+const allSchema = [orgSchema, ...schema, ...(breadcrumbSchema ? [breadcrumbSchema] : [])];
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <BaseHead
+      title={title}
+      description={description}
+      image={image}
+      noindex={noindex}
+      schema={allSchema}
+    />
+    <Analytics />
+  </head>
+  <body>
+    <Header />
+    {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <CookieBanner />
+
+    <script>
+      // ---- Scroll-triggered reveal animations ----
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduce) {
+        // Curated blocks to animate in as they enter the viewport.
+        const SELECTORS = [
+          '.section-head',
+          '.surface',
+          '.pain',
+          '.auto',
+          '.feat',
+          '.story-block',
+          '.how-step',
+          '.case-card',
+          '.proofbar',
+          '.ben-list > li',
+          '.pains > li',
+          '.deliverables > li',
+          '.tech-list > li',
+          '.results > li',
+          '.audit-expect > li',
+          '.beliefs > li',
+          '.founder-points > li',
+          '.faq-item',
+          '.sec-grid > *',
+          '.princ-grid > *',
+          '.hero-visual',
+        ];
+        const els = Array.from(
+          document.querySelectorAll<HTMLElement>(SELECTORS.join(','))
+        ).filter((el) => !el.closest('.site-header, .site-footer'));
+
+        // Stagger index per shared parent (max 6 to keep it snappy).
+        const counters = new Map<Element, number>();
+        els.forEach((el) => {
+          const p = el.parentElement || document.body;
+          const i = counters.get(p) ?? 0;
+          counters.set(p, i + 1);
+          el.style.setProperty('--reveal-i', String(Math.min(i, 5)));
+          el.setAttribute('data-reveal', '');
+        });
+
+        const vh = window.innerHeight;
+        const io = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                (e.target as HTMLElement).classList.add('is-revealed');
+                obs.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+        );
+
+        els.forEach((el) => {
+          // Reveal immediately (no flash) anything already in/above the viewport.
+          if (el.getBoundingClientRect().top < vh * 0.92) {
+            el.classList.add('is-revealed');
+          } else {
+            io.observe(el);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

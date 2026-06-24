@@ -1,0 +1,311 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+import Card from '../components/Card.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import ProofBar from '../components/ProofBar.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Steps from '../components/Steps.astro';
+import Faq from '../components/Faq.astro';
+import CtaSection from '../components/CtaSection.astro';
+import { sectors } from '../data/sectors';
+import { site, primaryCta } from '../config/site';
+import { faqSchema } from '../utils/schema';
+
+const domains = [
+  { icon: 'mail', title: 'Gestion des e-mails', text: 'Lecture, classement par nature et priorité, réponses adaptées préparées automatiquement.' },
+  { icon: 'refresh', title: 'Transferts de données', text: "L'information circule entre vos outils sans double saisie ni erreur de recopie." },
+  { icon: 'file', title: 'Préparation de documents', text: 'Vos documents récurrents se génèrent à partir de vos modèles, en quelques secondes.' },
+  { icon: 'bell', title: 'Relances automatiques', text: 'Plus aucune relance client ou fournisseur oubliée, sans y penser.' },
+  { icon: 'layers', title: 'Suivi de demandes', text: 'Chaque demande est tracée et avance seule, étape après étape.' },
+  { icon: 'cog', title: 'Organisation interne', text: 'Vos processus internes tournent de façon régulière et fiable.' },
+];
+
+const benefits = [
+  { icon: 'clock', title: 'Gain de temps', text: 'Des heures rendues chaque semaine à vos équipes.' },
+  { icon: 'euro', title: 'Économies', text: 'Moins de temps perdu, moins de coûts cachés.' },
+  { icon: 'shield', title: "Moins d'erreurs", text: 'Une exécution fiable, sans fautes de saisie.' },
+  { icon: 'refresh', title: 'Régularité', text: 'Les tâches sont faites, toujours, de la même façon.' },
+  { icon: 'zap', title: 'Réactivité', text: 'Vous répondez plus vite à vos clients et à vos demandes.' },
+  { icon: 'trending', title: 'Scalabilité', text: "Absorbez plus de volume sans grossir l'équipe." },
+];
+
+const steps = [
+  { title: 'Écoute & analyse', body: "Je pars de votre besoin concret et j'analyse vos processus pour repérer ce qui vous coûte du temps.", outcome: 'une vision claire de vos opportunités.' },
+  { title: "Conception du scénario", body: "Je conçois une automatisation qui s'intègre à vos outils et habitudes : robuste, simple, durable.", outcome: 'une solution pensée pour vous.' },
+  { title: 'Mise en place & tests', body: 'Je déploie et teste en conditions réelles pour garantir la fiabilité avant la bascule.', outcome: 'un dispositif opérationnel et fiable.' },
+  { title: 'Optimisation continue', body: "J'ajuste et j'améliore le dispositif dans le temps, au fil de vos retours et de vos besoins.", outcome: 'des gains qui durent et progressent.' },
+];
+
+const homeFaqs = [
+  { q: 'Par où commence-t-on ?', a: "Par un audit gratuit de 30 minutes. On identifie ensemble vos tâches les plus chronophages et celles qui ont le plus d'impact à automatiser. Vous repartez avec un plan clair, sans engagement." },
+  { q: 'Faut-il changer nos outils actuels ?', a: "Le plus souvent non. L'objectif est de m'intégrer à vos outils et habitudes existants plutôt que de tout remplacer." },
+  { q: 'Est-ce réservé aux grandes entreprises ?', a: "Non. Toute entreprise, quelle que soit sa taille ou son secteur, a des tâches répétitives à automatiser. Les solutions s'adaptent à votre échelle." },
+  { q: 'Mes données sont-elles en sécurité ?', a: "Oui. Vos données sont traitées de manière confidentielle et conforme au RGPD, avec des solutions adaptées à leur sensibilité." },
+];
+
+const schema = [
+  faqSchema(homeFaqs),
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url },
+];
+---
+
+<Layout title={site.name} description={site.description} schema={schema}>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container-page hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow"><Icon name="sparkles" size={16} /> Automatisation sur mesure · {site.area}</p>
+        <h1 class="h1">
+          Automatisez vos tâches répétitives.
+          <span class="gradient-text">Récupérez des heures chaque semaine.</span>
+        </h1>
+        <p class="lead measure hero-sub">
+          talos conçoit des systèmes d'automatisation taillés pour vos processus —
+          pas de logiciel standardisé. On part de votre besoin réel pour vous faire
+          gagner du temps, réduire les erreurs et économiser de l'argent.
+        </p>
+        <div class="hero-actions">
+          <Button href={primaryCta.href} size="lg" track="hero">{primaryCta.label}</Button>
+          <Button href="/methode/" variant="secondary" size="lg" icon="arrowRight">Voir la méthode</Button>
+        </div>
+        <p class="cta-note hero-note"><Icon name="check" size={16} /> {primaryCta.note}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF BAR -->
+  <div class="proof-wrap">
+    <ProofBar />
+  </div>
+
+  <!-- PROBLÈME (PAS) -->
+  <Section
+    eyebrow="Le coût caché"
+    eyebrowIcon="alert"
+    title="Chaque tâche manuelle semble anodine. Cumulées, elles coûtent une fortune."
+    lead="Re-saisir des données, trier des e-mails, préparer les mêmes documents, relancer : individuellement, ces opérations ne pèsent rien. Sur une année, elles absorbent des centaines d'heures, multiplient les erreurs et freinent votre croissance — pendant que vos équipes s'épuisent sur des tâches sans valeur."
+  >
+    <div class="pain-grid">
+      <div class="pain surface"><Icon name="clock" size={22} /><p>Des heures perdues chaque semaine sur des tâches répétitives</p></div>
+      <div class="pain surface"><Icon name="alert" size={22} /><p>Des erreurs de saisie qui coûtent cher à corriger</p></div>
+      <div class="pain surface"><Icon name="users" size={22} /><p>Des équipes débordées par l'administratif au lieu du cœur de métier</p></div>
+    </div>
+  </Section>
+
+  <!-- CE QUE JE PROPOSE -->
+  <Section
+    tone="muted"
+    eyebrow="Deux façons de démarrer"
+    eyebrowIcon="target"
+    title="Une réponse adaptée, que vous sachiez déjà quoi automatiser ou non"
+  >
+    <div class="two-grid">
+      <Card
+        icon="puzzle"
+        title="Vous avez une demande précise"
+        text="Vous avez identifié une tâche ou un point de friction à simplifier ? Je conçois l'automatisation dédiée, intégrée à vos outils."
+        href="/services/automatisation-sur-mesure/"
+        linkLabel="Automatisation sur mesure"
+      />
+      <Card
+        icon="radar"
+        title="Vous voulez une vue d'ensemble"
+        text="Je cartographie l'ensemble de vos processus et priorise les automatisations à plus fort impact. Vous savez par quoi commencer."
+        href="/services/audit-complet/"
+        linkLabel="Découvrir l'audit complet"
+      />
+    </div>
+  </Section>
+
+  <!-- DOMAINES -->
+  <Section
+    eyebrow="Domaines d'automatisation"
+    eyebrowIcon="layers"
+    title="Ce que l'on peut automatiser dans votre entreprise"
+    lead="Quelques exemples concrets parmi les plus fréquents. Le bon point de départ dépend de votre activité — c'est l'objet de l'audit."
+  >
+    <div class="domains-grid bento">
+      {domains.map((d) => <Card icon={d.icon} title={d.title} text={d.text} />)}
+    </div>
+  </Section>
+
+  <!-- BÉNÉFICES -->
+  <Section tone="dark" eyebrow="Vos bénéfices" eyebrowIcon="sparkles" title="Ce que l'automatisation change concrètement">
+    <div class="benefits-grid">
+      {
+        benefits.map((b) => (
+          <div class="benefit">
+            <span class="benefit-icon"><Icon name={b.icon} size={22} /></span>
+            <div>
+              <h3 class="benefit-title">{b.title}</h3>
+              <p class="benefit-text">{b.text}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- SECTEURS -->
+  <Section
+    eyebrow="Secteurs"
+    eyebrowIcon="users"
+    title="Quel que soit votre métier, l'automatisation s'adapte"
+    lead="Des automatisations pensées pour les réalités de votre secteur."
+  >
+    <div class="sectors-grid">
+      {
+        sectors.map((s) => (
+          <a class="sector-chip surface" href={`/secteurs/${s.slug}/`}>
+            <span class="sector-chip-icon"><Icon name={s.icon} size={22} /></span>
+            <span class="sector-chip-label">{s.navLabel}</span>
+            <Icon name="arrowRight" size={16} class="sector-chip-arrow" />
+          </a>
+        ))
+      }
+    </div>
+    <p class="sectors-more">
+      <a class="link" href="/secteurs/">Voir tous les secteurs <Icon name="arrowRight" size={16} /></a>
+    </p>
+  </Section>
+
+  <!-- MÉTHODE -->
+  <Section
+    tone="muted"
+    eyebrow="La méthode"
+    eyebrowIcon="cog"
+    title="Une démarche claire, en 4 étapes"
+    lead="Du premier échange à l'optimisation continue, vous savez toujours où l'on en est."
+  >
+    <Steps steps={steps} />
+    <p class="method-more">
+      <a class="link" href="/methode/">Découvrir la méthode en détail <Icon name="arrowRight" size={16} /></a>
+    </p>
+  </Section>
+
+  <!-- TÉMOIGNAGES -->
+  <Section
+    eyebrow="Ils gagnent du temps"
+    eyebrowIcon="quote"
+    title="Ce qu'en disent les entreprises accompagnées"
+    lead="Témoignages à publier une fois vos premiers retours clients recueillis."
+  >
+    <Testimonials columns={3} />
+    <p class="method-more">
+      <a class="link" href="/cas-client/">Voir les cas client <Icon name="arrowRight" size={16} /></a>
+    </p>
+  </Section>
+
+  <!-- FAQ COURTE -->
+  <Section tone="muted" eyebrow="Questions fréquentes" eyebrowIcon="chat" title="Vous vous demandez peut-être…">
+    <Faq items={homeFaqs} openFirst idPrefix="home-faq" />
+    <p class="method-more">
+      <a class="link" href="/faq/">Toutes les questions <Icon name="arrowRight" size={16} /></a>
+    </p>
+  </Section>
+
+  <!-- CTA FINAL -->
+  <CtaSection track="home-final" />
+</Layout>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    padding-block: clamp(3.5rem, 2.5rem + 6vw, 7rem);
+    background: var(--bg);
+    text-align: center;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+  }
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-copy .eyebrow { margin-bottom: 1.25rem; }
+  .hero-copy .h1 { max-width: 20ch; }
+  .hero-sub { margin-top: 1.5rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 2.25rem; }
+  .hero-note { margin-top: 1.25rem; }
+
+  .flow { padding: 1.25rem; box-shadow: var(--shadow-lg); }
+  @media (prefers-reduced-motion: no-preference) {
+    .flow { animation: reveal-up 0.6s ease both; }
+  }
+  .flow-head { display: flex; align-items: center; gap: 0.4rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--surface-border); }
+  .flow-dot { width: 0.6rem; height: 0.6rem; border-radius: 999px; background: var(--surface-border); }
+  .flow-dot:first-child { background: #f87171; }
+  .flow-dot:nth-child(2) { background: #fbbf24; }
+  .flow-dot:nth-child(3) { background: #34d399; }
+  .flow-title { margin-left: auto; font-size: 0.8rem; font-weight: 700; color: var(--text-subtle); }
+  .flow-rows { list-style: none; margin: 0; padding: 0.85rem 0 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .flow-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 0.85rem; border-radius: var(--radius-md); background: var(--bg-muted); }
+  .fr-icon { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: var(--radius-sm); background: var(--color-brand-50); color: var(--color-brand-700); flex: none; }
+  :root[data-theme='dark'] .fr-icon { background: rgb(255 255 255 / 0.08); color: var(--color-neutral-200); }
+  .fr-label { font-size: 0.92rem; font-weight: 600; }
+  .fr-tag { margin-left: auto; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-success-700); background: var(--color-success-50); padding: 0.15rem 0.5rem; border-radius: 999px; }
+  :root[data-theme='dark'] .fr-tag { background: rgb(22 163 74 / 0.18); color: #4ade80; }
+  .flow-foot { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid var(--surface-border); font-size: 0.9rem; color: var(--text-muted); }
+  .flow-foot svg { color: var(--color-brand-600); }
+  .flow-gain { margin-left: auto; color: var(--color-accent-700); }
+  :root[data-theme='dark'] .flow-gain { color: var(--color-accent-400); }
+
+  .proof-wrap { margin-top: clamp(1.5rem, 1rem + 2vw, 3rem); margin-bottom: 1rem; }
+
+  .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .pain { display: flex; align-items: flex-start; gap: 0.85rem; padding: 1.25rem; }
+  .pain svg { color: var(--color-accent-700); flex: none; }
+  :root[data-theme='dark'] .pain svg { color: var(--color-accent-400); }
+  .pain p { margin: 0; font-weight: 600; }
+
+  .two-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+  /* Bento: 6-col grid with one tall feature tile */
+  .domains-grid.bento {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 1.25rem;
+  }
+  .domains-grid.bento > :global(:nth-child(1)) { grid-column: span 3; grid-row: span 2; }
+  .domains-grid.bento > :global(:nth-child(2)) { grid-column: span 3; }
+  .domains-grid.bento > :global(:nth-child(3)) { grid-column: span 3; }
+  .domains-grid.bento > :global(:nth-child(4)) { grid-column: span 2; }
+  .domains-grid.bento > :global(:nth-child(5)) { grid-column: span 2; }
+  .domains-grid.bento > :global(:nth-child(6)) { grid-column: span 2; }
+
+  .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .benefit { display: flex; gap: 0.85rem; align-items: flex-start; }
+  .benefit-icon { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius-md); background: var(--contrast-tile-bg); color: var(--contrast-tile-text); flex: none; }
+  .benefit-title { margin: 0 0 0.25rem; font-size: 1.05rem; color: var(--contrast-heading); }
+  .benefit-text { margin: 0; color: var(--contrast-muted); font-size: 0.95rem; line-height: 1.5; }
+
+  .sectors-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem; }
+  .sector-chip { display: flex; align-items: center; gap: 0.65rem; padding: 0.9rem 1rem; text-decoration: none; color: var(--text); transition: transform 0.15s ease, border-color 0.15s ease; }
+  .sector-chip:hover { transform: translateY(-2px); border-color: var(--color-brand-300); }
+  .sector-chip-icon { color: var(--color-brand-600); flex: none; }
+  :root[data-theme='dark'] .sector-chip-icon { color: var(--color-brand-300); }
+  .sector-chip-label { font-weight: 600; font-size: 0.95rem; }
+  .sector-chip-arrow { margin-left: auto; color: var(--text-subtle); }
+  .sectors-more, .method-more { margin-top: 1.75rem; }
+  .sectors-more .link, .method-more .link { display: inline-flex; align-items: center; gap: 0.4rem; }
+
+  @media (max-width: 920px) {
+    .domains-grid, .benefits-grid { grid-template-columns: 1fr 1fr; }
+    .sectors-grid { grid-template-columns: 1fr 1fr; }
+    .pain-grid { grid-template-columns: 1fr; }
+    /* Bento collapses to a plain 2-col grid */
+    .domains-grid.bento { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
+    .domains-grid.bento > :global(*) { grid-column: auto !important; grid-row: auto !important; }
+  }
+  @media (max-width: 600px) {
+    .two-grid, .domains-grid, .benefits-grid, .sectors-grid { grid-template-columns: 1fr; }
+    .domains-grid.bento { grid-template-columns: 1fr; }
+  }
+</style>

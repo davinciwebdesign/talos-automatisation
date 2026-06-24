@@ -1,0 +1,131 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+import Icon from '../components/Icon.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Faq from '../components/Faq.astro';
+import { primaryCta } from '../config/site';
+
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Audit gratuit' },
+];
+
+const steps = [
+  { icon: 'chat', title: 'On échange 30 minutes', text: "Vous me décrivez votre quotidien et les tâches qui vous pèsent. J'écoute, je questionne, je comprends votre fonctionnement réel." },
+  { icon: 'search', title: "J'analyse vos opportunités", text: "J'identifie les tâches automatisables à plus fort impact et j'estime le temps que vous pourriez récupérer." },
+  { icon: 'file', title: 'Vous repartez avec un plan', text: "Une feuille de route claire et chiffrée — que vous décidiez de travailler avec moi ou non. Sans engagement." },
+];
+
+const expect = [
+  'Un diagnostic des tâches répétitives qui vous coûtent le plus de temps.',
+  'Une estimation concrète du temps récupérable chaque semaine.',
+  'Des pistes d\'automatisation priorisées par impact et par effort.',
+  'Des réponses honnêtes : si l\'automatisation n\'a pas de sens, je vous le dis.',
+];
+
+const auditFaqs = [
+  { q: "L'audit est-il vraiment gratuit ?", a: "Oui, totalement. C'est un premier échange de 30 minutes, sans engagement et sans facture cachée. L'objectif est que vous repartiez avec de la valeur, que l'on travaille ensemble ensuite ou non." },
+  { q: 'Combien de temps cela prend-il ?', a: "L'échange initial dure environ 30 minutes. Je reviens ensuite vers vous sous 24 h ouvrées avec une première lecture de vos opportunités." },
+  { q: 'Dois-je préparer quelque chose ?', a: "Non. Venez simplement avec une idée des tâches qui vous prennent du temps. Si vous avez des exemples concrets (un type d'e-mail, un document récurrent), c'est un plus, mais ce n'est pas obligatoire." },
+  { q: 'Et si je ne suis pas sûr que mon besoin soit automatisable ?', a: "C'est précisément le rôle de l'audit. Vous n'avez pas à savoir ce qui est faisable : décrivez le problème, je m'occupe d'évaluer ce qui peut être automatisé." },
+];
+---
+
+<Layout
+  title="Réserver un audit gratuit"
+  description="30 minutes pour identifier les tâches que vous pourriez automatiser et le temps récupérable chaque semaine. Sans engagement, réponse sous 24 h."
+  breadcrumbs={breadcrumbs}
+>
+  <section class="audit-hero">
+    <div class="container-page audit-hero-inner">
+      <div class="audit-hero-copy">
+        <p class="eyebrow"><Icon name="calendar" size={16} /> Audit gratuit</p>
+        <h1 class="h1">Voyez exactement où votre entreprise perd du temps</h1>
+        <p class="lead measure">
+          En 30 minutes, j'identifie les tâches répétitives que vous pourriez
+          automatiser et j'estime le temps que vous pourriez récupérer chaque
+          semaine. Vous repartez avec un plan clair — {primaryCta.note.toLowerCase()}.
+        </p>
+        <ul class="audit-expect">
+          {expect.map((e) => <li><Icon name="checkCircle" size={20} /> {e}</li>)}
+        </ul>
+      </div>
+
+      <div class="audit-form-card surface" id="formulaire">
+        <h2 class="audit-form-title">Demandez votre audit</h2>
+        <p class="audit-form-sub">Remplissez ce formulaire, je reviens vers vous sous 24 h ouvrées.</p>
+        <ContactForm variant="audit" formName="audit" />
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMENT ÇA MARCHE -->
+  <Section eyebrow="Comment ça marche" eyebrowIcon="layers" title="Trois étapes, zéro engagement">
+    <ol class="how-steps">
+      {
+        steps.map((s, i) => (
+          <li class="how-step surface">
+            <span class="how-num">{i + 1}</span>
+            <span class="how-icon"><Icon name={s.icon} size={22} /></span>
+            <h3 class="how-title">{s.title}</h3>
+            <p class="how-text">{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="muted" eyebrow="Vos questions" eyebrowIcon="chat" title="Ce que vous vous demandez peut-être">
+    <Faq items={auditFaqs} idPrefix="audit-faq" openFirst />
+  </Section>
+</Layout>
+
+<style>
+  .audit-hero {
+    padding-block: clamp(3rem, 2rem + 5vw, 5rem);
+    background: var(--bg-muted);
+    border-bottom: 1px solid var(--surface-border);
+  }
+  .audit-hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 1rem + 3vw, 3rem);
+    align-items: start;
+  }
+  .audit-hero-copy .h1 { margin: 0.75rem 0 0; }
+  .audit-hero-copy .lead { margin: 1.1rem 0 0; }
+  .audit-expect {
+    list-style: none; margin: 1.75rem 0 0; padding: 0;
+    display: grid; gap: 0.75rem;
+  }
+  .audit-expect li { display: flex; align-items: flex-start; gap: 0.6rem; font-weight: 600; line-height: 1.45; }
+  .audit-expect svg { color: var(--color-brand-600); flex: none; margin-top: 0.1rem; }
+  :root[data-theme='dark'] .audit-expect svg { color: var(--color-brand-300); }
+
+  .audit-form-card { padding: clamp(1.5rem, 1rem + 2vw, 2.25rem); position: sticky; top: 5.5rem; }
+  .audit-form-title { margin: 0; font-size: 1.4rem; }
+  .audit-form-sub { margin: 0.4rem 0 1.5rem; color: var(--text-muted); }
+
+  .how-steps {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; counter-reset: none;
+  }
+  .how-step { position: relative; padding: 1.75rem 1.5rem 1.5rem; }
+  .how-num {
+    position: absolute; top: -0.75rem; left: 1.5rem;
+    display: grid; place-items: center; width: 2rem; height: 2rem;
+    border-radius: 999px; background: var(--gradient-brand); color: #fff; font-weight: 800; font-size: 0.95rem;
+  }
+  .how-icon { display: inline-grid; place-items: center; color: var(--color-brand-700); margin: 0.5rem 0 0.75rem; }
+  :root[data-theme='dark'] .how-icon { color: var(--color-brand-300); }
+  .how-title { margin: 0 0 0.4rem; font-size: 1.1rem; }
+  .how-text { margin: 0; color: var(--text-muted); line-height: 1.55; }
+
+  @media (max-width: 880px) {
+    .audit-hero-inner { grid-template-columns: 1fr; }
+    .audit-form-card { position: static; }
+    .how-steps { grid-template-columns: 1fr; }
+  }
+</style>

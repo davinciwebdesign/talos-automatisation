@@ -1,0 +1,178 @@
+---
+import Icon from './Icon.astro';
+/**
+ * Testimonials. By default renders clearly-flagged PLACEHOLDERS — no invented
+ * names, photos, quotes or figures (ethics rule 5.8). Replace with real,
+ * attributed testimonials (name + role + company + concrete result) before
+ * publishing.
+ */
+interface Testimonial {
+  quote: string;
+  name: string;
+  role: string;
+  result?: string;
+  placeholder?: boolean;
+}
+interface Props {
+  items?: Testimonial[];
+  columns?: 2 | 3;
+}
+
+const placeholders: Testimonial[] = [
+  {
+    quote:
+      "[À REMPLACER PAR DONNÉE RÉELLE — témoignage client authentique : ce que l'automatisation a changé concrètement dans son quotidien.]",
+    name: '[Prénom Nom]',
+    role: '[Rôle — Entreprise]',
+    result: '[Résultat chiffré, ex. 8 h économisées / semaine]',
+    placeholder: true,
+  },
+  {
+    quote:
+      '[À REMPLACER PAR DONNÉE RÉELLE — témoignage client authentique mettant en avant un bénéfice précis et mesurable.]',
+    name: '[Prénom Nom]',
+    role: '[Rôle — Entreprise]',
+    result: '[Résultat chiffré, ex. −90 % d’erreurs de saisie]',
+    placeholder: true,
+  },
+  {
+    quote:
+      '[À REMPLACER PAR DONNÉE RÉELLE — témoignage client authentique sur la simplicité de mise en place et le suivi.]',
+    name: '[Prénom Nom]',
+    role: '[Rôle — Entreprise]',
+    result: '[Résultat chiffré, ex. 3 j → 1 h de traitement]',
+    placeholder: true,
+  },
+];
+
+const { items = placeholders, columns = 3 } = Astro.props;
+---
+
+<div class:list={['tlist', `cols-${columns}`]}>
+  {
+    items.map((t) => (
+      <figure class:list={['tcard surface', t.placeholder && 'is-placeholder']}>
+        {t.placeholder && (
+          <span class="ph-badge">À remplacer par un vrai témoignage</span>
+        )}
+        <Icon name="quote" size={26} class="tquote" />
+        <blockquote class="tquote-text">{t.quote}</blockquote>
+        {t.result && (
+          <p class="tresult">
+            <Icon name="trending" size={16} /> {t.result}
+          </p>
+        )}
+        <figcaption class="tmeta">
+          <span class="tavatar" aria-hidden="true">
+            <Icon name="users" size={18} />
+          </span>
+          <span class="tnames">
+            <span class="tname">{t.name}</span>
+            <span class="trole">{t.role}</span>
+          </span>
+        </figcaption>
+      </figure>
+    ))
+  }
+</div>
+
+<style>
+  .tlist {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .tcard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 1.5rem;
+    position: relative;
+  }
+  .is-placeholder {
+    border-style: dashed;
+  }
+  .ph-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-warning-700);
+    background: var(--color-warning-50);
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+  }
+  :root[data-theme='dark'] .ph-badge {
+    background: rgb(217 119 6 / 0.18);
+    color: #fcd34d;
+  }
+  .tcard :global(.tquote) {
+    color: var(--color-brand-400);
+  }
+  .tquote-text {
+    margin: 0;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--text);
+  }
+  .tresult {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    font-weight: 700;
+    color: var(--color-success-700);
+    font-size: 0.95rem;
+  }
+  :root[data-theme='dark'] .tresult {
+    color: #4ade80;
+  }
+  .tmeta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+  .tavatar {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    background: var(--bg-muted);
+    color: var(--text-muted);
+    flex: none;
+  }
+  .tnames {
+    display: flex;
+    flex-direction: column;
+  }
+  .tname {
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .trole {
+    font-size: 0.85rem;
+    color: var(--text-subtle);
+  }
+  @media (max-width: 900px) {
+    .cols-3 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 600px) {
+    .cols-3,
+    .cols-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

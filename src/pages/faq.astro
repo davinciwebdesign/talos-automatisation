@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import Faq from '../components/Faq.astro';
+import CtaSection from '../components/CtaSection.astro';
+import { faqSchema } from '../utils/schema';
+
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'FAQ' },
+];
+
+const groups = [
+  {
+    title: 'L\'approche',
+    icon: 'target',
+    items: [
+      { q: "Qu'est-ce que l'automatisation, concrètement ?", a: "C'est confier à un système les tâches répétitives que vous faites à la main : trier des e-mails, ressaisir des données d'un outil à l'autre, générer des documents, relancer des clients. Le système les exécute automatiquement, sans erreur et sans vous mobiliser." },
+      { q: 'En quoi vos automatisations sont-elles « sur mesure » ?', a: "Je ne vends pas de logiciel standardisé. Je pars de votre fonctionnement réel, de vos outils et de vos habitudes, et je conçois un dispositif taillé pour vous. L'objectif est qu'il s'intègre à votre quotidien, pas l'inverse." },
+      { q: 'Mon activité est-elle adaptée à l\'automatisation ?', a: "La plupart des entreprises ont des tâches répétitives automatisables, quel que soit le secteur. La seule façon d'en avoir le cœur net est l'audit gratuit : je vous dis honnêtement si l'automatisation a du sens pour vous, ou non." },
+    ],
+  },
+  {
+    title: 'La mise en place',
+    icon: 'layers',
+    items: [
+      { q: 'Dois-je changer mes outils actuels ?', a: "Non, dans la très grande majorité des cas. Je conçois les automatisations pour qu'elles se branchent sur vos outils existants (messagerie, tableurs, CRM, logiciels métier). Le but est d'éviter d'ajouter un outil de plus à apprendre." },
+      { q: 'Combien de temps avant de voir des résultats ?', a: "Cela dépend de la complexité du besoin. Certaines automatisations simples sont opérationnelles rapidement ; d'autres demandent plus de conception et de tests. Nous fixons ensemble un calendrier réaliste dès le départ, sans fausse promesse." },
+      { q: 'Que se passe-t-il si une automatisation tombe en panne ?', a: "Chaque dispositif est supervisé, avec des garde-fous et des alertes en cas de problème. Si quelque chose dérape, je suis prévenu et j'interviens. La fiabilité fait partie de la conception, pas d'une option." },
+    ],
+  },
+  {
+    title: 'Données & confidentialité',
+    icon: 'shield',
+    items: [
+      { q: 'Mes données sont-elles en sécurité ?', a: "La confidentialité et la conformité RGPD sont au cœur de chaque dispositif. Vos données ne sont utilisées que pour faire fonctionner votre automatisation, et les accès sont limités au strict nécessaire." },
+      { q: 'Travaillez-vous avec des secteurs sensibles (avocats, notaires, santé) ?', a: "Oui, avec des précautions renforcées adaptées au secret professionnel et aux données sensibles. Les dispositifs sont conçus pour respecter vos obligations de confidentialité spécifiques." },
+    ],
+  },
+  {
+    title: 'Engagement & tarifs',
+    icon: 'euro',
+    items: [
+      { q: "L'audit est-il vraiment gratuit et sans engagement ?", a: "Oui. L'audit de 30 minutes est gratuit et ne vous engage à rien. Vous repartez avec des pistes concrètes, que l'on travaille ensemble ensuite ou non." },
+      { q: 'Comment se déroule la suite si je décide de travailler avec vous ?', a: "Après l'audit, je vous propose un scénario d'automatisation chiffré et validé ensemble avant toute mise en œuvre. Vous savez exactement ce qui sera fait, et pourquoi, avant de vous engager." },
+    ],
+  },
+];
+
+const allItems = groups.flatMap((g) => g.items);
+const schema = [faqSchema(allItems)];
+---
+
+<Layout
+  title="Questions fréquentes"
+  description="Tout ce que vous vous demandez sur l'automatisation sur mesure : approche, mise en place, sécurité des données, RGPD, tarifs et engagement."
+  breadcrumbs={breadcrumbs}
+  schema={schema}
+>
+  <PageHero
+    eyebrow="FAQ"
+    eyebrowIcon="chat"
+    title="Vos questions, des réponses honnêtes"
+    subtitle="L'essentiel sur l'automatisation sur mesure. Une question sans réponse ici ? Écrivez-moi, j'y réponds personnellement."
+    secondary={{ label: 'Poser une question', href: '/contact/' }}
+  />
+
+  {
+    groups.map((g, i) => (
+      <Section
+        tone={i % 2 === 1 ? 'muted' : 'default'}
+        eyebrow={g.title}
+        eyebrowIcon={g.icon}
+        title={g.title}
+      >
+        <Faq items={g.items} idPrefix={`faq-${i}`} openFirst={i === 0} />
+      </Section>
+    ))
+  }
+
+  <CtaSection track="faq-final" />
+</Layout>

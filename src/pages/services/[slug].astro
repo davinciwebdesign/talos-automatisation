@@ -1,0 +1,169 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Icon from '../../components/Icon.astro';
+import Faq from '../../components/Faq.astro';
+import Testimonials from '../../components/Testimonials.astro';
+import CtaSection from '../../components/CtaSection.astro';
+import { services } from '../../data/services';
+import { faqSchema, serviceSchema } from '../../utils/schema';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+
+const { service } = Astro.props;
+const url = `/services/${service.slug}/`;
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Services', href: '/services/' },
+  { label: service.navLabel },
+];
+const schema = [
+  serviceSchema(service.title, service.metaDescription, url),
+  faqSchema(service.faqs),
+];
+---
+
+<Layout
+  title={service.title}
+  description={service.metaDescription}
+  breadcrumbs={breadcrumbs}
+  schema={schema}
+>
+  <PageHero
+    eyebrow={service.eyebrow}
+    eyebrowIcon={service.icon}
+    title={service.heroTitle}
+    subtitle={service.heroSubtitle}
+    secondary={{ label: 'Voir la méthode', href: '/methode/' }}
+    track={`service-${service.slug}-hero`}
+  />
+
+  <!-- PROBLÈME (PAS) -->
+  <Section eyebrow="Le constat" eyebrowIcon="alert" title={service.problem.title}>
+    <p class="lead measure">{service.problem.body}</p>
+  </Section>
+
+  <!-- CE QUE C'EST -->
+  <Section tone="muted" eyebrow="La solution" eyebrowIcon="target" title={service.intro.title}>
+    <p class="lead measure">{service.intro.body}</p>
+    {
+      service.deliverables && (
+        <ul class="deliverables">
+          {service.deliverables.map((d) => (
+            <li><Icon name="checkCircle" size={20} /> {d}</li>
+          ))}
+        </ul>
+      )
+    }
+  </Section>
+
+  <!-- FEATURES (FAB) -->
+  <Section
+    eyebrow="Concrètement"
+    eyebrowIcon="layers"
+    title="Ce que cette solution fait pour vous"
+    lead="Des automatisations reliées à un bénéfice concret pour votre quotidien."
+  >
+    <div class="feat-grid">
+      {
+        service.features.map((f) => (
+          <div class="feat surface">
+            <span class="feat-icon"><Icon name="check" size={20} /></span>
+            <div>
+              <h3 class="feat-title">{f.title}</h3>
+              <p class="feat-benefit">{f.benefit}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- BÉNÉFICES -->
+  <Section tone="dark" eyebrow="Vos bénéfices" eyebrowIcon="sparkles" title="Pourquoi ça vaut le coup">
+    <ul class="ben-list">
+      {service.benefits.map((b) => <li><Icon name="checkCircle" size={22} /> {b}</li>)}
+    </ul>
+  </Section>
+
+  <!-- PREUVE -->
+  <Section eyebrow="Confiance" eyebrowIcon="quote" title="Bientôt, vos résultats ici" lead="Témoignages à publier une fois vos premiers retours clients recueillis.">
+    <Testimonials columns={3} />
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="muted" eyebrow="Vos questions" eyebrowIcon="chat" title="On répond à vos objections">
+    <Faq items={service.faqs} idPrefix={`svc-${service.slug}-faq`} />
+  </Section>
+
+  <CtaSection track={`service-${service.slug}-final`} />
+</Layout>
+
+<style>
+  .deliverables {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 1.5rem;
+    max-width: 46rem;
+  }
+  .deliverables li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-weight: 600;
+  }
+  .deliverables svg, .ben-list svg { color: var(--color-brand-600); flex: none; }
+
+  .feat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .feat {
+    display: flex;
+    gap: 0.85rem;
+    padding: 1.25rem;
+    align-items: flex-start;
+  }
+  .feat-icon {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    background: var(--color-success-50);
+    color: var(--color-success-700);
+    flex: none;
+  }
+  :root[data-theme='dark'] .feat-icon { background: rgb(22 163 74 / 0.16); color: #4ade80; }
+  .feat-title { margin: 0 0 0.25rem; font-size: 1.05rem; }
+  .feat-benefit { margin: 0; color: var(--text-muted); line-height: 1.5; }
+
+  .ben-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.5rem;
+    max-width: 52rem;
+  }
+  .ben-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    color: var(--contrast-text);
+    font-weight: 600;
+  }
+  .ben-list svg { color: var(--contrast-eyebrow); }
+
+  @media (max-width: 680px) {
+    .deliverables, .feat-grid, .ben-list { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,91 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  eyebrow?: string;
+  eyebrowIcon?: string;
+  title?: string;
+  lead?: string;
+  align?: 'left' | 'center';
+  tone?: 'default' | 'muted' | 'dark';
+  tight?: boolean;
+  id?: string;
+  class?: string;
+}
+const {
+  eyebrow,
+  eyebrowIcon,
+  title,
+  lead,
+  align = 'left',
+  tone = 'default',
+  tight = false,
+  id,
+  class: cls = '',
+} = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={[
+    'section',
+    tight && 'section-tight',
+    tone === 'muted' && 'tone-muted',
+    tone === 'dark' && 'tone-dark',
+    cls,
+  ]}
+>
+  <div class="container-page">
+    {
+      (eyebrow || title || lead) && (
+        <div class:list={['section-head', align === 'center' && 'is-center']}>
+          {eyebrow && (
+            <p class="eyebrow">
+              {eyebrowIcon && <Icon name={eyebrowIcon} size={16} />}
+              {eyebrow}
+            </p>
+          )}
+          {title && <h2 class="h2 section-title">{title}</h2>}
+          {lead && <p class="lead section-lead">{lead}</p>}
+        </div>
+      )
+    }
+    <slot />
+  </div>
+</section>
+
+<style>
+  .tone-muted {
+    background: var(--bg-muted);
+  }
+  .tone-dark {
+    background: var(--contrast-bg);
+    color: var(--contrast-text);
+  }
+  .tone-dark :global(.h2),
+  .tone-dark :global(.section-title) {
+    color: var(--contrast-heading);
+  }
+  .tone-dark .section-lead {
+    color: var(--contrast-muted);
+  }
+  .tone-dark :global(.eyebrow) {
+    color: var(--contrast-eyebrow);
+  }
+  .section-head {
+    max-width: 52rem;
+    margin-bottom: clamp(1.75rem, 1rem + 2vw, 2.75rem);
+  }
+  .section-head.is-center {
+    margin-inline: auto;
+    text-align: center;
+  }
+  .section-title {
+    margin: 1rem 0 0;
+  }
+  .section-lead {
+    margin: 1.4rem 0 0;
+  }
+  .is-center .section-lead {
+    margin-inline: auto;
+  }
+</style>

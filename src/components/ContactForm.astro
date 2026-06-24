@@ -1,0 +1,324 @@
+---
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+/**
+ * Accessible single-column form with inline validation (on blur), actionable
+ * error messages, error summary on submit, and a success state.
+ * Backend: set a real endpoint in `action` (e.g. Formspree, Netlify Forms,
+ * your API). While action is "#", submission is validated then shown as success
+ * locally for preview — wire a real endpoint before going live.
+ */
+interface Props {
+  variant?: 'contact' | 'audit';
+  formName?: string;
+}
+const { variant = 'contact', formName = variant } = Astro.props;
+const action = '#'; // [À REMPLACER PAR ENDPOINT RÉEL]
+const id = `form-${formName}`;
+---
+
+<form
+  class="cform"
+  id={id}
+  action={action}
+  method="post"
+  novalidate
+  data-track-form={formName}
+>
+  <div class="form-error-summary surface" id={`${id}-summary`} role="alert" hidden>
+    <p class="fes-title"><Icon name="alert" size={18} /> Veuillez corriger les points suivants :</p>
+    <ul class="fes-list"></ul>
+  </div>
+
+  <div class="form-grid">
+    <div class="field">
+      <label class="field-label" for={`${id}-name`}>Nom complet</label>
+      <input
+        class="input"
+        id={`${id}-name`}
+        name="name"
+        type="text"
+        autocomplete="name"
+        required
+        aria-describedby={`${id}-name-err`}
+      />
+      <span class="field-error" id={`${id}-name-err`}>
+        <Icon name="alert" size={14} /> Indiquez votre nom.
+      </span>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for={`${id}-email`}>Email professionnel</label>
+      <input
+        class="input"
+        id={`${id}-email`}
+        name="email"
+        type="email"
+        autocomplete="email"
+        required
+        aria-describedby={`${id}-email-err`}
+      />
+      <span class="field-error" id={`${id}-email-err`}>
+        <Icon name="alert" size={14} /> Entrez un email valide, ex. prenom@entreprise.fr
+      </span>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for={`${id}-company`}>Entreprise</label>
+      <input
+        class="input"
+        id={`${id}-company`}
+        name="company"
+        type="text"
+        autocomplete="organization"
+        required
+        aria-describedby={`${id}-company-err`}
+      />
+      <span class="field-error" id={`${id}-company-err`}>
+        <Icon name="alert" size={14} /> Indiquez le nom de votre entreprise.
+      </span>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for={`${id}-phone`}>
+        Téléphone <span class="field-optional">(optionnel)</span>
+      </label>
+      <input
+        class="input"
+        id={`${id}-phone`}
+        name="phone"
+        type="tel"
+        autocomplete="tel"
+        inputmode="tel"
+      />
+      <span class="field-hint">Pour être rappelé plus vite, si vous préférez.</span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for={`${id}-message`}>
+      {variant === 'audit'
+        ? 'Quelle tâche aimeriez-vous automatiser en priorité ?'
+        : 'Votre message'}
+      <span class="field-optional">(optionnel)</span>
+    </label>
+    <textarea
+      class="textarea"
+      id={`${id}-message`}
+      name="message"
+      rows="4"
+      autocomplete="off"
+    ></textarea>
+  </div>
+
+  <div class="field consent-field">
+    <label class="consent">
+      <input type="checkbox" name="consent" required aria-describedby={`${id}-consent-err`} />
+      <span>
+        J'accepte que mes informations soient utilisées pour être recontacté(e).
+        Voir la <a class="link" href="/confidentialite/">politique de confidentialité</a>.
+      </span>
+    </label>
+    <span class="field-error" id={`${id}-consent-err`}>
+      <Icon name="alert" size={14} /> Vous devez accepter pour continuer.
+    </span>
+  </div>
+
+  <Button type="submit" size="lg" class="cform-submit" id={`${id}-submit`}>
+    {variant === 'audit' ? 'Réserver mon audit gratuit' : 'Envoyer mon message'}
+  </Button>
+  <p class="cta-note form-reassure">
+    <Icon name="shield" size={16} /> Sans engagement · Réponse sous 24 h · Vos données restent confidentielles
+  </p>
+
+  <div class="form-success surface" id={`${id}-success`} role="status" hidden>
+    <span class="fs-icon"><Icon name="checkCircle" size={28} /></span>
+    <div>
+      <p class="fs-title">Merci, c'est bien reçu.</p>
+      <p class="fs-text">
+        Je reviens vers vous sous 24 h (jours ouvrés) pour convenir d'un créneau.
+      </p>
+    </div>
+  </div>
+</form>
+
+<style>
+  .cform {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    max-width: 40rem;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem;
+  }
+  .consent-field {
+    gap: 0.5rem;
+  }
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.925rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  .consent input {
+    margin-top: 0.2rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+    accent-color: var(--color-accent-700);
+  }
+  .form-reassure {
+    align-self: flex-start;
+  }
+  .form-error-summary {
+    padding: 1rem 1.25rem;
+    border-color: var(--color-error-500);
+  }
+  .form-error-summary[hidden] {
+    display: none;
+  }
+  .fes-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+    color: var(--color-error-700);
+  }
+  :root[data-theme='dark'] .fes-title {
+    color: #fca5a5;
+  }
+  .fes-list {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+  .fes-list a {
+    color: var(--link);
+  }
+  .form-success {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-color: var(--color-success-500);
+    background: var(--color-success-50);
+  }
+  :root[data-theme='dark'] .form-success {
+    background: rgb(22 163 74 / 0.12);
+  }
+  .form-success[hidden] {
+    display: none;
+  }
+  .fs-icon {
+    color: var(--color-success-700);
+    flex: none;
+  }
+  .fs-title {
+    margin: 0;
+    font-weight: 700;
+    color: var(--heading);
+  }
+  .fs-text {
+    margin: 0.2rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  @media (max-width: 560px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  type Validator = (v: string, el: HTMLInputElement) => boolean;
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  document.querySelectorAll<HTMLFormElement>('.cform').forEach((form) => {
+    const fields = Array.from(
+      form.querySelectorAll<HTMLInputElement>('input, textarea')
+    );
+    const summary = form.querySelector<HTMLElement>('.form-error-summary');
+    const summaryList = summary?.querySelector('.fes-list');
+    const success = form.querySelector<HTMLElement>('.form-success');
+
+    function labelFor(el: HTMLInputElement) {
+      const lab = form.querySelector(`label[for="${el.id}"]`);
+      return (lab?.textContent || el.name).replace(/\(optionnel\).*/s, '').trim();
+    }
+
+    function validate(el: HTMLInputElement): boolean {
+      if (el.type === 'checkbox') return el.checked || !el.required;
+      const v = el.value.trim();
+      if (el.required && !v) return false;
+      if (el.type === 'email' && v && !emailRe.test(v)) return false;
+      return true;
+    }
+
+    function showError(el: HTMLInputElement, show: boolean) {
+      const err = document.getElementById(`${el.getAttribute('aria-describedby')}`);
+      const errEl = err && err.classList.contains('field-error') ? err : null;
+      el.setAttribute('aria-invalid', String(show));
+      if (errEl) errEl.classList.toggle('is-visible', show);
+    }
+
+    fields.forEach((el) => {
+      el.addEventListener('blur', () => {
+        if (el.value || el.required) showError(el, !validate(el));
+      });
+      el.addEventListener('input', () => {
+        if (el.getAttribute('aria-invalid') === 'true' && validate(el))
+          showError(el, false);
+      });
+    });
+
+    form.addEventListener('submit', (e) => {
+      const invalid = fields.filter((el) => !validate(el));
+      invalid.forEach((el) => showError(el, true));
+
+      if (invalid.length) {
+        e.preventDefault();
+        if (summary && summaryList) {
+          summaryList.innerHTML = '';
+          invalid.forEach((el) => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `#${el.id}`;
+            a.textContent = labelFor(el);
+            a.addEventListener('click', (ev) => {
+              ev.preventDefault();
+              el.focus();
+            });
+            li.appendChild(a);
+            summaryList.appendChild(li);
+          });
+          summary.hidden = false;
+          summary.focus?.();
+        }
+        invalid[0]?.focus();
+        return;
+      }
+
+      summary && (summary.hidden = true);
+
+      // Preview mode: no real endpoint wired yet.
+      if (form.getAttribute('action') === '#') {
+        e.preventDefault();
+        const submit = form.querySelector<HTMLButtonElement>('[type="submit"]');
+        submit && (submit.disabled = true);
+        fields.forEach((el) => (el.disabled = true));
+        if (success) {
+          success.hidden = false;
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+      // Else: let the browser POST to the configured endpoint.
+    });
+  });
+</script>

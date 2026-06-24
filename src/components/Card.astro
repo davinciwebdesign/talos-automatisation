@@ -1,0 +1,95 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  icon?: string;
+  title: string;
+  text?: string;
+  href?: string;
+  linkLabel?: string;
+  class?: string;
+}
+const { icon, title, text, href, linkLabel = 'En savoir plus', class: cls = '' } =
+  Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag class:list={['card surface', href && 'card-link', cls]} href={href}>
+  {
+    icon && (
+      <span class="card-icon" aria-hidden="true">
+        <Icon name={icon} size={24} />
+      </span>
+    )
+  }
+  <h3 class="card-title h4">{title}</h3>
+  {text && <p class="card-text">{text}</p>}
+  <slot />
+  {
+    href && (
+      <span class="card-cta">
+        {linkLabel}
+        <Icon name="arrowRight" size={16} />
+      </span>
+    )
+  }
+</Tag>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    height: 100%;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .card-link:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-brand-300);
+  }
+  .card-link:focus-visible {
+    transform: translateY(-3px);
+  }
+  .card-icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-md);
+    background: var(--color-brand-50);
+    color: var(--color-brand-700);
+    margin-bottom: 0.35rem;
+  }
+  :root[data-theme='dark'] .card-icon {
+    background: rgb(255 255 255 / 0.08);
+    color: var(--color-neutral-200);
+  }
+  .card-title {
+    margin: 0;
+  }
+  .card-text {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.975rem;
+    line-height: 1.55;
+  }
+  .card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    color: var(--link);
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .card-cta svg {
+    transition: transform 0.15s ease;
+  }
+  .card-link:hover .card-cta svg {
+    transform: translateX(3px);
+  }
+</style>

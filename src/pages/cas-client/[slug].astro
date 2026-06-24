@@ -1,0 +1,156 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Icon from '../../components/Icon.astro';
+import ProofBar from '../../components/ProofBar.astro';
+import CtaSection from '../../components/CtaSection.astro';
+import { cases } from '../../data/cases';
+
+export function getStaticPaths() {
+  return cases.map((c) => ({ params: { slug: c.slug }, props: { study: c } }));
+}
+
+const { study } = Astro.props;
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Cas client', href: '/cas-client/' },
+  { label: study.sectorLabel },
+];
+
+const blocks = [
+  { icon: 'users', label: 'Situation', body: study.situation },
+  { icon: 'zap', label: 'Déclencheur', body: study.trigger },
+  { icon: 'alert', label: 'Frein', body: study.obstacle },
+  { icon: 'cog', label: 'Solution', body: study.solution },
+];
+---
+
+<Layout
+  title={`Cas client · ${study.sectorLabel}`}
+  description={study.summary}
+  breadcrumbs={breadcrumbs}
+  noindex={study.placeholder}
+>
+  <PageHero
+    eyebrow={`Cas client · ${study.sectorLabel}`}
+    eyebrowIcon="file"
+    title={study.title}
+    subtitle={study.summary}
+    secondary={{ label: 'Voir tous les cas', href: '/cas-client/' }}
+  />
+
+  {
+    study.placeholder && (
+      <div class="container-page">
+        <p class="ethics-note">
+          <Icon name="shield" size={20} /> Ce cas est un gabarit. Aucune donnée
+          n'est inventée : chaque mention <strong>[À REMPLACER PAR DONNÉE
+          RÉELLE]</strong> sera complétée à partir d'un cas réel, avec l'accord
+          du client, avant publication.
+        </p>
+      </div>
+    )
+  }
+
+  <!-- KPIs -->
+  <Section eyebrow="En bref" eyebrowIcon="trending" title="Les résultats clés">
+    <ProofBar stats={study.kpis} />
+  </Section>
+
+  <!-- Récit : Situation → Déclencheur → Frein → Solution -->
+  <Section tone="muted" eyebrow="Le déroulé" eyebrowIcon="layers" title="Comment ça s'est passé">
+    <div class="story">
+      {
+        blocks.map((b) => (
+          <div class="story-block surface">
+            <span class="story-icon"><Icon name={b.icon} size={20} /></span>
+            <div>
+              <h2 class="story-label">{b.label}</h2>
+              <p class="story-body">{b.body}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- Résultats -->
+  <Section eyebrow="L'impact" eyebrowIcon="sparkles" title="Les résultats obtenus">
+    <ul class="results">
+      {study.results.map((r) => <li><Icon name="checkCircle" size={22} /> {r}</li>)}
+    </ul>
+  </Section>
+
+  <!-- Témoignage -->
+  <Section tone="dark" eyebrow="Le mot du client" eyebrowIcon="quote" title="Témoignage">
+    <figure class={`quote ${study.placeholder ? 'is-placeholder' : ''}`}>
+      {study.placeholder && <span class="ph-badge">À remplacer par un vrai témoignage</span>}
+      <blockquote class="quote-text">{study.quote.text}</blockquote>
+      <figcaption class="quote-cite">
+        <span class="quote-name">{study.quote.name}</span>
+        <span class="quote-role">{study.quote.role}</span>
+      </figcaption>
+    </figure>
+  </Section>
+
+  <CtaSection
+    title={`Un cas similaire dans votre ${study.sectorLabel.toLowerCase()} ?`}
+    track={`case-${study.slug}-final`}
+  />
+</Layout>
+
+<style>
+  .ethics-note {
+    display: flex; align-items: flex-start; gap: 0.6rem;
+    margin: 2rem 0 0; padding: 1rem 1.25rem;
+    background: var(--color-info-50);
+    border: 1px solid color-mix(in srgb, var(--color-info-500) 35%, transparent);
+    border-radius: var(--radius-md);
+    color: var(--text); font-size: 0.95rem; line-height: 1.55; max-width: 72ch;
+  }
+  .ethics-note svg { color: var(--color-info-700); flex: none; margin-top: 0.1rem; }
+  :root[data-theme='dark'] .ethics-note { background: rgb(37 99 235 / 0.12); }
+
+  .story { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .story-block { display: flex; gap: 0.85rem; padding: 1.5rem; align-items: flex-start; }
+  .story-icon {
+    display: grid; place-items: center; width: 2.25rem; height: 2.25rem;
+    border-radius: 999px; background: var(--color-brand-50); color: var(--color-brand-700); flex: none;
+  }
+  :root[data-theme='dark'] .story-icon { background: rgb(255 255 255 / 0.08); color: var(--color-neutral-200); }
+  .story-label { margin: 0 0 0.4rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+  .story-body { margin: 0; line-height: 1.6; }
+
+  .results {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem 1.5rem; max-width: 64rem;
+  }
+  .results li { display: flex; align-items: flex-start; gap: 0.6rem; font-weight: 600; line-height: 1.45; }
+  .results svg { color: var(--color-brand-600); flex: none; }
+
+  .quote { position: relative; margin: 0; max-width: 50rem; }
+  .quote.is-placeholder {
+    padding: 2rem; border: 2px dashed var(--color-neutral-600); border-radius: var(--radius-lg);
+  }
+  .ph-badge {
+    position: absolute; top: 0.85rem; right: 0.85rem;
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    color: #fcd34d; background: rgb(217 119 6 / 0.18);
+    padding: 0.2rem 0.5rem; border-radius: 999px;
+  }
+  .quote-text {
+    margin: 0 0 1rem; font-size: 1.35rem; line-height: 1.5; color: var(--contrast-heading);
+    font-style: italic;
+  }
+  .quote-text::before { content: '« '; }
+  .quote-text::after { content: ' »'; }
+  .quote-cite { display: flex; flex-direction: column; gap: 0.15rem; }
+  .quote-name { font-weight: 700; color: var(--contrast-text); }
+  .quote-role { font-size: 0.9rem; color: var(--contrast-muted); }
+
+  @media (max-width: 720px) {
+    .story { grid-template-columns: 1fr; }
+    .results { grid-template-columns: 1fr; }
+  }
+</style>
