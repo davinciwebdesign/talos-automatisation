@@ -20,12 +20,17 @@ const {
   secondary,
   track = 'page-hero',
 } = Astro.props;
+
+// Split a multi-sentence title so each sentence sits on its own line.
+const titleLines = title.match(/[^.?!]+[.?!]+(\s|$)|[^.?!]+$/g)?.map((s) => s.trim()).filter(Boolean) ?? [title];
 ---
 
 <section class="page-hero">
   <div class="container-page">
     {eyebrow && <p class="eyebrow hero-eyebrow">{eyebrowIcon && <Icon name={eyebrowIcon} size={16} />}{eyebrow}</p>}
-    <h1 class="h1 hero-title">{title}</h1>
+    <h1 class="h1 hero-title">
+      {titleLines.map((line) => <span class="hero-title-line">{line}</span>)}
+    </h1>
     {subtitle && <p class="lead hero-sub measure">{subtitle}</p>}
     {
       showCta && (
@@ -59,6 +64,9 @@ const {
   .hero-title {
     margin: 0;
     max-width: 20ch;
+  }
+  .hero-title-line {
+    display: block;
   }
   .hero-sub {
     margin: 1.6rem 0 0;
