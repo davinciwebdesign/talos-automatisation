@@ -154,28 +154,16 @@ const faqs = [
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
     will-change: transform;
   }
+  /* Featured plan: emphasis via subtle shadow only — border stays uniform.
+     Distinction is carried by the badge + primary button, not the border. */
   .plan-featured {
-    border-color: var(--color-brand-300);
     box-shadow: var(--shadow-lg);
   }
 
-  /* Découverte — soulèvement net + accent froid */
-  .plan[data-plan='0']:hover {
-    transform: translateY(-8px);
+  /* Uniform, subtle hover for all plans (épuré). */
+  .plan:hover {
+    transform: translateY(-6px);
     border-color: var(--color-brand-300);
-    box-shadow: var(--shadow-lg);
-  }
-
-  /* Croissance (featured) — zoom + halo de marque */
-  .plan[data-plan='1']:hover {
-    transform: translateY(-10px) scale(1.025);
-    box-shadow: var(--shadow-lg), 0 0 0 3px var(--color-brand-200);
-  }
-
-  /* Sur-mesure — léger basculement + accent chaud */
-  .plan[data-plan='2']:hover {
-    transform: translateY(-6px) rotate(-0.4deg);
-    border-color: var(--color-accent-300, var(--color-brand-300));
     box-shadow: var(--shadow-lg);
   }
 

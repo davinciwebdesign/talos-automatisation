@@ -70,8 +70,6 @@ const schema = [faqSchema(allItems)];
     groups.map((g, i) => (
       <Section
         tone={i % 2 === 1 ? 'muted' : 'default'}
-        eyebrow={g.title}
-        eyebrowIcon={g.icon}
         title={g.title}
       >
         <Faq items={g.items} idPrefix={`faq-${i}`} openFirst={i === 0} />
