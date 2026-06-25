@@ -44,28 +44,20 @@ const company = [
         <li>
           <Icon name="mapPin" size={18} /> <span>{site.area}</span>
         </li>
-        <li>
-          <Icon name="mail" size={18} />
-          {
-            site.email ? (
-              <a class="footer-link" href={`mailto:${site.email}`}>{site.email}</a>
-            ) : (
-              <span class="footer-placeholder">Email — [À REMPLACER]</span>
-            )
-          }
-        </li>
-        <li>
-          <Icon name="phone" size={18} />
-          {
-            site.phone ? (
-              <a class="footer-link" href={`tel:${site.phone.replace(/\s/g, '')}`}>
-                {site.phone}
-              </a>
-            ) : (
-              <span class="footer-placeholder">Téléphone — [À REMPLACER]</span>
-            )
-          }
-        </li>
+        {site.email && (
+          <li>
+            <Icon name="mail" size={18} />
+            <a class="footer-link" href={`mailto:${site.email}`}>{site.email}</a>
+          </li>
+        )}
+        {site.phone && (
+          <li>
+            <Icon name="phone" size={18} />
+            <a class="footer-link" href={`tel:${site.phone.replace(/\s/g, '')}`}>
+              {site.phone}
+            </a>
+          </li>
+        )}
       </ul>
     </div>
 
@@ -180,10 +172,6 @@ const company = [
   }
   .footer-nap li:hover svg {
     transform: scale(1.15);
-  }
-  .footer-placeholder {
-    color: var(--text-subtle);
-    font-style: italic;
   }
   .footer-heading {
     font-size: 0.8125rem;

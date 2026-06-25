@@ -10,10 +10,6 @@ const breadcrumbs = [
   { label: 'Accueil', href: '/' },
   { label: 'Contact' },
 ];
-
-const PH = '[À REMPLACER PAR DONNÉE RÉELLE]';
-const email = site.email ?? PH;
-const phone = site.phone ?? PH;
 ---
 
 <Layout
@@ -26,12 +22,12 @@ const phone = site.phone ?? PH;
     eyebrowIcon="mail"
     title="Parlons de vos tâches à automatiser"
     subtitle="Une question, un projet, un doute ? Écrivez-nous. On répond personnellement sous 24 h ouvrées."
-    secondary={{ label: 'Réserver un audit', href: '/audit-gratuit/' }}
+    secondary={{ label: 'Envoyer un message', href: '#formulaire' }}
   />
 
   <Section tight>
     <div class="contact-grid">
-      <div class="contact-form-col">
+      <div class="contact-form-col" id="formulaire">
         <h2 class="h3">Envoyez-nous un message</h2>
         <p class="contact-intro measure">
           Décrivez votre besoin en quelques lignes. Plus vous êtes précis sur la
@@ -44,24 +40,24 @@ const phone = site.phone ?? PH;
         <div class="contact-card surface">
           <h2 class="contact-card-title">Coordonnées</h2>
           <ul class="contact-list">
-            <li>
-              <Icon name="mail" size={20} />
-              <div>
-                <span class="cl-label">Email</span>
-                {site.email
-                  ? <a class="link" href={`mailto:${site.email}`}>{email}</a>
-                  : <span class="cl-ph">{email}</span>}
-              </div>
-            </li>
-            <li>
-              <Icon name="phone" size={20} />
-              <div>
-                <span class="cl-label">Téléphone</span>
-                {site.phone
-                  ? <a class="link" href={`tel:${site.phone.replace(/\s/g, '')}`}>{phone}</a>
-                  : <span class="cl-ph">{phone}</span>}
-              </div>
-            </li>
+            {site.email && (
+              <li>
+                <Icon name="mail" size={20} />
+                <div>
+                  <span class="cl-label">Email</span>
+                  <a class="link" href={`mailto:${site.email}`}>{site.email}</a>
+                </div>
+              </li>
+            )}
+            {site.phone && (
+              <li>
+                <Icon name="phone" size={20} />
+                <div>
+                  <span class="cl-label">Téléphone</span>
+                  <a class="link" href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a>
+                </div>
+              </li>
+            )}
             <li>
               <Icon name="mapPin" size={20} />
               <div>
@@ -112,7 +108,6 @@ const phone = site.phone ?? PH;
   :root[data-theme='dark'] .contact-list svg { color: var(--color-brand-300); }
   .contact-list > li > div { display: flex; flex-direction: column; gap: 0.15rem; }
   .cl-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-subtle); }
-  .cl-ph { color: var(--text-subtle); font-style: italic; font-size: 0.92rem; }
 
   .contact-alt { background: var(--bg-muted); }
   .contact-alt-text { margin: 0 0 1rem; color: var(--text-muted); line-height: 1.55; }

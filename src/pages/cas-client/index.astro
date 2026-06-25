@@ -11,6 +11,7 @@ const breadcrumbs = [
   { label: 'Cas client' },
 ];
 
+const hasCases = cases.length > 0;
 const sectorOptions = [...new Set(cases.map((c) => c.sectorLabel))].sort();
 const typeOptions = [...new Set(cases.map((c) => c.type))].sort();
 ---
@@ -25,18 +26,10 @@ const typeOptions = [...new Set(cases.map((c) => c.type))].sort();
     eyebrowIcon="file"
     title="Des résultats concrets, secteur par secteur"
     subtitle="Filtrez par métier ou par type de tâche. Chaque fiche suit la même trame : situation, déclencheur, frein, solution et résultats mesurés."
-    secondary={{ label: 'Réserver un audit', href: '/audit-gratuit/' }}
+    secondary={{ label: 'Voir la méthode', href: '/methode/' }}
   />
 
-  <div class="container-page">
-    <p class="ethics-note">
-      <Icon name="shield" size={20} /> Transparence : ces fiches sont des
-      gabarits. Aucun chiffre ni témoignage n'est inventé. Elles seront
-      remplacées par de vrais cas, attribués et validés par le client, avant
-      publication.
-    </p>
-  </div>
-
+  {hasCases ? (
   <Section eyebrow="Parcourir" eyebrowIcon="search" title="Trouvez un cas proche du vôtre">
     <div class="filters" role="group" aria-label="Filtrer les cas client">
       <div class="filter-group">
@@ -63,7 +56,6 @@ const typeOptions = [...new Set(cases.map((c) => c.type))].sort();
       {
         cases.map((c) => (
           <article class="case-card surface" data-sector={c.sectorLabel} data-type={c.type}>
-            {c.placeholder && <span class="ph-badge">Gabarit à remplacer</span>}
             <span class="case-tag"><Icon name="layers" size={14} /> {c.sectorLabel}</span>
             <h2 class="case-card-title">{c.title}</h2>
             <p class="case-card-summary">{c.summary}</p>
@@ -87,21 +79,35 @@ const typeOptions = [...new Set(cases.map((c) => c.type))].sort();
       Aucun cas ne correspond à ces filtres. <button type="button" class="link" data-reset-filters>Réinitialiser</button>
     </p>
   </Section>
+  ) : (
+  <Section eyebrow="Bientôt" eyebrowIcon="file" title="Nos premiers cas clients arrivent">
+    <div class="cases-empty surface">
+      <Icon name="file" size={28} />
+      <p>
+        Nous publierons ici de vrais cas clients — attribués et validés — dès
+        que possible, avec leur situation, la solution mise en place et des
+        résultats mesurés. En attendant, parlons de votre besoin :
+      </p>
+      <a class="link cases-empty-link" href="/audit-gratuit/">
+        Réserver un audit gratuit <Icon name="arrowRight" size={16} />
+      </a>
+    </div>
+  </Section>
+  )}
 
   <CtaSection track="cases-final" />
 </Layout>
 
 <style>
-  .ethics-note {
-    display: flex; align-items: flex-start; gap: 0.6rem;
-    margin: 2rem 0 0; padding: 1rem 1.25rem;
-    background: var(--color-info-50);
-    border: 1px solid color-mix(in srgb, var(--color-info-500) 35%, transparent);
-    border-radius: var(--radius-md);
-    color: var(--text); font-size: 0.95rem; line-height: 1.55; max-width: 70ch;
+  .cases-empty {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 1rem;
+    padding: 2rem; max-width: 60ch;
   }
-  .ethics-note svg { color: var(--color-info-700); flex: none; margin-top: 0.1rem; }
-  :root[data-theme='dark'] .ethics-note { background: rgb(37 99 235 / 0.12); }
+  .cases-empty > svg { color: var(--text-muted); }
+  .cases-empty p { margin: 0; color: var(--text-muted); line-height: 1.6; }
+  .cases-empty-link {
+    display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 600;
+  }
 
   .filters { display: flex; flex-wrap: wrap; gap: 1.25rem; }
   .filter-group { display: flex; flex-direction: column; gap: 0.4rem; min-width: 14rem; }
@@ -119,13 +125,6 @@ const typeOptions = [...new Set(cases.map((c) => c.type))].sort();
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 1rem;
   }
   .case-card { position: relative; display: flex; flex-direction: column; padding: 1.5rem; }
-  .ph-badge {
-    position: absolute; top: 0.85rem; right: 0.85rem;
-    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
-    color: var(--color-warning-700); background: var(--color-warning-50);
-    padding: 0.2rem 0.5rem; border-radius: 999px;
-  }
-  :root[data-theme='dark'] .ph-badge { background: rgb(217 119 6 / 0.18); color: #fcd34d; }
   .case-tag {
     display: inline-flex; align-items: center; gap: 0.35rem;
     font-size: 0.8rem; font-weight: 600; color: var(--color-brand-700);

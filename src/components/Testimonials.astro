@@ -1,60 +1,31 @@
 ---
 import Icon from './Icon.astro';
 /**
- * Testimonials. By default renders clearly-flagged PLACEHOLDERS — no invented
- * names, photos, quotes or figures (ethics rule 5.8). Replace with real,
- * attributed testimonials (name + role + company + concrete result) before
- * publishing.
+ * Testimonials. Until real, attributed testimonials exist (name + role +
+ * company + concrete result), this renders a single neutral, honest
+ * empty-state — no invented quotes, names or figures (ethics rule 5.8).
+ * Pass real `items` to display them.
  */
 interface Testimonial {
   quote: string;
   name: string;
   role: string;
   result?: string;
-  placeholder?: boolean;
 }
 interface Props {
   items?: Testimonial[];
   columns?: 2 | 3;
 }
 
-const placeholders: Testimonial[] = [
-  {
-    quote:
-      "[À REMPLACER PAR DONNÉE RÉELLE — témoignage client authentique : ce que l'automatisation a changé concrètement dans son quotidien.]",
-    name: '[Prénom Nom]',
-    role: '[Rôle — Entreprise]',
-    result: '[Résultat chiffré, ex. 8 h économisées / semaine]',
-    placeholder: true,
-  },
-  {
-    quote:
-      '[À REMPLACER PAR DONNÉE RÉELLE — témoignage client authentique mettant en avant un bénéfice précis et mesurable.]',
-    name: '[Prénom Nom]',
-    role: '[Rôle — Entreprise]',
-    result: '[Résultat chiffré, ex. −90 % d’erreurs de saisie]',
-    placeholder: true,
-  },
-  {
-    quote:
-      '[À REMPLACER PAR DONNÉE RÉELLE — témoignage client authentique sur la simplicité de mise en place et le suivi.]',
-    name: '[Prénom Nom]',
-    role: '[Rôle — Entreprise]',
-    result: '[Résultat chiffré, ex. 3 j → 1 h de traitement]',
-    placeholder: true,
-  },
-];
-
-const { items = placeholders, columns = 3 } = Astro.props;
+const { items, columns = 3 } = Astro.props;
+const hasItems = items && items.length > 0;
 ---
 
+{hasItems ? (
 <div class:list={['tlist', `cols-${columns}`]}>
   {
     items.map((t) => (
-      <figure class:list={['tcard surface', t.placeholder && 'is-placeholder']}>
-        {t.placeholder && (
-          <span class="ph-badge">À remplacer par un vrai témoignage</span>
-        )}
+      <figure class="tcard surface">
         <Icon name="quote" size={26} class="tquote" />
         <blockquote class="tquote-text">{t.quote}</blockquote>
         {t.result && (
@@ -75,6 +46,12 @@ const { items = placeholders, columns = 3 } = Astro.props;
     ))
   }
 </div>
+) : (
+<div class="tempty surface">
+  <Icon name="quote" size={26} class="tquote" />
+  <p class="tempty-text">Les premiers retours clients seront publiés ici, avec des résultats concrets et mesurés.</p>
+</div>
+)}
 
 <style>
   .tlist {
@@ -98,7 +75,7 @@ const { items = placeholders, columns = 3 } = Astro.props;
       box-shadow 0.28s ease,
       border-color 0.28s ease;
   }
-  .tcard:not(.is-placeholder):hover {
+  .tcard:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
     border-color: var(--color-brand-300);
@@ -122,25 +99,21 @@ const { items = placeholders, columns = 3 } = Astro.props;
       color: var(--color-brand-700);
     }
   }
-  .is-placeholder {
-    border-style: dashed;
+  .tempty {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    max-width: 52rem;
   }
-  .ph-badge {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--color-warning-700);
-    background: var(--color-warning-50);
-    padding: 0.2rem 0.5rem;
-    border-radius: 999px;
+  .tempty :global(.tquote) {
+    color: var(--color-brand-400);
+    flex: none;
   }
-  :root[data-theme='dark'] .ph-badge {
-    background: rgb(217 119 6 / 0.18);
-    color: #fcd34d;
+  .tempty-text {
+    margin: 0;
+    color: var(--text-muted);
+    line-height: 1.55;
   }
   .tcard :global(.tquote) {
     color: var(--color-brand-400);
@@ -157,11 +130,11 @@ const { items = placeholders, columns = 3 } = Astro.props;
     gap: 0.4rem;
     margin: 0;
     font-weight: 700;
-    color: var(--color-success-700);
+    color: var(--color-brand-700);
     font-size: 0.95rem;
   }
   :root[data-theme='dark'] .tresult {
-    color: #4ade80;
+    color: var(--color-brand-400);
   }
   .tmeta {
     display: flex;
