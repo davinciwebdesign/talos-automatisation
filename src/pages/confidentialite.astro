@@ -3,12 +3,20 @@ import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import { site } from '../config/site';
 
+// ⚠️ POLITIQUE DE CONFIDENTIALITÉ — MODÈLE À ADAPTER AUX TRAITEMENTS RÉELS
+// AVANT MISE EN LIGNE. Champs à compléter par le propriétaire (non inventés) :
+//   - Email de contact RGPD  → renseigner site.email dans src/config/site.ts
+//   - Durée exacte de conservation des données
+//   - Liste des sous-traitants / prestataires (hébergeur, envoi de formulaire)
 const breadcrumbs = [
   { label: 'Accueil', href: '/' },
   { label: 'Confidentialité' },
 ];
-const PH = '[À REMPLACER PAR DONNÉE RÉELLE]';
 const updated = '24 juin 2026';
+// Lien de contact pour l'exercice des droits : email si connu, sinon formulaire.
+const contactRgpd = site.email
+  ? `par email à ${site.email}`
+  : 'via notre formulaire de contact';
 ---
 
 <Layout
@@ -28,17 +36,16 @@ const updated = '24 juin 2026';
   <div class="section">
     <div class="container-page">
       <div class="legal prose-content measure">
-        <p class="legal-flag">
-          ⚠️ Modèle à compléter : adaptez ce texte à vos traitements réels et
-          renseignez les champs <strong>{PH}</strong> avant la mise en ligne.
-          Ce texte ne constitue pas un conseil juridique.
+        <p class="legal-note">
+          Cette politique est en cours de finalisation et sera complétée avant
+          toute exploitation commerciale du site.
         </p>
 
         <h2>1. Responsable du traitement</h2>
         <p>
           Le responsable du traitement des données est {site.founder}, pour
-          {site.name}. Pour toute question relative à vos données :
-          {site.email ?? PH}.
+          {site.name}. Pour toute question relative à vos données, contactez-nous
+          {contactRgpd}.
         </p>
 
         <h2>2. Données collectées</h2>
@@ -72,18 +79,21 @@ const updated = '24 juin 2026';
         </p>
 
         <h2>5. Durée de conservation</h2>
+        {/* TODO (propriétaire) — préciser la durée exacte de conservation. */}
         <p>
           Vos données sont conservées le temps nécessaire au traitement de votre
-          demande, puis pour une durée maximale de {PH} (ex. 3 ans à compter du
-          dernier contact), avant suppression ou anonymisation.
+          demande, puis pour une durée n'excédant pas celle requise par la
+          finalité, avant suppression ou anonymisation.
         </p>
 
         <h2>6. Destinataires & sous-traitants</h2>
+        {/* TODO (propriétaire) — lister nommément les sous-traitants (hébergeur,
+            service d'envoi de formulaire) une fois choisis. */}
         <p>
           Vos données peuvent être traitées par les prestataires techniques
           nécessaires au fonctionnement du site et à la communication (hébergeur,
-          service d'envoi de formulaire) : {PH}. Ces prestataires sont tenus à
-          des obligations de confidentialité et de conformité RGPD.
+          service d'envoi de formulaire). Ces prestataires sont tenus à des
+          obligations de confidentialité et de conformité RGPD.
         </p>
 
         <h2>7. Vos droits</h2>
@@ -96,7 +106,7 @@ const updated = '24 juin 2026';
           <li>droit à la portabilité de vos données.</li>
         </ul>
         <p>
-          Pour exercer ces droits, écrivez à {site.email ?? PH}. Vous pouvez
+          Pour exercer ces droits, contactez-nous {contactRgpd}. Vous pouvez
           également introduire une réclamation auprès de la CNIL
           (<a class="link" href="https://www.cnil.fr" rel="noopener noreferrer" target="_blank">www.cnil.fr</a>).
         </p>
@@ -126,11 +136,11 @@ const updated = '24 juin 2026';
   .legal p, .legal li { line-height: 1.65; }
   .legal ul { padding-left: 1.25rem; }
   .legal li { margin: 0.3rem 0; }
-  .legal-flag {
+  .legal-note {
     padding: 1rem 1.25rem; margin-bottom: 2rem;
-    background: var(--color-warning-50);
-    border: 1px solid color-mix(in srgb, var(--color-warning-500) 40%, transparent);
+    background: var(--bg-muted);
+    border: 1px solid var(--surface-border);
     border-radius: var(--radius-md); font-size: 0.95rem;
+    color: var(--text-muted);
   }
-  :root[data-theme='dark'] .legal-flag { background: rgb(217 119 6 / 0.14); }
 </style>

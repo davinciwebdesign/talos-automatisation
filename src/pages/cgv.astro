@@ -3,11 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import { site } from '../config/site';
 
+// ⚠️ CGV — MODÈLE DE BASE À FAIRE VALIDER PAR UN JURISTE AVANT MISE EN LIGNE.
+// Champ à compléter par le propriétaire : régime de TVA (HT/TTC) selon le
+// statut juridique de l'éditeur (cf. mentions légales). Ne pas inventer.
 const breadcrumbs = [
   { label: 'Accueil', href: '/' },
   { label: 'CGV' },
 ];
-const PH = '[À REMPLACER PAR DONNÉE RÉELLE]';
 const updated = '24 juin 2026';
 ---
 
@@ -28,10 +30,9 @@ const updated = '24 juin 2026';
   <div class="section">
     <div class="container-page">
       <div class="legal prose-content measure">
-        <p class="legal-flag">
-          ⚠️ Modèle de base à faire valider par un professionnel du droit et à
-          compléter (champs <strong>{PH}</strong>) avant la mise en ligne. Ce
-          texte ne constitue pas un conseil juridique.
+        <p class="legal-note">
+          Ces conditions sont en cours de finalisation et seront validées avant
+          toute exploitation commerciale du site.
         </p>
 
         <h2>1. Objet</h2>
@@ -52,7 +53,8 @@ const updated = '24 juin 2026';
 
         <h2>3. Prix et modalités de paiement</h2>
         <p>
-          Les prix sont indiqués en euros, {PH} (HT / TTC selon le statut). Les
+          Les prix sont indiqués en euros. Le régime de TVA applicable (HT / TTC)
+          dépend du statut de l'éditeur et est précisé sur chaque devis. Les
           modalités et échéances de paiement sont précisées sur le devis. En cas
           de retard de paiement, des pénalités au taux légal en vigueur peuvent
           s'appliquer, ainsi que l'indemnité forfaitaire de recouvrement prévue
@@ -116,11 +118,11 @@ const updated = '24 juin 2026';
   .legal p, .legal li { line-height: 1.65; }
   .legal ul { padding-left: 1.25rem; }
   .legal li { margin: 0.3rem 0; }
-  .legal-flag {
+  .legal-note {
     padding: 1rem 1.25rem; margin-bottom: 2rem;
-    background: var(--color-warning-50);
-    border: 1px solid color-mix(in srgb, var(--color-warning-500) 40%, transparent);
+    background: var(--bg-muted);
+    border: 1px solid var(--surface-border);
     border-radius: var(--radius-md); font-size: 0.95rem;
+    color: var(--text-muted);
   }
-  :root[data-theme='dark'] .legal-flag { background: rgb(217 119 6 / 0.14); }
 </style>

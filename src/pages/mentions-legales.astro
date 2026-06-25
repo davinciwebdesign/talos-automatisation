@@ -1,4 +1,16 @@
 ---
+// ⚠️ MENTIONS LÉGALES INCOMPLÈTES — BLOQUANT POUR LA MISE EN LIGNE.
+// Les champs suivants sont légalement obligatoires (art. 6 LCEN) et doivent
+// être renseignés par le propriétaire AVANT publication. Tant qu'ils manquent,
+// ils ne sont PAS affichés (aucune donnée inventée) :
+//   - Statut juridique de l'éditeur (ex. micro-entreprise, SASU…)
+//   - Adresse / siège social
+//   - SIRET
+//   - Numéro de TVA intracommunautaire (si assujetti)
+//   - Email de contact      → renseigner site.email dans src/config/site.ts
+//   - Téléphone             → renseigner site.phone dans src/config/site.ts
+//   - Hébergeur : raison sociale, adresse, contact
+// Ajouter chaque champ dans la section concernée une fois connu.
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import { site } from '../config/site';
@@ -7,7 +19,6 @@ const breadcrumbs = [
   { label: 'Accueil', href: '/' },
   { label: 'Mentions légales' },
 ];
-const PH = '[À REMPLACER PAR DONNÉE RÉELLE]';
 const updated = '24 juin 2026';
 ---
 
@@ -28,34 +39,28 @@ const updated = '24 juin 2026';
   <div class="section">
     <div class="container-page">
       <div class="legal prose-content measure">
-        <p class="legal-flag">
-          ⚠️ Modèle à compléter : les informations marquées
-          <strong>{PH}</strong> doivent être renseignées avec les données
-          réelles de l'entreprise avant la mise en ligne. Ce texte ne constitue
-          pas un conseil juridique.
+        <p class="legal-note">
+          Certaines informations légales sont en cours de finalisation. Cette
+          page sera complétée avant toute exploitation commerciale du site.
         </p>
 
         <h2>1. Éditeur du site</h2>
         <p>
-          Le site <strong>{site.name}</strong> est édité par {site.founder}.
+          Le site <strong>{site.name}</strong> est édité par {site.founder},
+          également directeur de la publication.
         </p>
-        <ul>
-          <li>Statut juridique : {PH}</li>
-          <li>Adresse / siège : {PH}</li>
-          <li>SIRET : {PH}</li>
-          <li>Numéro de TVA intracommunautaire : {PH}</li>
-          <li>Email : {site.email ?? PH}</li>
-          <li>Téléphone : {site.phone ?? PH}</li>
-          <li>Directeur de la publication : {site.founder}</li>
-        </ul>
+        {site.email && <p>Contact : <a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>}
+        {/* TODO (propriétaire) — compléter l'éditeur dès que connu :
+            statut juridique, adresse/siège, SIRET, TVA intracommunautaire,
+            téléphone (via site.phone). Champs obligatoires (art. 6 LCEN). */}
 
         <h2>2. Hébergement</h2>
-        <p>Le site est hébergé par :</p>
-        <ul>
-          <li>Hébergeur : {PH}</li>
-          <li>Adresse : {PH}</li>
-          <li>Contact : {PH}</li>
-        </ul>
+        {/* TODO (propriétaire) — renseigner l'hébergeur (raison sociale,
+            adresse, contact) avant la mise en ligne. Champ obligatoire. */}
+        <p>
+          Les informations relatives à l'hébergeur seront précisées
+          prochainement.
+        </p>
 
         <h2>3. Propriété intellectuelle</h2>
         <p>
@@ -105,11 +110,11 @@ const updated = '24 juin 2026';
   .legal p, .legal li { line-height: 1.65; }
   .legal ul { padding-left: 1.25rem; }
   .legal li { margin: 0.3rem 0; }
-  .legal-flag {
+  .legal-note {
     padding: 1rem 1.25rem; margin-bottom: 2rem;
-    background: var(--color-warning-50);
-    border: 1px solid color-mix(in srgb, var(--color-warning-500) 40%, transparent);
+    background: var(--bg-muted);
+    border: 1px solid var(--surface-border);
     border-radius: var(--radius-md); font-size: 0.95rem;
+    color: var(--text-muted);
   }
-  :root[data-theme='dark'] .legal-flag { background: rgb(217 119 6 / 0.14); }
 </style>
