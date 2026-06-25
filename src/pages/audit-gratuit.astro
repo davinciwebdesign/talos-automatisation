@@ -67,7 +67,6 @@ const auditFaqs = [
         steps.map((s, i) => (
           <li class="how-step surface">
             <span class="how-num">{i + 1}</span>
-            <span class="how-icon"><Icon name={s.icon} size={22} /></span>
             <h3 class="how-title">{s.title}</h3>
             <p class="how-text">{s.text}</p>
           </li>
@@ -118,8 +117,6 @@ const auditFaqs = [
     display: grid; place-items: center; width: 2rem; height: 2rem;
     border-radius: 999px; background: var(--gradient-brand); color: #fff; font-weight: 800; font-size: 0.95rem;
   }
-  .how-icon { display: inline-grid; place-items: center; color: var(--color-brand-700); margin: 0.5rem 0 0.75rem; }
-  :root[data-theme='dark'] .how-icon { color: var(--color-brand-300); }
   .how-title { margin: 0 0 0.4rem; font-size: 1.1rem; }
   .how-text { margin: 0; color: var(--text-muted); line-height: 1.55; }
 

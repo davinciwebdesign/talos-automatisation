@@ -24,7 +24,7 @@ const breadcrumbs = [
     title="Des solutions d'automatisation pensées pour vos résultats"
     lead="Que vous ayez une tâche précise à automatiser ou que vous cherchiez une vue d'ensemble, voici comment on peut vous aider. Chaque prestation part de votre besoin réel."
   >
-    <div class="svc-grid bento">
+    <div class="svc-grid">
       {
         services.map((s) => (
           <Card
@@ -47,22 +47,14 @@ const breadcrumbs = [
 </Layout>
 
 <style>
-  /* Bento: large feature tile + supporting tiles + wide footer tile */
-  .svc-grid.bento {
+  /* Even grid: equal-weight service tiles, no dead full-width zone. */
+  .svc-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: 1fr;
     gap: 1.25rem;
   }
-  .svc-grid.bento > :global(:nth-child(1)) { grid-column: span 2; grid-row: span 2; }
-  .svc-grid.bento > :global(:nth-child(2)) { grid-column: span 1; }
-  .svc-grid.bento > :global(:nth-child(3)) { grid-column: span 1; }
-  .svc-grid.bento > :global(:nth-child(4)) { grid-column: span 3; }
-  @media (max-width: 860px) {
-    .svc-grid.bento { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
-    .svc-grid.bento > :global(*) { grid-column: auto !important; grid-row: auto !important; }
-  }
   @media (max-width: 600px) {
-    .svc-grid.bento { grid-template-columns: 1fr; }
+    .svc-grid { grid-template-columns: 1fr; }
   }
 </style>

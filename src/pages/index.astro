@@ -58,8 +58,8 @@ const schema = [
       <div class="hero-copy">
         <p class="eyebrow"><Icon name="sparkles" size={16} /> Automatisation sur mesure · {site.area}</p>
         <h1 class="h1">
-          Automatisez vos tâches répétitives.
-          <span class="gradient-text">Récupérez des heures chaque semaine.</span>
+          <span class="h1-line">Automatisez vos tâches répétitives.</span>
+          <span class="h1-line gradient-text">Récupérez des heures chaque semaine.</span>
         </h1>
         <p class="lead measure hero-sub">
           talos conçoit des systèmes d'automatisation taillés pour vos processus —
@@ -155,7 +155,7 @@ const schema = [
     title="Ce que l'on peut automatiser dans votre entreprise"
     lead="Quelques exemples concrets parmi les plus fréquents. Le bon point de départ dépend de votre activité — c'est l'objet de l'audit."
   >
-    <div class="domains-grid bento">
+    <div class="domains-grid">
       {domains.map((d) => <Card icon={d.icon} title={d.title} text={d.text} />)}
     </div>
   </Section>
@@ -308,6 +308,7 @@ const schema = [
   }
   .hero-copy .eyebrow { margin-bottom: 1.25rem; }
   .hero-copy .h1 { max-width: 20ch; }
+  .h1-line { display: block; }
   .hero-sub { margin-top: 1.5rem; }
   .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 2.25rem; }
   .hero-note { margin-top: 1.25rem; }
@@ -346,14 +347,14 @@ const schema = [
   .concept-icon {
     display: grid;
     place-items: center;
-    width: 3.25rem;
-    height: 3.25rem;
-    border-radius: var(--radius-lg);
-    background: var(--color-brand-50);
-    color: var(--color-brand-700);
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-sm);
+    background: var(--bg-elevated);
+    border: 1px solid var(--surface-border);
+    color: var(--text-muted);
     margin-bottom: 1rem;
   }
-  :root[data-theme='dark'] .concept-icon { background: rgb(255 255 255 / 0.08); color: var(--color-brand-300); }
   .concept-title { margin: 0 0 0.5rem; font-size: 1.1rem; }
   .concept-text { margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; max-width: 26ch; }
   .concept-arrow { color: var(--text-subtle); align-self: center; margin-top: 1rem; }
@@ -372,27 +373,22 @@ const schema = [
   .two-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
 
   /* Bento: 6-col grid with one tall feature tile */
-  .domains-grid.bento {
+  /* Even 3-col grid: all domain cards share equal height, no stretched tile. */
+  .domains-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 1fr;
     gap: 1.25rem;
   }
-  .domains-grid.bento > :global(:nth-child(1)) { grid-column: span 3; grid-row: span 2; }
-  .domains-grid.bento > :global(:nth-child(2)) { grid-column: span 3; }
-  .domains-grid.bento > :global(:nth-child(3)) { grid-column: span 3; }
-  .domains-grid.bento > :global(:nth-child(4)) { grid-column: span 2; }
-  .domains-grid.bento > :global(:nth-child(5)) { grid-column: span 2; }
-  .domains-grid.bento > :global(:nth-child(6)) { grid-column: span 2; }
 
   .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
   .benefit { display: flex; gap: 0.85rem; align-items: flex-start; }
-  .benefit-icon { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius-md); background: var(--contrast-tile-bg); color: var(--contrast-tile-text); flex: none; }
+  .benefit-icon { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius-sm); background: var(--bg-elevated); border: 1px solid var(--surface-border); color: var(--text-muted); flex: none; }
   .benefit-title { margin: 0 0 0.25rem; font-size: 1.05rem; color: var(--contrast-heading); }
   .benefit-text { margin: 0; color: var(--contrast-muted); font-size: 0.95rem; line-height: 1.5; }
 
-  .sectors-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem; }
-  .sector-chip { display: flex; align-items: center; gap: 0.65rem; padding: 0.9rem 1rem; text-decoration: none; color: var(--text); transition: transform 0.15s ease, border-color 0.15s ease; }
+  .sectors-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.85rem; }
+  .sector-chip { flex: 1 1 13rem; max-width: 16rem; display: flex; align-items: center; gap: 0.65rem; padding: 0.9rem 1rem; text-decoration: none; color: var(--text); transition: transform 0.15s ease, border-color 0.15s ease; }
   .sector-chip:hover { transform: translateY(-2px); border-color: var(--color-brand-300); }
   .sector-chip-icon { color: var(--color-brand-600); flex: none; }
   :root[data-theme='dark'] .sector-chip-icon { color: var(--color-brand-300); }
@@ -402,15 +398,10 @@ const schema = [
   .sectors-more .link, .method-more .link { display: inline-flex; align-items: center; gap: 0.4rem; }
 
   @media (max-width: 920px) {
-    .domains-grid, .benefits-grid { grid-template-columns: 1fr 1fr; }
-    .sectors-grid { grid-template-columns: 1fr 1fr; }
+    .domains-grid, .benefits-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
     .pain-grid { grid-template-columns: 1fr; }
-    /* Bento collapses to a plain 2-col grid */
-    .domains-grid.bento { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
-    .domains-grid.bento > :global(*) { grid-column: auto !important; grid-row: auto !important; }
   }
   @media (max-width: 600px) {
-    .two-grid, .domains-grid, .benefits-grid, .sectors-grid { grid-template-columns: 1fr; }
-    .domains-grid.bento { grid-template-columns: 1fr; }
+    .two-grid, .domains-grid, .benefits-grid { grid-template-columns: 1fr; }
   }
 </style>

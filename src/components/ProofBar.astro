@@ -49,24 +49,13 @@ const { stats = defaults, note = true } = Astro.props;
 </div>
 
 <style>
+  /* Even row: four equal-weight stat cards. */
   .proof-bento {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: minmax(7rem, auto);
+    grid-auto-rows: 1fr;
     gap: 1rem;
     margin: 0;
-  }
-  /* Asymmetric bento: 1st card featured (2×2), then varied spans */
-  .proof-card:nth-child(1) {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-  .proof-card:nth-child(2) {
-    grid-column: span 2;
-  }
-  .proof-card:nth-child(3),
-  .proof-card:nth-child(4) {
-    grid-column: span 1;
   }
 
   /* --- Card --- */
@@ -127,9 +116,6 @@ const { stats = defaults, note = true } = Astro.props;
     line-height: 1.1;
     color: var(--color-brand-700);
   }
-  .proof-card:nth-child(1) .proof-value {
-    font-size: clamp(2rem, 1.2rem + 3vw, 3.25rem);
-  }
   :root[data-theme='dark'] .proof-value {
     color: var(--color-brand-200);
   }
@@ -154,13 +140,6 @@ const { stats = defaults, note = true } = Astro.props;
     .proof-bento {
       grid-template-columns: 1fr 1fr;
       grid-auto-rows: minmax(6.5rem, auto);
-    }
-    .proof-card:nth-child(1) {
-      grid-column: span 2;
-      grid-row: span 1;
-    }
-    .proof-card:nth-child(2) {
-      grid-column: span 2;
     }
   }
 </style>

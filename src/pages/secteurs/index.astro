@@ -41,11 +41,20 @@ const breadcrumbs = [
 </Layout>
 
 <style>
+  /* Flex so a lonely last-row card centers instead of leaving an empty cell. */
   .sec-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1.25rem;
   }
-  @media (max-width: 880px) { .sec-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 580px) { .sec-grid { grid-template-columns: 1fr; } }
+  .sec-grid > :global(*) {
+    flex: 0 1 calc((100% - 2 * 1.25rem) / 3);
+  }
+  @media (max-width: 880px) {
+    .sec-grid > :global(*) { flex-basis: calc((100% - 1.25rem) / 2); }
+  }
+  @media (max-width: 580px) {
+    .sec-grid > :global(*) { flex-basis: 100%; }
+  }
 </style>

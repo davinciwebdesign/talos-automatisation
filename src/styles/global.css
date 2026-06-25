@@ -320,6 +320,21 @@ a {
   box-shadow: var(--shadow-sm);
 }
 
+/* Shared feature-icon badge: one consistent style for inline feature/benefit
+   icons. Exceptions kept elsewhere: numbered step pastilles and checkCircle
+   checklist ticks. */
+.icon-badge {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--surface-border);
+  color: var(--text-muted);
+  flex: none;
+}
+
 /* ============================================================
    Buttons (hierarchy: primary / secondary / tertiary)
    ============================================================ */
