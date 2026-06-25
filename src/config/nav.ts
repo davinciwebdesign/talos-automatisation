@@ -27,6 +27,7 @@ export const primaryNav = [
   { label: 'Services', href: '/services/', menu: 'services' as const },
   { label: 'Secteurs', href: '/secteurs/', menu: 'sectors' as const },
   { label: 'Méthode', href: '/methode/' },
+  { label: 'Tarifs', href: '/tarifs/' },
   { label: 'Cas client', href: '/cas-client/' },
   { label: 'À propos', href: '/a-propos/' },
 ];

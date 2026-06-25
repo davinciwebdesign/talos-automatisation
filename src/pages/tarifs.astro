@@ -1,0 +1,245 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import Faq from '../components/Faq.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import CtaSection from '../components/CtaSection.astro';
+
+const breadcrumbs = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Tarifs' },
+];
+
+const plans = [
+  {
+    name: 'Découverte',
+    eyebrow: 'Premier pas',
+    price: 'À partir de 990 €',
+    cadence: 'projet ponctuel',
+    description: "Idéal pour automatiser une tâche précise et mesurer un premier gain concret.",
+    features: [
+      '1 processus automatisé de bout en bout',
+      'Audit du besoin et conception du scénario',
+      'Mise en place et tests en conditions réelles',
+      'Documentation et prise en main',
+      '30 jours de support après livraison',
+    ],
+    cta: { label: 'Réserver un audit', href: '/audit-gratuit/' },
+    featured: false,
+  },
+  {
+    name: 'Croissance',
+    eyebrow: 'Le plus choisi',
+    price: 'À partir de 2 400 €',
+    cadence: 'projet sur-mesure',
+    description: "Pour orchestrer plusieurs flux et connecter vos outils existants en un dispositif fiable.",
+    features: [
+      "Jusqu'à 5 processus automatisés",
+      'Intégration de vos outils (CRM, e-mail, facturation…)',
+      'Agents et assistants IA intégrés à vos flux',
+      'Supervision, garde-fous et alertes',
+      'Ajustement et optimisation sur 3 mois',
+    ],
+    cta: { label: 'Discuter de mon projet', href: '/contact/' },
+    featured: true,
+  },
+  {
+    name: 'Sur-mesure',
+    eyebrow: 'Accompagnement',
+    price: 'Sur devis',
+    cadence: 'partenariat continu',
+    description: "Un accompagnement durable pour automatiser et faire évoluer l'ensemble de vos opérations.",
+    features: [
+      'Périmètre illimité et roadmap dédiée',
+      'Interlocuteur dédié et reporting régulier',
+      'Optimisation continue dans le temps',
+      'Conformité RGPD et fiabilité supervisée',
+      'Priorité sur les évolutions et le support',
+    ],
+    cta: { label: 'Nous contacter', href: '/contact/' },
+    featured: false,
+  },
+];
+
+const faqs = [
+  {
+    q: 'Pourquoi des tarifs « à partir de » ?',
+    a: "Chaque automatisation part de votre réalité : vos outils, vos volumes et vos cas concrets. On chiffre précisément après l'audit gratuit, sans surprise et sans engagement.",
+  },
+  {
+    q: "L'audit est-il vraiment gratuit ?",
+    a: "Oui. Le premier échange et l'analyse de votre besoin sont gratuits et sans engagement. Vous repartez avec une vision claire des opportunités, que vous décidiez ou non de travailler avec nous.",
+  },
+  {
+    q: 'Y a-t-il des frais récurrents ?',
+    a: "Les projets ponctuels n'ont pas d'abonnement. Selon vos dispositifs, des coûts d'outils tiers (hébergement, API) peuvent s'appliquer : ils sont toujours transparents et validés avec vous en amont.",
+  },
+  {
+    q: 'Combien de temps avant les premiers résultats ?',
+    a: "La plupart des automatisations sont opérationnelles en quelques semaines. On teste en conditions réelles avant la bascule complète pour garantir la fiabilité dès le départ.",
+  },
+];
+---
+
+<Layout
+  title="Tarifs"
+  description="Des tarifs clairs et adaptés à votre besoin : projet ponctuel, sur-mesure ou accompagnement continu. Audit gratuit et sans engagement pour chiffrer précisément votre automatisation."
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="Tarifs"
+    eyebrowIcon="euro"
+    title="Des tarifs clairs, adaptés à votre besoin réel"
+    subtitle="Pas de forfait fourre-tout : on chiffre précisément après un audit gratuit, pour un investissement qui correspond à vos gains attendus."
+    secondary={{ label: 'Discuter de mon projet', href: '/contact/' }}
+  />
+
+  <Section eyebrow="Nos formules" eyebrowIcon="layers" title="Choisissez le niveau qui correspond à votre projet">
+    <div class="plans-grid">
+      {
+        plans.map((plan) => (
+          <article class:list={['plan surface', plan.featured && 'plan-featured']}>
+            {plan.featured && <span class="plan-badge"><Icon name="sparkles" size={14} /> {plan.eyebrow}</span>}
+            {!plan.featured && <p class="plan-eyebrow">{plan.eyebrow}</p>}
+            <h3 class="plan-name h4">{plan.name}</h3>
+            <p class="plan-price">{plan.price}</p>
+            <p class="plan-cadence">{plan.cadence}</p>
+            <p class="plan-desc">{plan.description}</p>
+            <ul class="plan-features">
+              {plan.features.map((f) => (
+                <li><Icon name="check" size={18} /> {f}</li>
+              ))}
+            </ul>
+            <Button
+              href={plan.cta.href}
+              variant={plan.featured ? 'primary' : 'secondary'}
+              block
+              icon="arrowRight"
+              class="plan-cta"
+            >
+              {plan.cta.label}
+            </Button>
+          </article>
+        ))
+      }
+    </div>
+    <p class="plans-note">
+      <Icon name="shield" size={16} /> Audit gratuit et sans engagement. Devis détaillé avant toute mise en œuvre.
+    </p>
+  </Section>
+
+  <Section tone="muted" eyebrow="Questions fréquentes" eyebrowIcon="chat" title="Tout savoir sur nos tarifs">
+    <Faq items={faqs} openFirst />
+  </Section>
+
+  <CtaSection track="tarifs-final" />
+</Layout>
+
+<style>
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+  .plan {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
+    height: 100%;
+  }
+  .plan-featured {
+    border-color: var(--color-brand-300);
+    box-shadow: var(--shadow-lg);
+  }
+  .plan-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    align-self: flex-start;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: var(--color-brand-600);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .plan-eyebrow {
+    margin: 0;
+    color: var(--text-subtle);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .plan-name {
+    margin: 0.25rem 0 0;
+  }
+  .plan-price {
+    margin: 0.5rem 0 0;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--heading);
+    line-height: 1.1;
+  }
+  .plan-cadence {
+    margin: 0;
+    color: var(--text-subtle);
+    font-size: 0.875rem;
+  }
+  .plan-desc {
+    margin: 0.75rem 0 0;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+  .plan-features {
+    list-style: none;
+    margin: 1rem 0 1.5rem;
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--surface-border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .plan-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+  .plan-features svg {
+    flex: none;
+    margin-top: 0.1rem;
+    color: var(--color-brand-600);
+  }
+  .plan-cta {
+    margin-top: auto;
+  }
+  .plans-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 2rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.925rem;
+  }
+  .plans-note svg {
+    color: var(--color-brand-600);
+    flex: none;
+  }
+  @media (max-width: 900px) {
+    .plans-grid {
+      grid-template-columns: 1fr;
+      max-width: 30rem;
+      margin-inline: auto;
+    }
+  }
+</style>
