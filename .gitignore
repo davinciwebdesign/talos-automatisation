@@ -4,3 +4,9 @@ dist/
 .env.local
 .DS_Store
 .vercel
+
+# Astro build/dev artifacts
+.astro/
+
+# Claude Code session data and git worktrees (never commit these)
+.claude/
