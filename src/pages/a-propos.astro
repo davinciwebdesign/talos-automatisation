@@ -75,16 +75,25 @@ const beliefs = [
   <!-- INTERLOCUTEUR -->
   <Section tone="dark" eyebrow="Qui sommes-nous" eyebrowIcon="users" title="Bilel Salhi, fondateur">
     <div class="founder">
-      <p class="lead measure founder-lead">
-        On conçoit et déploie nous-mêmes chaque automatisation. Cela veut dire un
-        interlocuteur unique, qui connaît votre dossier de bout en bout, et une
-        responsabilité claire sur les résultats.
-      </p>
-      <ul class="founder-points">
-        <li><Icon name="check" size={20} /> Basés en {site.area}, on accompagne les entreprises à distance comme sur site.</li>
-        <li><Icon name="check" size={20} /> Un seul interlocuteur, de l'audit à l'optimisation continue.</li>
-        <li><Icon name="check" size={20} /> Des dispositifs supervisés, fiables et conformes au RGPD.</li>
-      </ul>
+      {/* TODO (propriétaire) — remplacer ce bloc par une vraie photo du fondateur :
+          <img src="/founder.jpg" alt="Bilel Salhi, fondateur de talos" />
+          Conserver le ratio 4/5. Aucune image inventée n'est utilisée ici. */}
+      <figure class="founder-photo" aria-hidden="true">
+        <Icon name="users" size={40} />
+        <figcaption>Photo à venir</figcaption>
+      </figure>
+      <div class="founder-copy">
+        <p class="lead measure founder-lead">
+          On conçoit et déploie nous-mêmes chaque automatisation. Cela veut dire un
+          interlocuteur unique, qui connaît votre dossier de bout en bout, et une
+          responsabilité claire sur les résultats.
+        </p>
+        <ul class="founder-points">
+          <li><Icon name="check" size={20} /> Basés en {site.area}, on accompagne les entreprises à distance comme sur site.</li>
+          <li><Icon name="check" size={20} /> Un seul interlocuteur, de l'audit à l'optimisation continue.</li>
+          <li><Icon name="check" size={20} /> Des dispositifs supervisés, fiables et conformes au RGPD.</li>
+        </ul>
+      </div>
     </div>
   </Section>
 
@@ -110,6 +119,29 @@ const beliefs = [
 
   .val-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
 
+  .founder {
+    display: grid;
+    grid-template-columns: minmax(0, 16rem) 1fr;
+    gap: clamp(1.5rem, 1rem + 3vw, 3rem);
+    align-items: center;
+  }
+  .founder-photo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--contrast-text) 6%, transparent);
+    border: 1px solid color-mix(in srgb, var(--contrast-text) 14%, transparent);
+    color: var(--contrast-muted);
+  }
+  .founder-photo figcaption {
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+  }
   .founder-lead { color: var(--contrast-muted); }
   .founder-points {
     list-style: none; margin: 1.75rem 0 0; padding: 0;
@@ -118,5 +150,9 @@ const beliefs = [
   .founder-points li { display: flex; align-items: flex-start; gap: 0.6rem; color: var(--contrast-text); font-weight: 600; }
   .founder-points svg { color: var(--contrast-eyebrow); flex: none; margin-top: 0.1rem; }
 
-  @media (max-width: 760px) { .val-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) {
+    .val-grid { grid-template-columns: 1fr; }
+    .founder { grid-template-columns: 1fr; }
+    .founder-photo { max-width: 16rem; }
+  }
 </style>
