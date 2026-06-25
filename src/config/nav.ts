@@ -29,5 +29,6 @@ export const primaryNav = [
   { label: 'Méthode', href: '/methode/' },
   { label: 'Tarifs', href: '/tarifs/' },
   { label: 'Cas client', href: '/cas-client/' },
+  { label: 'FAQ', href: '/faq/' },
   { label: 'À propos', href: '/a-propos/' },
 ];

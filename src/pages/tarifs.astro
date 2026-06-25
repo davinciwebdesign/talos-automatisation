@@ -99,8 +99,8 @@ const faqs = [
   <Section eyebrow="Nos formules" eyebrowIcon="layers" title="Choisissez le niveau qui correspond à votre projet">
     <div class="plans-grid">
       {
-        plans.map((plan) => (
-          <article class:list={['plan surface', plan.featured && 'plan-featured']}>
+        plans.map((plan, i) => (
+          <article class:list={['plan surface', plan.featured && 'plan-featured']} data-plan={i}>
             {plan.featured && <span class="plan-badge"><Icon name="sparkles" size={14} /> {plan.eyebrow}</span>}
             {!plan.featured && <p class="plan-eyebrow">{plan.eyebrow}</p>}
             <h3 class="plan-name h4">{plan.name}</h3>
@@ -145,15 +145,64 @@ const faqs = [
     align-items: stretch;
   }
   .plan {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     padding: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
     height: 100%;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    will-change: transform;
   }
   .plan-featured {
     border-color: var(--color-brand-300);
     box-shadow: var(--shadow-lg);
+  }
+
+  /* Découverte — soulèvement net + accent froid */
+  .plan[data-plan='0']:hover {
+    transform: translateY(-8px);
+    border-color: var(--color-brand-300);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Croissance (featured) — zoom + halo de marque */
+  .plan[data-plan='1']:hover {
+    transform: translateY(-10px) scale(1.025);
+    box-shadow: var(--shadow-lg), 0 0 0 3px var(--color-brand-200);
+  }
+
+  /* Sur-mesure — léger basculement + accent chaud */
+  .plan[data-plan='2']:hover {
+    transform: translateY(-6px) rotate(-0.4deg);
+    border-color: var(--color-accent-300, var(--color-brand-300));
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* icônes features qui réagissent au survol de la card */
+  .plan .plan-features svg {
+    transition: transform 0.3s ease;
+  }
+  .plan:hover .plan-features svg {
+    transform: scale(1.15);
+  }
+  /* CTA mis en avant au survol */
+  .plan .plan-cta {
+    transition: transform 0.3s ease;
+  }
+  .plan:hover .plan-cta {
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .plan,
+    .plan .plan-features svg,
+    .plan .plan-cta {
+      transition: none;
+    }
+    .plan:hover {
+      transform: none;
+    }
   }
   .plan-badge {
     display: inline-flex;

@@ -14,7 +14,7 @@ const { items, openFirst = false, idPrefix = 'faq' } = Astro.props;
     items.map((item, i) => {
       const open = openFirst && i === 0;
       return (
-        <div class="faq-item surface">
+        <div class:list={['faq-item surface', open && 'is-open']}>
           <h3 class="faq-q">
             <button
               type="button"
@@ -32,7 +32,6 @@ const { items, openFirst = false, idPrefix = 'faq' } = Astro.props;
             id={`${idPrefix}-panel-${i}`}
             role="region"
             aria-labelledby={`${idPrefix}-trigger-${i}`}
-            hidden={!open}
           >
             <div class="faq-answer">
               <p>{item.a}</p>
@@ -53,6 +52,11 @@ const { items, openFirst = false, idPrefix = 'faq' } = Astro.props;
   }
   .faq-item {
     overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .faq-item.is-open {
+    border-color: var(--color-brand-300);
+    box-shadow: var(--shadow-md);
   }
   .faq-q {
     margin: 0;
@@ -82,17 +86,39 @@ const { items, openFirst = false, idPrefix = 'faq' } = Astro.props;
     transform: rotate(180deg);
     color: var(--color-accent-700);
   }
-  .faq-panel[hidden] {
-    display: none;
+  .faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .faq-item.is-open .faq-panel {
+    grid-template-rows: 1fr;
   }
   .faq-answer {
-    padding: 0 1.25rem 1.25rem;
+    overflow: hidden;
+    min-height: 0;
+    padding: 0 1.25rem;
     color: var(--text-muted);
     line-height: 1.6;
+    opacity: 0;
+    transform: translateY(-0.4rem);
+    transition: opacity 0.28s ease 0.04s, transform 0.28s ease 0.04s, padding 0.32s ease;
+  }
+  .faq-item.is-open .faq-answer {
+    padding: 0.25rem 1.25rem 1.25rem;
+    opacity: 1;
+    transform: translateY(0);
   }
   .faq-answer p {
     margin: 0;
     max-width: 66ch;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .faq-panel,
+    .faq-answer,
+    .faq-chevron {
+      transition: none;
+    }
   }
 </style>
 
@@ -101,8 +127,7 @@ const { items, openFirst = false, idPrefix = 'faq' } = Astro.props;
     btn.addEventListener('click', () => {
       const open = btn.getAttribute('aria-expanded') === 'true';
       btn.setAttribute('aria-expanded', String(!open));
-      const panel = document.getElementById(btn.getAttribute('aria-controls')!);
-      if (panel) panel.hidden = open;
+      btn.closest('.faq-item')?.classList.toggle('is-open', !open);
     });
   });
 </script>
