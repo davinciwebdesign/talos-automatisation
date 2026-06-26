@@ -515,6 +515,22 @@ const menuLabels = { services: 'Services', sectors: 'Secteurs' };
   :root[data-theme='dark'] .theme-toggle .icon-moon {
     display: block;
   }
+  @media (prefers-reduced-motion: no-preference) {
+    :root.theme-animating .theme-toggle .icon-sun,
+    :root.theme-animating .theme-toggle .icon-moon {
+      animation: theme-icon-in 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+  @keyframes theme-icon-in {
+    from {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(0) scale(1);
+    }
+  }
   .menu-toggle {
     display: none;
     width: 2.5rem;
@@ -648,14 +664,66 @@ const menuLabels = { services: 'Services', sectors: 'Secteurs' };
     );
   }
   syncThemeBtn();
-  themeBtn?.addEventListener('click', () => {
-    const dark = root.getAttribute('data-theme') === 'dark';
-    const next = dark ? 'light' : 'dark';
+
+  let iconAnimTimer: number | undefined;
+  function applyTheme(next: string) {
     root.setAttribute('data-theme', next);
     try {
       localStorage.setItem('theme', next);
     } catch {}
     syncThemeBtn();
+    // Re-trigger the icon spin-in only on an actual switch.
+    root.classList.remove('theme-animating');
+    void root.offsetWidth; // reflow so the animation restarts
+    root.classList.add('theme-animating');
+    window.clearTimeout(iconAnimTimer);
+    iconAnimTimer = window.setTimeout(
+      () => root.classList.remove('theme-animating'),
+      500
+    );
+  }
+
+  themeBtn?.addEventListener('click', () => {
+    const dark = root.getAttribute('data-theme') === 'dark';
+    const next = dark ? 'light' : 'dark';
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // No View Transitions support (or user prefers reduced motion): flip instantly.
+    if (!('startViewTransition' in document) || reduce) {
+      applyTheme(next);
+      return;
+    }
+
+    // Origin of the reveal = centre of the toggle button.
+    const rect = themeBtn.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = (
+      document as Document & {
+        startViewTransition: (cb: () => void) => { ready: Promise<void> };
+      }
+    ).startViewTransition(() => applyTheme(next));
+
+    transition.ready.then(() => {
+      root.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 480,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          pseudoElement: '::view-transition-new(root)',
+        }
+      );
+    });
   });
 
   // ---- Sticky shrink on scroll (no layout shift) ----

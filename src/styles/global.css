@@ -632,6 +632,30 @@ a {
   }
 }
 
+/* ============================================================
+   Theme switch — circular reveal (View Transitions API)
+   The new theme is clipped from a growing circle centred on the
+   toggle button. JS drives the clip-path; CSS just layers the
+   snapshots and disables the default cross-fade.
+   ============================================================ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 0;
+}
+::view-transition-new(root) {
+  z-index: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
 /* Utility: visually hidden but available to AT */
 .sr-only {
   position: absolute;

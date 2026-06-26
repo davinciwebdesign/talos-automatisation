@@ -101,11 +101,23 @@ const company = [
       ))}
     </ul>
     <p class="footer-copy">© {year} {site.name}. Tous droits réservés.</p>
-    <a class="footer-top" href="#site-header">
+    <a class="footer-top" href="#site-header" data-scroll-top>
       Haut de page <Icon name="arrowRight" size={16} class="rot-up" />
     </a>
   </div>
 </footer>
+
+<script>
+  // Back-to-top: scroll to the real top of the page. The header is
+  // position:sticky, so the #site-header anchor lands at the wrong spot.
+  document
+    .querySelector<HTMLAnchorElement>('[data-scroll-top]')
+    ?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+</script>
 
 <style>
   .site-footer {
